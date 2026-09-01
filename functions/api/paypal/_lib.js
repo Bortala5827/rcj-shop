@@ -58,7 +58,12 @@ let _token = null, _exp = 0;
 export async function getToken(env) {
   const now = Date.now();
   if (_token && now < _exp - 5000) return _token;
-  const auth = btoa(env.PAYPAL_CLIENT_ID + ':' + env.PAYPAL_CLIENT_SECRET);
+  // 按 MODE 选凭证：live 用 PAYPAL_CLIENT_ID/SECRET，sandbox 用专用 PAYPAL_SANDBOX_CLIENT_ID/SECRET
+  // （sandbox 专用未配置时回落 live 凭证，避免调用直接崩）
+  const live = env.PAYPAL_MODE === 'live';
+  const cid = live ? env.PAYPAL_CLIENT_ID : (env.PAYPAL_SANDBOX_CLIENT_ID || env.PAYPAL_CLIENT_ID);
+  const csec = live ? env.PAYPAL_CLIENT_SECRET : (env.PAYPAL_SANDBOX_CLIENT_SECRET || env.PAYPAL_CLIENT_SECRET);
+  const auth = btoa(cid + ':' + csec);
   const r = await fetch(paypalBase(env) + '/v1/oauth2/token', {
     method: 'POST',
     headers: { Authorization: 'Basic ' + auth, 'Content-Type': 'application/x-www-form-urlencoded' },
