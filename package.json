@@ -1,0 +1,9 @@
+{
+  "name": "rcj-shop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "RCJ Lab storefront — shop.955827.xyz (PayPal live checkout)",
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
