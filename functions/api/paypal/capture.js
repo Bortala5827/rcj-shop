@@ -10,6 +10,7 @@ export async function onRequestPost({ request, env }) {
   const orderId = String(body.orderId || '');
   let key = String(body.item || '');
   const email = String(body.email || '').slice(0, 120);
+  const phone = String(body.phone || '').slice(0, 40);
   // 与建单保持同一套回落规则，避免「建单 USD / 校验 CNY」导致金额不符被拦截
   const currency = resolveCurrency(env, body.currency === 'CNY' || body.currency === 'USD' ? body.currency : 'CNY');
   if (!orderId) return json({ ok: false, error: '参数缺失' }, 400);
@@ -41,7 +42,7 @@ export async function onRequestPost({ request, env }) {
     const id = 'or_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
     const d1r = await recordOrder(env, {
       id, source: 'paypal', item: item.name, sku: key,
-      payer_email: payerEmail, contact_email: email,
+      payer_email: payerEmail, contact_email: email, contact_phone: phone,
       amount: paidAmt, currency,
       full_price: toCurrency(item.price, currency), balance: toCurrency(item.balance, currency), cny_amount: cnyAmt,
       paypal_order_id: orderId, status: 'deposit',
@@ -50,7 +51,7 @@ export async function onRequestPost({ request, env }) {
 
     const t = beijing();
     const curSym = currency === 'CNY' ? '¥' : '$';
-    const line = `【RCJ 收款】${item.name} 定金 ${curSym}${paidAmt}（${currency}）\n🕒 ${t}\n商品：${item.name}\n已收定金：${curSym}${paidAmt}（余款 ${curSym}${toCurrency(item.balance, currency)} 待交付时收）\n付款邮箱：${payerEmail || '(未知)'}\n联系邮箱：${email || '(未填)'}\nPayPal 单：${orderId}`;
+    const line = `【RCJ 收款】${item.name} 定金 ${curSym}${paidAmt}（${currency}）\n🕒 ${t}\n商品：${item.name}\n已收定金：${curSym}${paidAmt}（余款 ${curSym}${toCurrency(item.balance, currency)} 待交付时收）\n付款邮箱：${payerEmail || '(未知)'}\n联系邮箱：${email || '(未填)'}\n联系手机：${phone || '(未填)'}\nPayPal 单：${orderId}`;
     // 订单通知走 Telegram（省邮件额度；邮件仅留给客服系统）
     await notifyTelegram(env, line);
 

@@ -280,6 +280,7 @@
     .pp-sub{font-size:.82rem;color:#64748b;margin:0 0 16px;line-height:1.5}
     .pp-email{width:100%;padding:11px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:.95rem;margin-bottom:14px;outline:none;font-family:inherit;box-sizing:border-box}
     .pp-email:focus{border-color:#0d9488}
+    .pp-req-hint{font-size:.78rem;color:#64748b;margin:-6px 0 14px;line-height:1.4}
     .pp-btn-wrap{min-height:44px}
     .pp-msg{margin-top:14px;font-size:.85rem;min-height:20px;line-height:1.5}
     .pp-msg.ok{color:#0d9488}.pp-msg.err{color:#dc2626}
@@ -534,7 +535,9 @@
       <button class="pp-close" id="ppClose" aria-label="关闭">✕</button>
       <h3 class="pp-title" id="ppTitle">Checkout</h3>
       <p class="pp-sub"><span data-i18n="ppSub1">Pay a </span><b id="ppAmount">—</b><span data-i18n="ppSub2"> deposit now; balance is due on delivery via WeChat/Alipay. Deposit is refundable.</span></p>
-      <input class="pp-email" id="ppEmail" type="email" data-i18n-ph="ppEmailPh" placeholder="Your email (optional, for delivery)" />
+      <input class="pp-email" id="ppEmail" type="email" data-i18n-ph="ppEmailPh" placeholder="Your email (required for delivery)" />
+      <input class="pp-email" id="ppPhone" type="tel" data-i18n-ph="ppPhonePh" placeholder="Or your phone number" />
+      <p class="pp-req-hint" data-i18n="ppContactHint">Email or phone is required so we can reach you for delivery.</p>
       <div class="pp-btn-wrap" id="ppBtnWrap"></div>
       <div class="pp-msg" id="ppMsg"></div>
     </div>
@@ -585,7 +588,7 @@
         singEmailPh: 'Your email (materials will be sent here)', singSubmit: 'Done — Submit',
         ppTitlePrefix: 'Checkout', ppSub1: 'Pay a ',
         ppSub2: ' deposit now; balance is due on delivery via WeChat/Alipay. Deposit is refundable.',
-        ppEmailPh: 'Your email (optional, for delivery)',
+        ppEmailPh: 'Your email (required for delivery)', ppPhonePh: 'Or your phone number', ppContactHint: 'Email or phone is required so we can reach you for delivery.', ppNeedContact: 'Please enter your email or phone number.',
         ppGo: 'Pay with PayPal', ppGoing: 'Redirecting…', fullLabel: 'full',
         msgNeedRecord: 'Record a song first', msgEmailBad: 'Invalid email', msgSubmitting: 'Submitting…',
         msgTooShort: 'Too short (min 30s) — sing a bit more',
@@ -638,7 +641,7 @@
         singEmailPh: 'メールアドレス（資料の送付先）', singSubmit: '録音完了・送信',
         ppTitlePrefix: 'お会計', ppSub1: 'まず ',
         ppSub2: ' の内金をお支払いください。残金は納品時に WeChat / 支付宝 で。内金は返金可能です。',
-        ppEmailPh: 'メールアドレス（任意・納品用）',
+        ppEmailPh: 'メールアドレス（納品のため必須）', ppPhonePh: 'または電話番号', ppContactHint: '納品連絡のため、メールまたは電話番号が必須です。', ppNeedContact: 'メールアドレスか電話番号を入力してください。',
         ppGo: 'PayPal で支払う', ppGoing: '遷移中…', fullLabel: '全額',
         msgNeedRecord: 'まず歌を録音してください', msgEmailBad: 'メールアドレスが正しくありません', msgSubmitting: '送信中…',
         msgTooShort: '短すぎます（30秒未満）。もう少し歌ってください',
@@ -691,7 +694,7 @@
         singEmailPh: '你的邮箱（资料发这里）', singSubmit: '唱好了，提交',
         ppTitlePrefix: '购买', ppSub1: '本次先支付 ',
         ppSub2: ' 定金，余款交付时微信/支付宝收取；定金可退。',
-        ppEmailPh: '你的联系邮箱（选填，用于交付）',
+        ppEmailPh: '你的联系邮箱（必填，用于交付）', ppPhonePh: '或填手机号', ppContactHint: '邮箱或电话必填，方便交付时联系你。', ppNeedContact: '请填写邮箱或手机号。',
         ppGo: '去 PayPal 支付', ppGoing: '正在跳转…', fullLabel: '全款',
         msgNeedRecord: '先录一段歌声', msgEmailBad: '邮箱格式不对', msgSubmitting: '提交中…',
         msgTooShort: '录音太短啦（不足30秒），再唱一会儿',
@@ -833,7 +836,7 @@
       }).catch(function(){});
       var msg = document.getElementById('ppMsg');
       msg.textContent = ''; msg.className = 'pp-msg';
-      document.getElementById('ppEmail').value = '';
+      document.getElementById('ppEmail').value = ''; document.getElementById('ppPhone').value = '';
       document.getElementById('ppBtnWrap').innerHTML = '<button class="buy-btn" id="ppGo" style="margin:0">' + t('ppGo') + '</button>';
       document.getElementById('ppOverlay').hidden = false;
       document.getElementById('ppGo').addEventListener('click', startPayPal);
@@ -844,9 +847,20 @@
       var go = document.getElementById('ppGo');
       if (go) { go.disabled = true; go.textContent = t('ppGoing'); }
       var email = document.getElementById('ppEmail').value.trim();
+      var phone = document.getElementById('ppPhone').value.trim();
+      if (!email && !phone) {
+        showPPMsg(t('ppNeedContact'), true);
+        if (go) { go.disabled = false; go.textContent = t('ppGo'); }
+        return;
+      }
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showPPMsg(t('msgEmailBad'), true);
+        if (go) { go.disabled = false; go.textContent = t('ppGo'); }
+        return;
+      }
       fetch('/api/paypal/create-order', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item: ppCurrentKey, email: email, currency: cur() })
+        body: JSON.stringify({ item: ppCurrentKey, email: email, phone: phone, currency: cur() })
       }).then(function (r) { return r.json(); }).then(function (d) {
         if (!d.ok || !d.approveUrl) {
           showPPMsg(d.error || t('createFail'), true);
@@ -1317,6 +1331,5 @@
     try { var _t = new Image(); _t.src = 'https://955827.xyz/api/track?site=shop&t=' + Date.now(); } catch (e) {}
   })();
   </script>
-  <script src="/widget.js" defer></script>
 </body>
 </html>

@@ -12,6 +12,7 @@ export async function onRequestPost({ request, env }) {
   const item = ITEMS[key];
   if (!item) return json({ ok: false, error: '商品不存在' }, 400);
   const email = String(body.email || '').slice(0, 120);
+  const phone = String(body.phone || '').slice(0, 40);
 
   // 货币：前端语言决定；非法值回退到账户默认；账号不支持 CNY 时统一回落 USD
   const wanted = (body.currency === 'CNY' || body.currency === 'USD')
@@ -21,8 +22,8 @@ export async function onRequestPost({ request, env }) {
   const amountVal = toCurrency(item.deposit, currency).toFixed(2);
 
   // 回跳地址：把 item/email/cur 带在 query 里，PayPal 会追加 &token=&PayerID=
-  const returnUrl = `https://exam.955827.xyz/shop/return.html?item=${encodeURIComponent(key)}&email=${encodeURIComponent(email)}&cur=${encodeURIComponent(currency)}`;
-  const cancelUrl = `https://exam.955827.xyz/shop/return.html?cancel=1`;
+  const returnUrl = `https://shop.955827.xyz/return.html?item=${encodeURIComponent(key)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&cur=${encodeURIComponent(currency)}`;
+  const cancelUrl = `https://shop.955827.xyz/return.html?cancel=1`;
 
   try {
     const res = await pp(env, 'POST', '/v2/checkout/orders', {
@@ -46,7 +47,7 @@ export async function onRequestPost({ request, env }) {
     const links = res.json.links || [];
     const approve = links.find(l => l.rel === 'approve');
     if (!approve) return json({ ok: false, error: '未返回支付链接' }, 500);
-    return json({ ok: true, id: res.json.id, approveUrl: approve.href, email, currency, amount: amountVal });
+    return json({ ok: true, id: res.json.id, approveUrl: approve.href, email, phone, currency, amount: amountVal });
   } catch (e) {
     return json({ ok: false, error: e.message }, 500);
   }

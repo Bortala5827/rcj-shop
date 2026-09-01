@@ -113,7 +113,7 @@ export async function d1(env, sql) {
 export async function recordOrder(env, o) {
   await d1(env, `CREATE TABLE IF NOT EXISTS orders (
     id TEXT PRIMARY KEY, source TEXT, item TEXT, sku TEXT,
-    payer_email TEXT, contact_email TEXT, amount REAL, currency TEXT,
+    payer_email TEXT, contact_email TEXT, contact_phone TEXT, amount REAL, currency TEXT,
     full_price REAL, balance REAL, cny_amount REAL, paypal_order_id TEXT, status TEXT, note TEXT, created INTEGER
   )`);
   // 幂等迁移：老版本建的 orders 表可能缺列，探测后补上
@@ -127,9 +127,13 @@ export async function recordOrder(env, o) {
     await d1(env, 'ALTER TABLE orders ADD COLUMN cny_amount REAL');
     await d1(env, 'UPDATE orders SET cny_amount = amount WHERE cny_amount IS NULL');
   }
+  const probe3 = await d1(env, 'SELECT contact_phone FROM orders LIMIT 0');
+  if (probe3 && probe3.error && /contact_phone|no such column/i.test(probe3.error)) {
+    await d1(env, 'ALTER TABLE orders ADD COLUMN contact_phone TEXT');
+  }
   const esc = s => String(s == null ? '' : s).replace(/'/g, "''");
   const n = v => (v == null ? 'NULL' : v);
-  const sql = `INSERT OR REPLACE INTO orders (id, source, item, sku, payer_email, contact_email, amount, currency, full_price, balance, cny_amount, paypal_order_id, status, note, created) VALUES ('${esc(o.id)}','${esc(o.source)}','${esc(o.item)}','${esc(o.sku)}','${esc(o.payer_email)}','${esc(o.contact_email)}',${n(o.amount)},'${esc(o.currency || 'CNY')}',${n(o.full_price)},${n(o.balance)},${n(o.cny_amount)},'${esc(o.paypal_order_id)}','${esc(o.status)}','${esc(o.note)}',${o.created || Date.now()})`;
+  const sql = `INSERT OR REPLACE INTO orders (id, source, item, sku, payer_email, contact_email, contact_phone, amount, currency, full_price, balance, cny_amount, paypal_order_id, status, note, created) VALUES ('${esc(o.id)}','${esc(o.source)}','${esc(o.item)}','${esc(o.sku)}','${esc(o.payer_email)}','${esc(o.contact_email)}','${esc(o.contact_phone)}',${n(o.amount)},'${esc(o.currency || 'CNY')}',${n(o.full_price)},${n(o.balance)},${n(o.cny_amount)},'${esc(o.paypal_order_id)}','${esc(o.status)}','${esc(o.note)}',${o.created || Date.now()})`;
   return d1(env, sql);
 }
 
