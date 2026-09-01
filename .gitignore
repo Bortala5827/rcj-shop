@@ -1,0 +1,5 @@
+# wrangler 本地缓存（含账号信息，禁止提交）
+.wrangler/
+node_modules/
+.DS_Store
+*.log
