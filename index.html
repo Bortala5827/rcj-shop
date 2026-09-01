@@ -335,9 +335,14 @@
     .sing-msg{ padding:0 24px 10px; font-size:.9rem; text-align:center; min-height:1.3em; }
     .sing-msg.ok{ color:#34d399; } .sing-msg.err{ color:#f87171; }
     .sing-audio{ width:calc(100% - 48px); margin:0 24px 14px; border-radius:8px; }
+
+    /* ── Sandbox 模式常驻提醒横幅 ── */
+    .sandbox-banner { background: linear-gradient(135deg,#f59e0b,#d97706); color:#fff; text-align:center; font-size:.82rem; font-weight:700; padding:8px 14px; line-height:1.5; letter-spacing:.01em; }
+    .sandbox-banner[hidden]{ display:none; }
   </style>
 </head>
 <body>
+  <div class="sandbox-banner" id="sandboxBanner" data-i18n="sandboxBanner" hidden>⚠️ Sandbox — test mode, payments are NOT real</div>
   <div class="top-nav">
     <div class="brand"><span>RCJ</span> <span data-i18n="brandSuffix">定制服务</span></div>
     <div style="display:flex;align-items:center;gap:12px">
@@ -544,6 +549,7 @@
     var I18N = {
       en: {
         brandSuffix: 'Custom Services', backHome: '← Home',
+        sandboxBanner: '⚠️ Sandbox — test mode, payments are NOT real',
         pageTitle: 'Custom Question Banks & Websites | RCJ Lab',
         metaDesc: 'Custom question banks (Anki + offline HTML) and done-for-you websites for civil-service & job interviews. Built on Cloudflare Pages. Multilingual support.',
         heroTitle: 'Custom Question Banks & Done-for-You Websites',
@@ -596,6 +602,7 @@
       },
       ja: {
         brandSuffix: 'カスタムサービス', backHome: '← ホーム',
+        sandboxBanner: '⚠️ サンドボックス — テストモード（決済は実際には行われません）',
         pageTitle: 'オリジナル問題集＆サイト制作 | RCJ Lab',
         metaDesc: '公務員・面接対策向けオリジナル問題集（Ankiデッキ＋オフラインHTML）とサイト制作代行サービス。Cloudflare Pagesで構築。多言語対応。',
         heroTitle: 'オリジナル問題集 & サイト制作サービス',
@@ -648,6 +655,7 @@
       },
       zh: {
         brandSuffix: '定制服务', backHome: '← 返回首页',
+        sandboxBanner: '⚠️ 沙箱模式 — 测试环境，付款不会产生真实扣款',
         pageTitle: '定制题库与建站服务 | RCJ Lab',
         metaDesc: '深圳辅警等公职/面试考试题库定制（Anki卡组+离线刷题页），提供AI一站式建站与资料代托管服务。',
         heroTitle: '定制题库 & 一站式建站服务',
@@ -1302,7 +1310,7 @@
   })();
 
   // 页面加载完成 → 拉汇率 + 应用当前语言（默认 EN，或 localStorage 记住的语言）
-  fetch('/api/paypal/config').then(function(r){ return r.json(); }).then(function(cfg){ if (cfg.rate) RCJ_RATE = cfg.rate; if (typeof cfg.cnyEnabled === 'boolean') RCJ_CNY_ENABLED = cfg.cnyEnabled; }).catch(function(){}).finally(function(){ applyLang(LANG); });
+  fetch('/api/paypal/config').then(function(r){ return r.json(); }).then(function(cfg){ if (cfg.rate) RCJ_RATE = cfg.rate; if (typeof cfg.cnyEnabled === 'boolean') RCJ_CNY_ENABLED = cfg.cnyEnabled; var sb=document.getElementById('sandboxBanner'); if(sb){ sb.hidden = (cfg.mode !== 'sandbox'); } }).catch(function(){}).finally(function(){ applyLang(LANG); });
   </script>
 </body>
 </html>
