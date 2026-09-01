@@ -1311,6 +1311,11 @@
 
   // 页面加载完成 → 拉汇率 + 应用当前语言（默认 EN，或 localStorage 记住的语言）
   fetch('/api/paypal/config').then(function(r){ return r.json(); }).then(function(cfg){ if (cfg.rate) RCJ_RATE = cfg.rate; if (typeof cfg.cnyEnabled === 'boolean') RCJ_CNY_ENABLED = cfg.cnyEnabled; var sb=document.getElementById('sandboxBanner'); if(sb){ sb.hidden = (cfg.mode !== 'sandbox'); } }).catch(function(){}).finally(function(){ applyLang(LANG); });
+
+  // 统一浏览埋点 → rcj-analytics-d1 (site=shop)，跨域 GET，失败静默不影响购物
+  (function () {
+    try { var _t = new Image(); _t.src = 'https://955827.xyz/api/track?site=shop&t=' + Date.now(); } catch (e) {}
+  })();
   </script>
 </body>
 </html>
