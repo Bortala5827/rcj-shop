@@ -89,6 +89,16 @@ export async function pp(env, method, path, body) {
 }
 
 export async function d1(env, sql) {
+  // 优先用 D1 binding（rcj-shop 的 wrangler.toml 已声明 [[d1_databases]] binding="DB"）
+  if (env.DB) {
+    try {
+      const isWrite = /^\s*(INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|REPLACE)\s/i.test(sql);
+      const stmt = env.DB.prepare(sql);
+      const r = isWrite ? await stmt.run() : await stmt.all();
+      return isWrite ? r : (r.results || []);
+    } catch (e) { return { error: e.message }; }
+  }
+  // fallback：无 binding 时走 REST API（需 CF_API_TOKEN + CF_ACCOUNT_ID）
   if (!env.CF_API_TOKEN || !env.CF_ACCOUNT_ID) return { error: 'NO_CRED' };
   const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${env.CF_ACCOUNT_ID}/d1/database/${ANALYTICS_DB}/query`, {
     method: 'POST',
