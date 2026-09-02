@@ -1,9 +1,9 @@
-import { ITEMS, pp, recordOrder, notifyTelegram, beijing, resolveCurrency, toCurrency, CNY_PER_USD, json, corsOptions } from './_lib.js';
+import { ITEMS, pp, recordOrder, notifyTelegram, notifyOwner, beijing, resolveCurrency, toCurrency, CNY_PER_USD, json, corsOptions } from './_lib.js';
 
 export async function onRequestOptions() { return corsOptions(); }
 
 // POST /api/paypal/capture  { orderId, item?, email?, currency? }
-// 用户从 PayPal 回跳后，服务端二次确认金额并捕获，再写订单 + 通知（邮件 + Telegram）
+// 用户从 PayPal 回跳后，服务端二次确认金额并捕获，再写订单 + 通知（Telegram + 邮件）
 export async function onRequestPost({ request, env }) {
   let body;
   try { body = await request.json(); } catch { return json({ ok: false, error: 'JSON 格式错误' }, 400); }
@@ -52,8 +52,21 @@ export async function onRequestPost({ request, env }) {
     const t = beijing();
     const curSym = currency === 'CNY' ? '¥' : '$';
     const line = `【RCJ 收款】${item.name} 定金 ${curSym}${paidAmt}（${currency}）\n🕒 ${t}\n商品：${item.name}\n已收定金：${curSym}${paidAmt}（余款 ${curSym}${toCurrency(item.balance, currency)} 待交付时收）\n付款邮箱：${payerEmail || '(未知)'}\n联系邮箱：${email || '(未填)'}\n联系手机：${phone || '(未填)'}\nPayPal 单：${orderId}`;
-    // 订单通知走 Telegram
+    // 订单通知：Telegram + 邮件
     await notifyTelegram(env, line);
+    const mailHtml = `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:20px;">
+<p style="font-size:16px;font-weight:700;color:#0d9488;">RCJ 收到新订单</p>
+<table style="width:100%;font-size:14px;color:#374151;">
+<tr><td style="padding:4px 0;color:#6b7280;width:80px;">商品</td><td>${item.name}</td></tr>
+<tr><td style="padding:4px 0;color:#6b7280;">定金</td><td>${curSym}${paidAmt}（${currency}）</td></tr>
+<tr><td style="padding:4px 0;color:#6b7280;">余款</td><td>${curSym}${toCurrency(item.balance, currency)} 待交付时收</td></tr>
+<tr><td style="padding:4px 0;color:#6b7280;">时间</td><td>${t}</td></tr>
+<tr><td style="padding:4px 0;color:#6b7280;">付款邮箱</td><td>${payerEmail || '(未知)'}</td></tr>
+<tr><td style="padding:4px 0;color:#6b7280;">联系邮箱</td><td>${email || '(未填)'}</td></tr>
+<tr><td style="padding:4px 0;color:#6b7280;">联系手机</td><td>${phone || '(未填)'}</td></tr>
+<tr><td style="padding:4px 0;color:#6b7280;">PayPal 单</td><td>${orderId}</td></tr>
+</table></div>`;
+    await notifyOwner(env, `【RCJ 收款】${item.name} 定金 ${curSym}${paidAmt}`, mailHtml);
 
     return json({ ok: true, status: 'paid', id });
   } catch (e) {
