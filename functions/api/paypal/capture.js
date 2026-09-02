@@ -52,7 +52,7 @@ export async function onRequestPost({ request, env }) {
     const t = beijing();
     const curSym = currency === 'CNY' ? '¥' : '$';
     const line = `【RCJ 收款】${item.name} 定金 ${curSym}${paidAmt}（${currency}）\n🕒 ${t}\n商品：${item.name}\n已收定金：${curSym}${paidAmt}（余款 ${curSym}${toCurrency(item.balance, currency)} 待交付时收）\n付款邮箱：${payerEmail || '(未知)'}\n联系邮箱：${email || '(未填)'}\n联系手机：${phone || '(未填)'}\nPayPal 单：${orderId}`;
-    // 订单通知走 Telegram（省邮件额度；邮件仅留给客服系统）
+    // 订单通知走 Telegram
     await notifyTelegram(env, line);
 
     return json({ ok: true, status: 'paid', id });
