@@ -345,10 +345,15 @@
     /* ── Sandbox 模式常驻提醒横幅 ── */
     .sandbox-banner { background: linear-gradient(135deg,#f59e0b,#d97706); color:#fff; text-align:center; font-size:.82rem; font-weight:700; padding:8px 14px; line-height:1.5; letter-spacing:.01em; }
     .sandbox-banner[hidden]{ display:none; }
+    /* ── 顶部 Demo 引导横幅 ── */
+    .demo-banner { background: linear-gradient(135deg,#0d9488,#14b8a6); color:#fff; text-align:center; font-size:.88rem; font-weight:700; padding:8px 14px; line-height:1.5; letter-spacing:.01em; }
+    .demo-banner a { color:#fff; text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
+    .demo-banner a:hover { text-decoration:underline; }
   </style>
 </head>
 <body>
   <div class="sandbox-banner" id="sandboxBanner" data-i18n="sandboxBanner" hidden>⚠️ Sandbox — test mode, payments are NOT real</div>
+  <div class="demo-banner"><a href="https://rcj-stack-9xe.pages.dev/" target="_blank" rel="noopener"><span data-i18n="demoBanner">🚀 看看这套系统能做成什么样 · 戳这里看在线 Demo →</span></a></div>
   <div class="top-nav">
     <div class="brand"><span>RCJ</span> <span data-i18n="brandSuffix">定制服务</span></div>
     <div style="display:flex;align-items:center;gap:12px">
@@ -417,7 +422,7 @@
           <div class="plan-group">
             <div class="plan-group-title" data-i18n="groupBank">Question Bank</div>
             <div class="variant-card selected" onclick="selectVariant(this, '题库定制')">
-              <div class="variant-price" data-cny="39">from ¥39</div>
+              <div class="variant-price" data-cny="99">from ¥99</div>
               <div>
                 <div class="variant-details" data-i18n="nameBank">Question Bank</div>
                 <div class="variant-desc" data-i18n="descBank">HTML practice page + Anki deck, priced by city &amp; question count</div>
@@ -428,7 +433,7 @@
           <div class="plan-group">
             <div class="plan-group-title" data-i18n="groupBuild">Website</div>
             <div class="variant-card" onclick="selectVariant(this, '纯建站')">
-              <div class="variant-price" data-cny="69">from ¥69</div>
+              <div class="variant-price" data-cny="299">from ¥299</div>
               <div>
                 <div class="variant-details" data-i18n="nameBuild">Website Building</div>
                 <div class="variant-desc" data-i18n="descBuild">Personal site / blog / tool page, priced by complexity</div>
@@ -441,9 +446,9 @@
           <div class="plan-group">
             <div class="plan-group-title" data-i18n="groupHost">Hosting</div>
             <div class="variant-card" onclick="selectVariant(this, '代托管')">
-              <div class="variant-price" data-cny="9.9">from ¥9.9</div>
+              <div class="variant-price" data-cny="49">from ¥49</div>
               <div>
-                <div class="variant-details" data-i18n="nameHost">Managed Hosting</div>
+                <div class="variant-details" data-i18n="nameHost">管理后台，开箱易用</div>
                 <div class="variant-desc" data-i18n="descHost">I host your material at a dedicated path — no GitHub/Cloudflare hassle</div>
               </div>
             </div>
@@ -579,12 +584,12 @@
         buildLi3: 'Built on Cloudflare Pages — free hosting, global CDN',
         buildLi4: 'Basic SEO optimization',
         buildLi5: 'AI feature integration guidance (optional)',
-        groupBank: 'Question Bank', priceBank: 'from ¥39', nameBank: 'Question Bank',
+        groupBank: 'Question Bank', priceBank: 'from ¥99', nameBank: 'Question Bank',
         descBank: 'HTML practice page + Anki deck, priced by city & question count',
-        groupBuild: 'Website', priceBuild: 'from ¥69', nameBuild: 'Website Building',
+        groupBuild: 'Website', priceBuild: 'from ¥299', nameBuild: 'Website Building',
         descBuild: 'Personal site / blog / tool page, priced by complexity',
-        groupHost: 'Hosting', priceHost: 'from ¥9.9', nameHost: 'Managed Hosting',
-        descHost: 'I host your material at a dedicated path — no GitHub/Cloudflare hassle',
+        groupHost: 'Admin Backend', priceHost: 'from ¥49', nameHost: 'Admin Backend, Ready to Use',
+        descHost: 'Ready-to-use admin backend — orders, support & analytics managed for you. No GitHub/Cloudflare setup.',
         groupFree: 'Free', priceFree: 'Free',
         descFree: 'Female vocals only, 30–90s — sing a song, get the material free',
         buyNow: 'Buy Now',
@@ -633,12 +638,12 @@
         buildLi3: 'Cloudflare Pages 基盤 — 無料ホスティング・世界配信',
         buildLi4: '基本的な SEO 対策',
         buildLi5: 'AI 機能の導入サポート（オプション）',
-        groupBank: '問題集', priceBank: '¥39〜', nameBank: '問題集',
+        groupBank: '問題集', priceBank: '¥99〜', nameBank: '問題集',
         descBank: 'HTML 練習ページ + Anki デッキ。都市・問題数により価格変動',
-        groupBuild: 'サイト制作', priceBuild: '¥69〜', nameBuild: 'サイト制作',
+        groupBuild: 'サイト制作', priceBuild: '¥299〜', nameBuild: 'サイト制作',
         descBuild: '個人サイト / ブログ / ツールページ。機能の複雑さにより価格変動',
-        groupHost: 'ホスティング', priceHost: '¥9.9〜', nameHost: '運用代行',
-        descHost: '専用パスにデータを保管。GitHub / Cloudflare の設定は不要です',
+        groupHost: '管理バックエンド', priceHost: '¥49〜', nameHost: '管理バックエンド（すぐ使える）',
+        descHost: 'すぐ使える管理バックエンド。注文・サポート・分析を全部代行、自分で構築不要。',
         groupFree: '無料', priceFree: '無料',
         descFree: '女性ボーカルのみ（30〜90秒）— 歌を一曲いただくと資料を無料プレゼント',
         buyNow: '今すぐ購入',
@@ -672,7 +677,7 @@
         brandSuffix: '定制服务', backHome: '← 返回首页', liveDemo: '查看演示',
         sandboxBanner: '⚠️ 沙箱模式 — 测试环境，付款不会产生真实扣款',
         pageTitle: '定制题库与建站服务 | RCJ Lab',
-        metaDesc: '深圳辅警等公职/面试考试题库定制（Anki卡组+离线刷题页），提供AI一站式建站与资料代托管服务。',
+        metaDesc: '深圳辅警等公职/面试考试题库定制（Anki卡组+离线刷题页），提供AI一站式建站与开箱即用的管理后台服务。',
         heroTitle: '定制题库 & 一站式建站服务',
         whatTitle: '这是什么？',
         whatP1: '面向备考人的一站式服务：<strong>定制面试题库</strong> + <strong>个人网站搭建</strong>。不用自己折腾，拿来就能练、就能用。',
@@ -687,12 +692,12 @@
         buildLi3: '基于 Cloudflare Pages，免费托管，全球加速',
         buildLi4: 'SEO 基础优化',
         buildLi5: 'AI 功能接入指导（可选）',
-        groupBank: '题库定制', priceBank: '¥39 起', nameBank: '题库定制',
+        groupBank: '题库定制', priceBank: '¥99 起', nameBank: '题库定制',
         descBank: 'HTML 刷题页为主，附 Anki 卡组，按城市/题量定价',
-        groupBuild: '建站服务', priceBuild: '¥69 起', nameBuild: '纯建站',
+        groupBuild: '建站服务', priceBuild: '¥299 起', nameBuild: '纯建站',
         descBuild: '个人站/博客/工具页，按功能复杂度定价',
-        groupHost: '代托管', priceHost: '¥9.9 起', nameHost: '代托管',
-        descHost: '代为托管你的资料到专属路径，无需自己折腾 GitHub/Cloudflare',
+        groupHost: '管理后台', priceHost: '¥49 起', nameHost: '管理后台，开箱易用',
+        descHost: '开箱即用的管理后台：订单、客服、数据全托管，无需自己搭 GitHub/Cloudflare。',
         groupFree: '0元购', priceFree: '¥0',
         descFree: '限女生演唱 30–90 秒，唱完我送你资料',
         buyNow: '立即购买',

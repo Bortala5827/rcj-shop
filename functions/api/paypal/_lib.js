@@ -9,9 +9,9 @@ const EMAIL_FROM = 'RCJ 商店 <noreply@955827.xyz>';
 // DEPOSIT_RATE 为自定义服务的定金比例；hosting 金额太小直接全款（deposit 显式=全价）。
 export const DEPOSIT_RATE = 0.10; // 10%。改这里即可：0.05=5% / 0.30=30%
 export const ITEMS = {
-  'hosting':       { name: '代托管',   price: 9.9, sku: 'hosting', deposit: 9.9 },
-  'question-bank': { name: '题库定制', price: 39,  sku: 'question-bank' },
-  'build':         { name: '纯建站',   price: 69,  sku: 'build' },
+  'hosting':       { name: '管理后台', price: 49, sku: 'hosting', deposit: 49 },
+  'question-bank': { name: '题库定制', price: 99,  sku: 'question-bank' },
+  'build':         { name: '纯建站',   price: 299, sku: 'build' },
 };
 // 未显式指定 deposit 的，按 DEPOSIT_RATE 计算定金；并算出余款
 for (const k in ITEMS) {
