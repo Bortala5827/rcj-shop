@@ -103,6 +103,11 @@
     .buy-btn:active { transform: translate(0, 0); box-shadow: none; }
 
     .detail-list { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 1rem; }
+    .detail-list-toggle { display:flex; align-items:center; justify-content:space-between; width:100%; padding:0.7rem 1rem; font-size:0.85rem; font-weight:600; background:transparent; border:none; cursor:pointer; color:inherit; font-family:inherit; }
+    .detail-list-toggle::after { content:"▸"; transition:transform .2s; color:var(--muted); }
+    .detail-list.open .detail-list-toggle::after { transform:rotate(90deg); }
+    .detail-list .dl-body { display:none; }
+    .detail-list.open .dl-body { display:block; }
     .detail-list-item { display: flex; justify-content: space-between; padding: 0.7rem 1rem; font-size: 0.85rem; border-bottom: 1px solid var(--border); }
     .detail-list-item:last-child { border-bottom: none; }
     .detail-list-item span:first-child { font-weight: 600; }
@@ -442,7 +447,7 @@
           <div class="sing-feature">
             <span class="sf-badge" data-i18n="singBadge">Featured · Free</span>
             <h3>Sing to Me 🎤</h3>
-            <p data-i18n="descFree">Female vocals only, 30–90s — sing a song, get the material free</p>
+            <p data-i18n="descFree">Sing a song, get the material free</p>
             <button class="sing-feature-cta" onclick="(function(){var e=document.createEvent('Event');e.initEvent('opensingbooth',true,true);document.dispatchEvent(e);})()" data-i18n="singCta">Sing to Me — Start (Free)</button>
             <p class="sf-note" data-i18n="singNote">No purchase needed · just sing</p>
           </div>
@@ -491,10 +496,13 @@
           </a>
 
           <div class="detail-list">
-            <div class="detail-list-item"><span data-i18n="specDelivery">Delivery</span><span data-i18n="specDeliveryV">Cloud drive / Email</span></div>
-            <div class="detail-list-item"><span data-i18n="specPayment">Payment</span><span data-i18n="specPaymentV">Deposit + Balance</span></div>
-            <div class="detail-list-item"><span data-i18n="specHosting">Hosting</span><span>Free (CF Pages)</span></div>
-            <div class="detail-list-item"><span data-i18n="specSupport">Support</span><span data-i18n="specSupportV">30 days</span></div>
+            <button type="button" class="detail-list-toggle" data-i18n="specDetails">Details</button>
+            <div class="dl-body">
+              <div class="detail-list-item"><span data-i18n="specDelivery">Delivery</span><span data-i18n="specDeliveryV">Cloud drive / Email</span></div>
+              <div class="detail-list-item"><span data-i18n="specPayment">Payment</span><span data-i18n="specPaymentV">Deposit + Balance</span></div>
+              <div class="detail-list-item"><span data-i18n="specHosting">Hosting</span><span>Free (CF Pages)</span></div>
+              <div class="detail-list-item"><span data-i18n="specSupport">Support</span><span data-i18n="specSupportV">30 days</span></div>
+            </div>
           </div>
 
           <div class="payment-notice" data-i18n="paymentNotice">
@@ -509,7 +517,7 @@
       <button class="sing-booth-close" id="singClose" aria-label="关闭">✕</button>
       <div class="sing-booth-head">
         <h2>Sing to Me · <span data-i18n="singFree">Free</span></h2>
-        <p data-i18n="singHead">Female vocals only (30–90s) — sing me a song, get the material free</p>
+        <p data-i18n="singHead">Sing me a song — get the material free</p>
       </div>
       <div class="sing-stage">
         <div class="sing-mic-wrap">
@@ -611,15 +619,15 @@
         groupHost: 'Admin Backend', priceHost: 'from ¥49', nameHost: 'Admin Backend, Ready to Use',
         descHost: 'Ready-to-use admin backend — orders, support & analytics managed for you. No GitHub/Cloudflare setup.',
         groupFree: 'Free', priceFree: 'Free',
-        descFree: 'Female vocals only, 30–90s — sing a song, get the material free',
+        descFree: 'Sing a song, get the material free',
         singBadge: 'Featured · Free', singCta: 'Sing to Me — Start (Free)', singNote: 'No purchase needed · just sing', paidDivider: 'Paid options',
         buyNow: 'Buy Now',
-        specDelivery: 'Delivery', specDeliveryV: 'Cloud drive / Email',
+        specDetails: 'Details', specDelivery: 'Delivery', specDeliveryV: 'Cloud drive / Email',
         specPayment: 'Payment', specPaymentV: 'Deposit + Balance',
         specHosting: 'Hosting', specSupport: 'Support', specSupportV: '30 days',
         paymentNotice: 'Large orders: pay a 10% deposit first, balance on delivery via WeChat/Alipay. Free option: sing a song.',
         singFree: 'Free',
-        singHead: 'Female vocals only (30–90s) — sing me a song, get the material free',
+        singHead: 'Sing me a song — get the material free',
         singMicTitle: 'Start recording', singReady: "Tap the mic when you're ready",
         singEmailPh: 'Your email (materials will be sent here)', singSubmit: 'Done — Submit',
         ppTitlePrefix: 'Checkout', ppSub1: 'Pay a ',
@@ -638,7 +646,7 @@
         chatGreeting: 'Hi! How can I help you?',
         chatHint: 'Ask about question banks, website building, etc.',
         createFail: 'Failed to create order', netErr: 'Network error: ',
-        xianyuLabel: 'Buy on Xianyu (闲鱼)'
+        xianyuLabel: 'Buy on Xianyu'
       },
       ja: {
         brandSuffix: 'カスタムサービス', backHome: '← ホーム', liveDemo: 'デモを見る', cfStrip: '☁️ Cloudflare専用 · 届出不要 · グローバルCDN · 即時公開',
@@ -666,15 +674,15 @@
         groupHost: '管理バックエンド', priceHost: '¥49〜', nameHost: '管理バックエンド（すぐ使える）',
         descHost: 'すぐ使える管理バックエンド。注文・サポート・分析を全部代行、自分で構築不要。',
         groupFree: '無料', priceFree: '無料',
-        descFree: '女性ボーカルのみ（30〜90秒）— 歌を一曲いただくと資料を無料プレゼント',
+        descFree: '歌を一曲いただくと資料を無料プレゼント',
         singBadge: 'おすすめ・無料', singCta: 'Sing to Me を始める（無料）', singNote: '購入不要・歌うだけ', paidDivider: '有料オプション',
         buyNow: '今すぐ購入',
-        specDelivery: '納品方法', specDeliveryV: 'クラウド / メール',
+        specDetails: '詳細', specDelivery: '納品方法', specDeliveryV: 'クラウド / メール',
         specPayment: 'お支払い', specPaymentV: '内金 + 残金',
         specHosting: 'ホスティング', specSupport: 'サポート', specSupportV: '30日間',
         paymentNotice: '高額サービスは内金10%を先払い、残金は納品時に WeChat / 支付宝 でお支払い。無料プランは歌を一曲。',
         singFree: '無料',
-        singHead: '女性ボーカルのみ（30〜90秒）— 歌っていただけたら資料をプレゼント',
+        singHead: '歌っていただけたら資料をプレゼント',
         singMicTitle: '録音開始', singReady: '準備ができたらマイクをタップ',
         singEmailPh: 'メールアドレス（資料の送付先）', singSubmit: '録音完了・送信',
         ppTitlePrefix: 'お会計', ppSub1: 'まず ',
@@ -721,15 +729,15 @@
         groupHost: '管理后台', priceHost: '¥49 起', nameHost: '管理后台，开箱易用',
         descHost: '开箱即用的管理后台：订单、客服、数据全托管，无需自己搭 GitHub/Cloudflare。',
         groupFree: '0元购', priceFree: '¥0',
-        descFree: '限女生演唱 30–90 秒，唱完我送你资料',
+        descFree: '唱一首歌，资料免费送',
         singBadge: '重点推荐 · 0元购', singCta: '开始 Sing to Me（免费）', singNote: '无需下单 · 唱就送', paidDivider: '付费选项',
         buyNow: '立即购买',
-        specDelivery: '交付方式', specDeliveryV: '网盘/邮箱',
+        specDetails: '交付详情', specDelivery: '交付方式', specDeliveryV: '网盘/邮箱',
         specPayment: '付款方式', specPaymentV: '定金 + 余款',
         specHosting: '建站托管', specSupport: '售后支持', specSupportV: '30天',
         paymentNotice: '大额服务先付定金（10%），余款交付时微信/支付宝收取；0元购为我唱首歌即可领资料。',
         singFree: '0元购',
-        singHead: '只收女生演唱（30–90 秒），唱完我送你资料',
+        singHead: '唱一首歌，资料免费送',
         singMicTitle: '开始录音', singReady: '准备好就点击麦克风',
         singEmailPh: '你的邮箱（资料发这里）', singSubmit: '唱好了，提交',
         ppTitlePrefix: '购买', ppSub1: '本次先支付 ',
@@ -751,8 +759,9 @@
         xianyuLabel: '去闲鱼购买'
       }
     };
+    // 优先英文：首屏固定 EN（本地历史偏好只用于"用户已手动切过"的情景，默认仍是 EN）
     var LANG = 'en';
-    try { var savedLang = localStorage.getItem('rcj_lang'); if (savedLang && I18N[savedLang]) LANG = savedLang; } catch (e) {}
+    try { var savedLang = localStorage.getItem('rcj_lang'); if (savedLang && I18N[savedLang] && savedLang !== 'en') LANG = savedLang; } catch (e) {}
     function t(key) { return (I18N[LANG] && I18N[LANG][key]) || (I18N.en[key]) || key; }
 
     // ── 货币跟随语言：中文→人民币(¥)，英文/日文→美元($) ──
@@ -824,6 +833,12 @@
         });
       });
       document.addEventListener('click', function () { menu.hidden = true; trigger.setAttribute('aria-expanded', 'false'); });
+      // 详情列表折叠（默认收起，点击展开）
+      var dl = document.querySelector('.detail-list');
+      var dlToggle = document.querySelector('.detail-list-toggle');
+      if (dl && dlToggle) {
+        dlToggle.addEventListener('click', function () { dl.classList.toggle('open'); });
+      }
     })();
 
     var selectedType = '题库定制';
