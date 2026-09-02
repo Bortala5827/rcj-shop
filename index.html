@@ -641,6 +641,10 @@
         msgSingOk: "Got it! I'll listen to your song and send you the material 🎁", submitFail: 'Submission failed',
         msgRecPrefix: 'Recording', msgNoMic: 'Cannot record: ',
         alertNotAvail: 'Payment for this item is not available yet — please email me via the button below.',
+        chatTip: 'Live Chat', chatTitle: 'RCJ Live Chat', chatSub: 'Usually replies within minutes',
+        chatPh: 'Type a message...', chatSend: 'Send',
+        chatGreeting: 'Hi! How can I help you?',
+        chatHint: 'Ask about question banks, website building, etc.',
         createFail: 'Failed to create order', netErr: 'Network error: ',
         xianyuLabel: 'Buy on Xianyu'
       },
@@ -692,6 +696,10 @@
         msgSingOk: '届きました！歌を聴いてから資料をお送りします 🎁', submitFail: '送信に失敗しました',
         msgRecPrefix: '録音中', msgNoMic: '録音できません：',
         alertNotAvail: 'この商品の決済はまだ利用できません — 下の Email Me ボタンからメールでご連絡ください。',
+        chatTip: 'チャット', chatTitle: 'RCJ チャットサポート', chatSub: '通常数分以内に返信',
+        chatPh: 'メッセージを入力...', chatSend: '送信',
+        chatGreeting: 'こんにちは！何かお手伝いできることはありますか？',
+        chatHint: '問題集制作・サイト制作などについてお気軽にどうぞ',
         createFail: '注文の作成に失敗しました', netErr: '通信エラー：',
         xianyuLabel: '闲魚（シアンユ）で購入'
       },
@@ -743,6 +751,10 @@
         msgSingOk: '收到啦！我会听你唱的歌，然后给你送资料 🎁', submitFail: '提交失败',
         msgRecPrefix: '录音中', msgNoMic: '无法录音：',
         alertNotAvail: '该商品暂未接入支付功能，请点击下方 Email Me 按钮复制邮箱，联系购买。',
+        chatTip: '在线客服', chatTitle: 'RCJ 在线客服', chatSub: '通常几分钟内回复',
+        chatPh: '输入消息…', chatSend: '发送',
+        chatGreeting: '你好！有什么可以帮你的？',
+        chatHint: '可以咨询题库定制、建站服务等问题',
         createFail: '创建订单失败', netErr: '网络错误：',
         xianyuLabel: '去闲鱼购买'
       }
@@ -789,6 +801,13 @@
       document.querySelectorAll('#langMenu button').forEach(function (b) {
         b.classList.toggle('active', b.getAttribute('data-lang') === LANG);
       });
+      // 客服 widget（动态注入，查询后覆盖）
+      var tip = document.querySelector('.rcj-chat-fab .rcj-tip'); if (tip) tip.textContent = t('chatTip');
+      var fab = document.querySelector('.rcj-chat-fab'); if (fab) fab.title = t('chatTip');
+      var ct = document.querySelector('.rcj-chat-header-title'); if (ct) ct.textContent = t('chatTitle');
+      var cs = document.querySelector('.rcj-chat-header-sub'); if (cs) cs.textContent = t('chatSub');
+      var ci = document.getElementById('rcjInput'); if (ci) ci.placeholder = t('chatPh');
+      var cb = document.getElementById('rcjSend'); if (cb) cb.textContent = t('chatSend');
       // 录音状态（未录音时才重置；用全局标志，避免跨作用域引用）
       var rs = document.getElementById('singRecStatus');
       if (rs && !window.__rcjHasAudio) rs.textContent = t('singReady');
@@ -945,7 +964,282 @@
       copy();
     });
 
-    
+    // ===== 客服 Widget (Supportly) =====
+    (function() {
+      var SUPPORTLY_API = 'https://support.955827.xyz';
+      var CHANNEL_ID = 'ch_web_n27glqi6uo9f';
+      var STORAGE_KEY = 'rcj_supportly_session';
+
+      // 注入 CSS
+      var css = document.createElement('style');
+      css.textContent = `
+        .rcj-chat-fab { position: fixed; bottom: 22px; left: 18px; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #0d9488, #14b8a6); color: white; border: none; cursor: grab; box-shadow: 0 4px 16px rgba(13,148,136,0.4); z-index: 9998; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; transition: transform .25s, box-shadow .25s; user-select: none; touch-action: none; }
+        .rcj-chat-fab:active { cursor: grabbing; }
+        .rcj-chat-fab:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 6px 24px rgba(13,148,136,0.5); }
+        .rcj-chat-fab.active { box-shadow: 0 0 0 4px rgba(13,148,136,0.2), 0 4px 16px rgba(13,148,136,0.4); }
+        .rcj-chat-fab .rcj-tip { position: absolute; left: 60px; top: 50%; transform: translateY(-50%); background: linear-gradient(135deg, #0d9488, #14b8a6); color: #fff; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s, left .2s; }
+        .rcj-chat-fab:hover .rcj-tip { opacity: 1; left: 64px; }
+        .rcj-chat-panel { position: fixed; bottom: 96px; left: 18px; width: 360px; max-width: calc(100vw - 36px); height: 500px; max-height: calc(100vh - 120px); background: rgba(255,255,255,0.96); backdrop-filter: blur(16px); border-radius: 18px; box-shadow: 0 16px 48px rgba(0,0,0,0.15); z-index: 9997; display: none; flex-direction: column; overflow: hidden; border: 1px solid #e5e7eb; animation: rcjPanelIn .25s cubic-bezier(.34,1.3,.5,1) both; }
+        .rcj-chat-panel.show { display: flex; }
+        @keyframes rcjPanelIn { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .rcj-chat-header { background: linear-gradient(135deg, #0d9488, #14b8a6); color: white; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+        .rcj-chat-header-title { font-weight: 700; font-size: 15px; }
+        .rcj-chat-header-sub { font-size: 11px; opacity: 0.9; margin-top: 2px; }
+        .rcj-chat-close { background: rgba(255,255,255,0.15); border: none; color: white; font-size: 15px; cursor: pointer; padding: 2px 8px; border-radius: 6px; opacity: 0.9; }
+        .rcj-chat-close:hover { background: rgba(255,255,255,0.28); opacity: 1; }
+        .rcj-chat-messages { flex: 1; overflow-y: auto; padding: 16px; background: #f9fafb; }
+        .rcj-msg { margin-bottom: 12px; display: flex; }
+        .rcj-msg.user { justify-content: flex-end; }
+        .rcj-msg-bubble { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
+        .rcj-msg.user .rcj-msg-bubble { background: #0d9488; color: white; border-bottom-right-radius: 4px; }
+        .rcj-msg.agent .rcj-msg-bubble { background: white; color: #111827; border: 1px solid #e5e7eb; border-bottom-left-radius: 4px; }
+        .rcj-msg.system .rcj-msg-bubble { background: #fef3c7; color: #92400e; font-size: 12px; text-align: center; }
+        .rcj-chat-input { padding: 12px; border-top: 1px solid #e5e7eb; background: white; display: flex; gap: 8px; }
+        .rcj-chat-input input { flex: 1; padding: 10px 14px; border: 1px solid #e5e7eb; border-radius: 24px; font-size: 14px; outline: none; }
+        .rcj-chat-input input:focus { border-color: #0d9488; }
+        .rcj-chat-send { padding: 10px 16px; background: #0d9488; color: white; border: none; border-radius: 24px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .rcj-chat-send:disabled { background: #9ca3af; cursor: not-allowed; }
+        .rcj-chat-typing { display: flex; gap: 4px; padding: 10px 14px; }
+        .rcj-chat-typing span { width: 8px; height: 8px; background: #9ca3af; border-radius: 50%; animation: rcjBounce 1.4s infinite; }
+        .rcj-chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .rcj-chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes rcjBounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-8px); } }
+        @media (max-width: 480px) { .rcj-chat-panel { left: 12px; right: 12px; width: auto; bottom: 84px; } .rcj-chat-fab { left: 16px; bottom: 16px; } }
+      `;
+      document.head.appendChild(css);
+
+      // 创建 DOM
+      var fab = document.createElement('button');
+      fab.className = 'rcj-chat-fab';
+      fab.innerHTML = '💬<span class="rcj-tip">在线客服</span>';
+      fab.title = '在线客服';
+      document.body.appendChild(fab);
+
+      var panel = document.createElement('div');
+      panel.className = 'rcj-chat-panel';
+      panel.innerHTML = `
+        <div class="rcj-chat-header">
+          <div>
+            <div class="rcj-chat-header-title">RCJ 在线客服</div>
+            <div class="rcj-chat-header-sub">通常几分钟内回复</div>
+          </div>
+          <button class="rcj-chat-close">×</button>
+        </div>
+        <div class="rcj-chat-messages" id="rcjMessages"></div>
+        <div class="rcj-chat-input">
+          <input type="text" id="rcjInput" placeholder="输入消息..." maxlength="2000">
+          <button class="rcj-chat-send" id="rcjSend">发送</button>
+        </div>
+      `;
+      document.body.appendChild(panel);
+
+      var messagesEl = document.getElementById('rcjMessages');
+      var inputEl = document.getElementById('rcjInput');
+      var sendBtn = document.getElementById('rcjSend');
+      var closeBtn = panel.querySelector('.rcj-chat-close');
+
+      var session = null;
+      var lastMessageId = null;
+      var pollTimer = null;
+
+      // 加载本地会话
+      try {
+        var saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) session = JSON.parse(saved);
+      } catch(e) {}
+
+      function addMsg(content, type) {
+        var div = document.createElement('div');
+        div.className = 'rcj-msg ' + type;
+        var bubble = document.createElement('div');
+        bubble.className = 'rcj-msg-bubble';
+        bubble.textContent = content;
+        div.appendChild(bubble);
+        messagesEl.appendChild(div);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        return div;
+      }
+
+      function addTyping() {
+        var div = document.createElement('div');
+        div.className = 'rcj-msg agent';
+        div.innerHTML = '<div class="rcj-chat-typing"><span></span><span></span><span></span></div>';
+        messagesEl.appendChild(div);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        return div;
+      }
+
+      async function createSession() {
+        var visitorId = 'visitor_' + Math.random().toString(36).substr(2, 12);
+        var resp = await fetch(SUPPORTLY_API + '/api/widget/conversations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            channelAccountId: CHANNEL_ID,
+            visitorId: visitorId,
+            pageUrl: location.href,
+            pageTitle: document.title
+          })
+        });
+        var data = await resp.json();
+        session = data.data;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+        return session;
+      }
+
+      async function sendMessage(text) {
+        if (!session) await createSession();
+        var clientId = 'msg_' + Date.now();
+        var resp = await fetch(SUPPORTLY_API + '/api/widget/conversations/' + session.conversationId + '/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.visitorToken },
+          body: JSON.stringify({ content: text, clientMessageId: clientId, pageUrl: location.href, pageTitle: document.title })
+        });
+        var data = await resp.json();
+        if (data.data && data.data.inboundMessage) {
+          lastMessageId = data.data.inboundMessage.id;
+        }
+      }
+
+      async function pollMessages() {
+        if (!session) return;
+        try {
+          var url = SUPPORTLY_API + '/api/widget/conversations/' + session.conversationId + '/messages';
+          if (lastMessageId) url += '?after=' + lastMessageId;
+          var resp = await fetch(url, {
+            headers: { 'Authorization': 'Bearer ' + session.visitorToken }
+          });
+          var data = await resp.json();
+          if (data.data && data.data.messages) {
+            data.data.messages.forEach(function(msg) {
+              if (msg.direction === 'outbound' || msg.senderType === 'agent') {
+                addMsg(msg.content || '(空消息)', 'agent');
+              }
+              if (msg.id) lastMessageId = msg.id;
+            });
+          }
+        } catch(e) {}
+      }
+
+      function startPolling() {
+        stopPolling();
+        pollTimer = setInterval(pollMessages, 3000);
+      }
+
+      function stopPolling() {
+        if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+      }
+
+      function togglePanel() {
+        var isShow = panel.classList.toggle('show');
+        fab.classList.toggle('active', isShow);
+        if (isShow) {
+          if (messagesEl.children.length === 0) {
+            addMsg(t('chatGreeting'), 'agent');
+            addMsg(t('chatHint'), 'system');
+          }
+          inputEl.focus();
+          startPolling();
+        } else {
+          stopPolling();
+        }
+      }
+
+      // 拖拽功能
+      var isDragging = false;
+      var dragStartX = 0, dragStartY = 0;
+      var fabStartLeft = 0, fabStartBottom = 0;
+      var hasMoved = false;
+
+      function onDragStart(e) {
+        isDragging = true;
+        hasMoved = false;
+        var touch = e.touches ? e.touches[0] : e;
+        dragStartX = touch.clientX;
+        dragStartY = touch.clientY;
+        var rect = fab.getBoundingClientRect();
+        fabStartLeft = rect.left;
+        fabStartBottom = window.innerHeight - rect.bottom;
+        fab.style.transition = 'none';
+        e.preventDefault();
+      }
+
+      function onDragMove(e) {
+        if (!isDragging) return;
+        var touch = e.touches ? e.touches[0] : e;
+        var dx = touch.clientX - dragStartX;
+        var dy = touch.clientY - dragStartY;
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) hasMoved = true;
+        var newLeft = Math.max(8, Math.min(window.innerWidth - 60, fabStartLeft + dx));
+        var newBottom = Math.max(8, Math.min(window.innerHeight - 60, fabStartBottom - dy));
+        fab.style.left = newLeft + 'px';
+        fab.style.bottom = newBottom + 'px';
+        fab.style.right = 'auto';
+        // 面板跟随
+        panel.style.left = Math.min(newLeft, window.innerWidth - 376) + 'px';
+        panel.style.bottom = (newBottom + 60) + 'px';
+        e.preventDefault();
+      }
+
+      function onDragEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        fab.style.transition = '';
+        if (hasMoved) {
+          // 拖拽结束，保存位置
+          try { localStorage.setItem('rcj_chat_fab_pos', JSON.stringify({left: fab.style.left, bottom: fab.style.bottom})); } catch(e) {}
+        } else {
+          // 视为点击
+          togglePanel();
+        }
+      }
+
+      fab.addEventListener('mousedown', onDragStart);
+      document.addEventListener('mousemove', onDragMove);
+      document.addEventListener('mouseup', onDragEnd);
+      fab.addEventListener('touchstart', onDragStart, {passive: false});
+      document.addEventListener('touchmove', onDragMove, {passive: false});
+      document.addEventListener('touchend', onDragEnd);
+
+      // 恢复保存的位置
+      try {
+        var savedPos = localStorage.getItem('rcj_chat_fab_pos');
+        if (savedPos) {
+          var pos = JSON.parse(savedPos);
+          if (pos.left && pos.bottom) {
+            fab.style.left = pos.left;
+            fab.style.bottom = pos.bottom;
+            fab.style.right = 'auto';
+            panel.style.left = pos.left;
+            panel.style.bottom = (parseFloat(pos.bottom) + 60) + 'px';
+          }
+        }
+      } catch(e) {}
+
+      closeBtn.addEventListener('click', togglePanel);
+
+      async function handleSend() {
+        var text = inputEl.value.trim();
+        if (!text) return;
+        inputEl.value = '';
+        addMsg(text, 'user');
+        sendBtn.disabled = true;
+        var typing = addTyping();
+        try {
+          await sendMessage(text);
+        } catch(e) {
+          addMsg('发送失败：' + e.message, 'system');
+        }
+        typing.remove();
+        sendBtn.disabled = false;
+        inputEl.focus();
+      }
+
+      sendBtn.addEventListener('click', handleSend);
+      inputEl.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
+      });
+    })();
   </script>
   <script>
   // Sing to Me · 0元购 录音棚弹窗
