@@ -349,11 +349,14 @@
     .demo-banner { background: linear-gradient(135deg,#0d9488,#14b8a6); color:#fff; text-align:center; font-size:.88rem; font-weight:700; padding:8px 14px; line-height:1.5; letter-spacing:.01em; }
     .demo-banner a { color:#fff; text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
     .demo-banner a:hover { text-decoration:underline; }
+    .cf-strip { background:#ecfdf5; border-bottom:1px solid #a7f3d0; color:#065f46; text-align:center; font-size:.82rem; font-weight:600; padding:7px 14px; letter-spacing:.02em; }
+    .cf-strip .sep { opacity:.4; margin:0 8px; }
   </style>
 </head>
 <body>
   <div class="sandbox-banner" id="sandboxBanner" data-i18n="sandboxBanner" hidden>⚠️ Sandbox — test mode, payments are NOT real</div>
   <div class="demo-banner"><a href="https://rcj-stack-9xe.pages.dev/" target="_blank" rel="noopener"><span data-i18n="demoBanner">🚀 看看这套系统能做成什么样 · 戳这里看在线 Demo →</span></a></div>
+  <div class="cf-strip"><span data-i18n="cfStrip">☁️ Cloudflare 专属建站　·　免备案　·　全球加速　·　即开即用</span></div>
   <div class="top-nav">
     <div class="brand"><span>RCJ</span> <span data-i18n="brandSuffix">定制服务</span></div>
     <div style="display:flex;align-items:center;gap:12px">
@@ -566,7 +569,7 @@
     // ══════════ i18n（EN 默认 / JA 可切换）══════════
     var I18N = {
       en: {
-        brandSuffix: 'Custom Services', backHome: '← Home', liveDemo: 'Live Demo',
+        brandSuffix: 'Custom Services', backHome: '← Home', liveDemo: 'Live Demo', cfStrip: '☁️ Cloudflare-only · No ICP filing · Global CDN · Live instantly',
         sandboxBanner: '⚠️ Sandbox — test mode, payments are NOT real',
         pageTitle: 'Custom Question Banks & Websites | RCJ Lab',
         metaDesc: 'Custom question banks (Anki + offline HTML) and done-for-you websites for civil-service & job interviews. Built on Cloudflare Pages. Multilingual support.',
@@ -620,7 +623,7 @@
         xianyuLabel: 'Buy on Xianyu (闲鱼)'
       },
       ja: {
-        brandSuffix: 'カスタムサービス', backHome: '← ホーム', liveDemo: 'デモを見る',
+        brandSuffix: 'カスタムサービス', backHome: '← ホーム', liveDemo: 'デモを見る', cfStrip: '☁️ Cloudflare専用 · 届出不要 · グローバルCDN · 即時公開',
         sandboxBanner: '⚠️ サンドボックス — テストモード（決済は実際には行われません）',
         pageTitle: 'オリジナル問題集＆サイト制作 | RCJ Lab',
         metaDesc: '公務員・面接対策向けオリジナル問題集（Ankiデッキ＋オフラインHTML）とサイト制作代行サービス。Cloudflare Pagesで構築。多言語対応。',
@@ -674,10 +677,10 @@
         xianyuLabel: '闲魚（シアンユ）で購入'
       },
       zh: {
-        brandSuffix: '定制服务', backHome: '← 返回首页', liveDemo: '查看演示',
+        brandSuffix: '定制服务', backHome: '← 返回首页', liveDemo: '查看演示', cfStrip: '☁️ Cloudflare 专属建站　·　免备案　·　全球加速　·　即开即用',
         sandboxBanner: '⚠️ 沙箱模式 — 测试环境，付款不会产生真实扣款',
         pageTitle: '定制题库与建站服务 | RCJ Lab',
-        metaDesc: '深圳辅警等公职/面试考试题库定制（Anki卡组+离线刷题页），提供AI一站式建站与开箱即用的管理后台服务。',
+        metaDesc: '深圳辅警等公职/面试考试题库定制（Anki卡组+离线刷题页），基于 Cloudflare 部署（免备案），提供AI一站式建站与开箱即用的管理后台服务。',
         heroTitle: '定制题库 & 一站式建站服务',
         whatTitle: '这是什么？',
         whatP1: '面向备考人的一站式服务：<strong>定制面试题库</strong> + <strong>个人网站搭建</strong>。不用自己折腾，拿来就能练、就能用。',
@@ -689,7 +692,7 @@
         buildTitle: '建站服务包含什么？',
         buildLi1: '个人站 / 博客 / 工具页搭建',
         buildLi2: '域名绑定 + HTTPS 配置',
-        buildLi3: '基于 Cloudflare Pages，免费托管，全球加速',
+        buildLi3: '基于 Cloudflare Pages，免费托管，全球加速，免备案',
         buildLi4: 'SEO 基础优化',
         buildLi5: 'AI 功能接入指导（可选）',
         groupBank: '题库定制', priceBank: '¥99 起', nameBank: '题库定制',
