@@ -81,6 +81,22 @@
     .variant-price { background: var(--primary); color: white; padding: 0.3rem 0.9rem; border-radius: 50px; font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
     .variant-details { font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem; }
     .variant-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
+    /* Sing to Me · 重点突出 */
+    .sing-feature { position:relative; border:2px solid transparent; border-radius:16px; padding:22px 20px 18px; margin-bottom:22px; background:linear-gradient(135deg,#0f172a,#134e4a); box-shadow:0 10px 30px rgba(13,148,136,.28); overflow:hidden; }
+    .sing-feature::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(13,148,136,.18),rgba(124,58,237,.16)); pointer-events:none; }
+    .sing-feature .sf-badge { position:relative; display:inline-block; background:rgba(45,212,191,.16); color:#5eead4; border:1px solid rgba(45,212,191,.4); border-radius:999px; padding:4px 12px; font-size:.74rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; margin-bottom:12px; }
+    .sing-feature h3 { position:relative; margin:0 0 4px; font-size:1.5rem; color:#fff; font-weight:800; }
+    .sing-feature p { position:relative; margin:0 0 16px; font-size:.9rem; color:#94a3b8; }
+    .sing-feature-cta { position:relative; display:block; width:100%; border:none; cursor:pointer; background:linear-gradient(135deg,#0d9488,#7c3aed); color:#fff; font-weight:800; font-size:1.05rem; padding:14px; border-radius:12px; font-family:inherit; transition:transform .15s, box-shadow .15s; }
+    .sing-feature-cta:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(124,58,237,.4); }
+    .sing-feature .sf-note { position:relative; margin:10px 0 0; font-size:.78rem; color:#64748b; text-align:center; }
+    /* 付费选项 · 克制 */
+    .paid-divider { display:flex; align-items:center; gap:10px; margin:2px 0 14px; color:#94a3b8; font-size:.8rem; font-weight:700; letter-spacing:.04em; }
+    .paid-divider::before, .paid-divider::after { content:""; flex:1; height:1px; background:#e5e7eb; }
+    .variant-card.muted { border-width:1.5px; border-color:#eef1f4; background:#fcfdfe; padding:0.95rem 1rem; }
+    .variant-card.muted .variant-price { background:#64748b; font-size:.82rem; padding:.22rem .7rem; }
+    .variant-card.muted .variant-details { font-size:.92rem; }
+    .variant-card.muted .variant-desc { font-size:.78rem; line-height:1.35; }
 
     .buy-btn { width: 100%; padding: 0.9rem; background: var(--primary); color: white; border: 1px solid #000; border-radius: var(--radius); font-weight: 700; font-size: 1.05rem; cursor: pointer; transition: all 0.15s; margin: 1rem 0; }
     .buy-btn:hover { background: var(--primary-hover); transform: translate(-2px, -2px); box-shadow: 4px 4px 0 #000; }
@@ -422,9 +438,20 @@
 
         <!-- 右侧购买栏 -->
         <div class="sidebar" id="buySection">
+          <!-- Sing to Me · 重点 -->
+          <div class="sing-feature">
+            <span class="sf-badge" data-i18n="singBadge">Featured · Free</span>
+            <h3>Sing to Me 🎤</h3>
+            <p data-i18n="descFree">Female vocals only, 30–90s — sing a song, get the material free</p>
+            <button class="sing-feature-cta" onclick="(function(){var e=document.createEvent('Event');e.initEvent('opensingbooth',true,true);document.dispatchEvent(e);})()" data-i18n="singCta">Sing to Me — Start (Free)</button>
+            <p class="sf-note" data-i18n="singNote">No purchase needed · just sing</p>
+          </div>
+
+          <div class="paid-divider" data-i18n="paidDivider">Paid options</div>
+
           <div class="plan-group">
             <div class="plan-group-title" data-i18n="groupBank">Question Bank</div>
-            <div class="variant-card selected" onclick="selectVariant(this, '题库定制')">
+            <div class="variant-card muted selected" onclick="selectVariant(this, '题库定制')">
               <div class="variant-price" data-cny="99">from ¥99</div>
               <div>
                 <div class="variant-details" data-i18n="nameBank">Question Bank</div>
@@ -435,7 +462,7 @@
 
           <div class="plan-group">
             <div class="plan-group-title" data-i18n="groupBuild">Website</div>
-            <div class="variant-card" onclick="selectVariant(this, '纯建站')">
+            <div class="variant-card muted" onclick="selectVariant(this, '纯建站')">
               <div class="variant-price" data-cny="299">from ¥299</div>
               <div>
                 <div class="variant-details" data-i18n="nameBuild">Website Building</div>
@@ -448,7 +475,7 @@
 
           <div class="plan-group">
             <div class="plan-group-title" data-i18n="groupHost">Hosting</div>
-            <div class="variant-card" onclick="selectVariant(this, '代托管')">
+            <div class="variant-card muted" onclick="selectVariant(this, '代托管')">
               <div class="variant-price" data-cny="49">from ¥49</div>
               <div>
                 <div class="variant-details" data-i18n="nameHost">管理后台，开箱易用</div>
@@ -457,16 +484,6 @@
             </div>
           </div>
 
-          <div class="plan-group">
-            <div class="plan-group-title" data-i18n="groupFree">Free</div>
-            <div class="variant-card" onclick="selectVariant(this, 'Sing to Me')">
-              <div class="variant-price" data-i18n="priceFree">¥0</div>
-              <div>
-                <div class="variant-details">Sing to Me</div>
-                <div class="variant-desc" data-i18n="descFree">Female vocals only, 30–90s — sing a song, get the material free</div>
-              </div>
-            </div>
-          </div>
           <button class="buy-btn" onclick="handlePurchase()" data-i18n="buyNow">Buy Now</button>
           <a class="xianyu-link" href="https://m.tb.cn/h.8mRAttW?tk=BiBPTfBOjhk" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8h12l-1 12H7L6 8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="2"/></svg>
@@ -595,6 +612,7 @@
         descHost: 'Ready-to-use admin backend — orders, support & analytics managed for you. No GitHub/Cloudflare setup.',
         groupFree: 'Free', priceFree: 'Free',
         descFree: 'Female vocals only, 30–90s — sing a song, get the material free',
+        singBadge: 'Featured · Free', singCta: 'Sing to Me — Start (Free)', singNote: 'No purchase needed · just sing', paidDivider: 'Paid options',
         buyNow: 'Buy Now',
         specDelivery: 'Delivery', specDeliveryV: 'Cloud drive / Email',
         specPayment: 'Payment', specPaymentV: 'Deposit + Balance',
@@ -649,6 +667,7 @@
         descHost: 'すぐ使える管理バックエンド。注文・サポート・分析を全部代行、自分で構築不要。',
         groupFree: '無料', priceFree: '無料',
         descFree: '女性ボーカルのみ（30〜90秒）— 歌を一曲いただくと資料を無料プレゼント',
+        singBadge: 'おすすめ・無料', singCta: 'Sing to Me を始める（無料）', singNote: '購入不要・歌うだけ', paidDivider: '有料オプション',
         buyNow: '今すぐ購入',
         specDelivery: '納品方法', specDeliveryV: 'クラウド / メール',
         specPayment: 'お支払い', specPaymentV: '内金 + 残金',
@@ -703,6 +722,7 @@
         descHost: '开箱即用的管理后台：订单、客服、数据全托管，无需自己搭 GitHub/Cloudflare。',
         groupFree: '0元购', priceFree: '¥0',
         descFree: '限女生演唱 30–90 秒，唱完我送你资料',
+        singBadge: '重点推荐 · 0元购', singCta: '开始 Sing to Me（免费）', singNote: '无需下单 · 唱就送', paidDivider: '付费选项',
         buyNow: '立即购买',
         specDelivery: '交付方式', specDeliveryV: '网盘/邮箱',
         specPayment: '付款方式', specPaymentV: '定金 + 余款',
