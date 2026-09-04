@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# 放行传统搜索引擎，拦截 AI 训练 / 聚合爬虫（与 955827.xyz 一致）
+User-agent: GPTBot
+Disallow: /
+User-agent: ClaudeBot
+Disallow: /
+User-agent: CCBot
+Disallow: /
+User-agent: Google-Extended
+Disallow: /
+User-agent: Applebot-Extended
+Disallow: /
+User-agent: Amazonbot
+Disallow: /
+User-agent: Bytespider
+Disallow: /
+User-agent: meta-externalagent
+Disallow: /
+User-agent: CloudflareBrowserRenderingCrawler
+Disallow: /
+
+Sitemap: https://shop.955827.xyz/sitemap.xml
