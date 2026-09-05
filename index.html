@@ -71,6 +71,23 @@
     .feature-item h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text); }
     .feature-item p { font-size: 0.88rem; color: #4b5563; margin: 0; line-height: 1.55; }
 
+    /* 学员作品展示 */
+    .showcase { margin-top: 1.35rem; padding: 1.1rem 1.15rem 1.15rem; background: linear-gradient(180deg, #f0fdfa 0%, #f9fafb 100%); border: 1px solid #ccfbf1; border-radius: 12px; }
+    .showcase-eyebrow { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .06em; color: #0f766e; background: #ccfbf1; border-radius: 999px; padding: 3px 10px; }
+    .showcase .showcase-sub { margin: .65rem 0 .9rem; font-size: .9rem; color: #4b5563; line-height: 1.65; }
+    .showcase-card { display: block; text-decoration: none; color: inherit; background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.05rem; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+    .showcase-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(13, 148, 136, .15); border-color: #5eead4; }
+    .sc-top { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .5rem; }
+    .sc-badge { font-size: .72rem; font-weight: 700; color: #b45309; background: #fef3c7; border-radius: 6px; padding: 2px 8px; }
+    .sc-open { font-size: .78rem; font-weight: 600; color: var(--primary); }
+    .sc-title { font-size: 1.02rem; font-weight: 700; color: var(--text); }
+    .sc-domain { font-size: .8rem; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin-bottom: .5rem; }
+    .showcase-card .sc-desc { font-size: .88rem; color: #4b5563; line-height: 1.65; margin-bottom: .7rem; }
+    .sc-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .7rem; }
+    .sc-tags span { font-size: .74rem; color: #0f766e; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 999px; padding: 2px 9px; }
+    .sc-subs { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .sc-sub { font-size: .72rem; color: #6b7280; background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 6px; padding: 2px 8px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
     /* 右侧购买栏 */
     .sidebar { padding: 2rem 1.75rem; }
     @media (min-width: 900px) { .sidebar { position: sticky; top: 1rem; align-self: start; } }
@@ -143,6 +160,11 @@
       .feature-item { padding: 0.85rem 0.9rem; }
       .feature-item h4 { font-size: 0.9rem; }
       .feature-item p { font-size: 0.82rem; }
+      .showcase { padding: .9rem .85rem 1rem; margin-top: 1.1rem; }
+      .showcase .showcase-sub { font-size: .84rem; }
+      .showcase-card { padding: .85rem .9rem; }
+      .sc-title { font-size: .95rem; }
+      .showcase-card .sc-desc { font-size: .83rem; }
       /* 购买栏 */
       .sidebar { padding: 1.25rem 1rem; }
       .variant-card { padding: 0.9rem 0.85rem; gap: 0.6rem; min-height: 58px; align-items: center; }
@@ -437,7 +459,33 @@
               <li data-i18n="buildLi3">Built on Cloudflare Pages — free hosting, global CDN</li>
               <li data-i18n="buildLi4">Basic SEO optimization</li>
               <li data-i18n="buildLi5">AI feature integration guidance (optional)</li>
+              <li data-i18n="buildLi6">Hands-on teaching: domain &amp; DNS, Cloudflare, AI/API — you can maintain it yourself</li>
             </ul>
+
+            <!-- 学员作品展示 -->
+            <div class="showcase" id="showcase">
+              <span class="showcase-eyebrow" data-i18n="scEyebrow">Student Work · 学员作品</span>
+              <p class="showcase-sub" data-i18n="scSub">From domain registration &amp; DNS, to Cloudflare deployment, to AI tools &amp; API calls — a student built this entirely on their own:</p>
+              <a class="showcase-card" href="https://021100.xyz/" target="_blank" rel="noopener">
+                <div class="sc-top">
+                  <span class="sc-badge" data-i18n="scBadge">学员作品</span>
+                  <span class="sc-open" data-i18n="scOpen">Visit ↗</span>
+                </div>
+                <div class="sc-title" data-i18n="scTitle">Auxiliary Police Exam Toolkit</div>
+                <div class="sc-domain">021100.xyz</div>
+                <p class="sc-desc" data-i18n="scDesc">Question banks ｜ Past papers ｜ Master-class banks. Built from scratch by a student, running on Cloudflare Pages with 3 sub-sites.</p>
+                <div class="sc-tags">
+                  <span data-i18n="scTag1">Question Bank Hub</span>
+                  <span data-i18n="scTag2">Past Papers</span>
+                  <span data-i18n="scTag3">Mistake Notebook</span>
+                </div>
+                <div class="sc-subs">
+                  <span class="sc-sub">ga.021100.xyz</span>
+                  <span class="sc-sub">zttk.021100.xyz</span>
+                  <span class="sc-sub">fgtk.021100.xyz</span>
+                </div>
+              </a>
+            </div>
           </div>
             <!-- 常见问题已整合进右下角“?”帮助面板（faq-panel） -->
           </div>
@@ -614,6 +662,13 @@
         buildLi3: 'Built on Cloudflare Pages — free hosting, global CDN',
         buildLi4: 'Basic SEO optimization',
         buildLi5: 'AI feature integration guidance (optional)',
+        buildLi6: 'Hands-on teaching: domain & DNS, Cloudflare, AI/API — you can run it yourself',
+        scEyebrow: 'Student Work',
+        scSub: 'From domain registration & DNS, to Cloudflare deployment, to AI tools & API calls — a site a student built entirely on their own:',
+        scBadge: 'Student Work', scOpen: 'Visit ↗',
+        scTitle: 'Auxiliary Police Exam Toolkit',
+        scDesc: 'Question banks ｜ Past papers ｜ Master-class banks. Built from scratch by a student, running on Cloudflare Pages with 3 sub-sites.',
+        scTag1: 'Question Bank Hub', scTag2: 'Past Papers', scTag3: 'Mistake Notebook',
         groupBank: 'Question Bank', priceBank: 'from ¥99', nameBank: 'Question Bank',
         descBank: 'HTML practice page + Anki deck, priced by city & question count',
         groupBuild: 'Website', priceBuild: 'from ¥299', nameBuild: 'Website Building',
@@ -670,6 +725,13 @@
         buildLi3: 'Cloudflare Pages 基盤 — 無料ホスティング・世界配信',
         buildLi4: '基本的な SEO 対策',
         buildLi5: 'AI 機能の導入サポート（オプション）',
+        buildLi6: 'ドメイン取得・DNS・Cloudflare・AI/API まで手ほどき — 自分で運用できるように',
+        scEyebrow: '受講生の作品',
+        scSub: 'ドメイン取得と DNS 設定、Cloudflare へのデプロイ、AI ツールと API 連携まで — 受講生が自力で作り上げたサイト：',
+        scBadge: '受講生作品', scOpen: '見る ↗',
+        scTitle: '輔警（補助警察）試験対策ツールボックス',
+        scDesc: '問題集 ｜ 過去問 ｜ 名師問題集。受講生がゼロから自作し、Cloudflare Pages 上で稼働。サブサイト3つ付き。',
+        scTag1: '問題集ナビ', scTag2: '過去問', scTag3: '間違いノート',
         groupBank: '問題集', priceBank: '¥99〜', nameBank: '問題集',
         descBank: 'HTML 練習ページ + Anki デッキ。都市・問題数により価格変動',
         groupBuild: 'サイト制作', priceBuild: '¥299〜', nameBuild: 'サイト制作',
@@ -726,6 +788,13 @@
         buildLi3: '基于 Cloudflare Pages，免费托管，全球加速，免备案',
         buildLi4: 'SEO 基础优化',
         buildLi5: 'AI 功能接入指导（可选）',
+        buildLi6: '手把手教学：域名申请与解析 / Cloudflare / AI 接口调用，交付后你自己就能改',
+        scEyebrow: '学员作品 · Student Work',
+        scSub: '从域名申请与解析、Cloudflare 部署，到 AI 工具与 API 调用 —— 这是学员全程自己搭出来的站：',
+        scBadge: '学员作品', scOpen: '访问 ↗',
+        scTitle: '辅警备考工具箱',
+        scDesc: '刷题库 ｜ 真题库 ｜ 名师题库。学员从 0 到 1 自己搭建，跑在 Cloudflare Pages 上，另含 3 个子站。',
+        scTag1: '题库导航', scTag2: '历年真题', scTag3: '错题本',
         groupBank: '题库定制', priceBank: '¥99 起', nameBank: '题库定制',
         descBank: 'HTML 刷题页为主，附 Anki 卡组，按城市/题量定价',
         groupBuild: '建站服务', priceBuild: '¥299 起', nameBuild: '纯建站',
