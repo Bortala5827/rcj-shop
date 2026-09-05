@@ -78,6 +78,7 @@
     .sc-caret { flex: none; display: inline-block; color: var(--primary); font-size: .85rem; transition: transform .18s ease; }
     .sc-toggle.open .sc-caret { transform: rotate(90deg); }
     .sc-bar-badge { flex: none; font-size: .72rem; font-weight: 700; color: #b45309; background: #fef3c7; border-radius: 6px; padding: 2px 8px; }
+    .sc-bar-badge.mine { color: #0f766e; background: #ccfbf1; }
     .sc-bar-title { font-weight: 700; font-size: .95rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sc-bar-domain { flex: none; font-size: .75rem; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
     .sc-visit { flex: none; font-size: .78rem; font-weight: 600; color: var(--primary); text-decoration: none; }
@@ -468,7 +469,7 @@
             </ul>
 
             <!-- 学员作品展示（默认折叠，点击展开） -->
-            <div class="showcase" id="showcase">
+            <div class="showcase" id="showcase" data-sc-key="rcj_sc_open">
               <div class="sc-bar">
                 <button type="button" class="sc-toggle" id="scToggle" aria-expanded="false" aria-controls="scBody" data-i18n-title="scToggleTip" title="Expand / collapse student work">
                   <span class="sc-caret">▸</span>
@@ -492,6 +493,31 @@
                     <span class="sc-sub">ga.021100.xyz</span>
                     <span class="sc-sub">zttk.021100.xyz</span>
                     <span class="sc-sub">fgtk.021100.xyz</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- 我的作品展示（默认折叠，点击展开） -->
+            <div class="showcase mine" id="showcase-mine" data-sc-key="rcj_sc_open_showcase_mine">
+              <div class="sc-bar">
+                <button type="button" class="sc-toggle" aria-expanded="false" aria-controls="scBodyMine" data-i18n-title="myToggleTip" title="Expand / collapse my work">
+                  <span class="sc-caret">▸</span>
+                  <span class="sc-bar-badge mine" data-i18n="myBadge">My Work</span>
+                  <span class="sc-bar-title" data-i18n="myTitle">Dinner for You · Couple Order System</span>
+                  <span class="sc-bar-domain">dinner.955827.xyz</span>
+                </button>
+                <a class="sc-visit" href="https://dinner.955827.xyz/" target="_blank" rel="noopener" data-i18n="scOpen">Visit ↗</a>
+              </div>
+              <div class="sc-body" id="scBodyMine" hidden>
+                <p class="showcase-sub" data-i18n="mySub">A self-built template project I run myself:</p>
+                <a class="showcase-card" href="https://dinner.955827.xyz/" target="_blank" rel="noopener">
+                  <img class="sc-shot" src="assets/showcase-dinner.jpg" alt="dinner.955827.xyz 我的作品截图" loading="lazy" width="1180" height="900">
+                  <p class="sc-desc" data-i18n="myDesc">Invite-only entry → pick a dish → record a song → email replies. Built with Cloudflare Pages + D1 + Resend.</p>
+                  <div class="sc-tags">
+                    <span data-i18n="myTag1">Invite-Only</span>
+                    <span data-i18n="myTag2">Cloudflare Pages</span>
+                    <span data-i18n="myTag3">Email Notify</span>
                   </div>
                 </a>
               </div>
@@ -924,21 +950,24 @@
       }
     })();
 
-    // 学员作品折叠（默认收起，记忆用户上次选择）
+    // 作品展示折叠（默认收起，记忆用户上次选择；支持多个展示块）
     (function () {
-      var btn = document.getElementById('scToggle');
-      var body = document.getElementById('scBody');
-      if (!btn || !body) return;
-      function setOpen(open, save) {
-        body.hidden = !open;
-        btn.setAttribute('aria-expanded', String(open));
-        btn.classList.toggle('open', open);
-        if (save) { try { localStorage.setItem('rcj_sc_open', open ? '1' : '0'); } catch (e) {} }
-      }
-      var saved = null;
-      try { saved = localStorage.getItem('rcj_sc_open'); } catch (e) {}
-      setOpen(saved === '1', false);
-      btn.addEventListener('click', function () { setOpen(body.hidden, true); });
+      document.querySelectorAll('.showcase').forEach(function (box) {
+        var btn = box.querySelector('.sc-toggle');
+        var body = box.querySelector('.sc-body');
+        if (!btn || !body) return;
+        var key = box.getAttribute('data-sc-key') || ('rcj_sc_open_' + (box.id || 'x'));
+        function setOpen(open, save) {
+          body.hidden = !open;
+          btn.setAttribute('aria-expanded', String(open));
+          btn.classList.toggle('open', open);
+          if (save) { try { localStorage.setItem(key, open ? '1' : '0'); } catch (e) {} }
+        }
+        var saved = null;
+        try { saved = localStorage.getItem(key); } catch (e) {}
+        setOpen(saved === '1', false);
+        btn.addEventListener('click', function () { setOpen(body.hidden, true); });
+      });
     })();
 
     var selectedType = '题库定制';
