@@ -629,6 +629,26 @@
                   <p class="work-desc" data-i18n="workFaceTalkDesc" data-page-node-id="3JaiWGDVs5wArAJXKkwBBp">60-second voice tryout + mutual match + burn-after-read. Interview practice, reimagined.</p>
                 </a>
               </div>
+
+              <!-- 学员作品（折叠条 + 展开体，默认收起） -->
+              <div class="showcase" data-page-node-id="studentShowcase">
+                <div class="sc-bar">
+                  <button type="button" class="sc-toggle" onclick="this.classList.toggle('open');var b=this.parentElement.nextElementSibling;b.style.display=b.style.display==='block'?'none':'block';" data-page-node-id="studentToggle">
+                    <span class="sc-caret" data-page-node-id="studentCaret">▸</span>
+                    <span class="sc-bar-title" data-i18n="studentTitle" data-page-node-id="studentTitleText">Student work</span>
+                    <span class="sc-bar-domain" data-page-node-id="studentDomain">021100.xyz</span>
+                  </button>
+                  <a class="sc-visit" href="https://021100.xyz/" target="_blank" rel="noopener" data-i18n="scOpen" data-page-node-id="studentVisit">Visit ↗</a>
+                </div>
+                <div class="sc-body" style="display:none" data-page-node-id="studentBody">
+                  <p class="showcase-sub" data-i18n="studentDesc" data-page-node-id="studentDescText">Police auxiliary exam prep toolkit — 3 sub-sites (question bank / past papers / regulations), built from scratch by a student, hand-holding teaching from zero.</p>
+                  <div class="sc-tags" data-page-node-id="studentTags">
+                    <span data-page-node-id="tagGa">公安名师刷题库</span>
+                    <span data-page-node-id="tagZttk">深辅真题库</span>
+                    <span data-page-node-id="tagFgtk">深辅法规题库</span>
+                  </div>
+                </div>
+              </div>
             </div>
             <!-- 常见问题已整合进右下角“?”帮助面板（faq-panel） -->
           </div>
@@ -840,6 +860,8 @@
         scTitle: 'Auxiliary Police Exam Toolkit',
         scDesc: 'Question banks ｜ Past papers ｜ Mistake notebook. Built from scratch by a student — a real, working exam prep toolkit you can show prospective clients.',
         scTag1: 'Question Bank Hub', scTag2: 'Past Papers', scTag3: 'Mistake Notebook',
+        studentTitle: 'Student work',
+        studentDesc: 'Police auxiliary exam prep toolkit — 3 sub-sites (question bank / past papers / regulations), built from scratch by a student, hand-holding teaching from zero.',
         groupBank: 'Question Bank', priceBank: 'from ¥99', nameBank: 'Question Bank',
         groupBuild: 'Website', priceBuild: 'from ¥299', nameBuild: 'Website Building',
         groupHost: 'Admin Backend', priceHost: 'from ¥49', nameHost: 'Admin Backend, Ready to Use',
@@ -903,6 +925,8 @@
         scTitle: '輔警（補助警察）試験対策ツールボックス',
         scDesc: '国題集 ｜ 過去問 ｜ 間鍒ノート。受譲生。るとも自作し、实用的な試骗对策ツーボックス。クライアントに要れる实縱。',
         scTag1: '問題集ナビ', scTag2: '過去問', scTag3: '間違いノート',
+        studentTitle: '受講生作品',
+        studentDesc: '輔警試験対策ツールボックス——3つのサブサイト（問題集／過去問／法規）、受講生がゼロから構築、手把手帶教で完成。',
         groupBank: '問題集', priceBank: '¥99〜', nameBank: '問題集',
         groupBuild: 'サイト制作', priceBuild: '¥299〜', nameBuild: 'サイト制作',
         groupHost: '管理バックエンド', priceHost: '¥49〜', nameHost: '管理バックエンド（すぐ使える）',
@@ -965,6 +989,8 @@
         scBadge: '学员作品', scOpen: '访问 ↗', scToggleTip: '展开/收起学员作品',
         scTitle: '辅警备考工具箱',
         scDesc: '刷题库 ｜ 真题库 ｜ 错题本。学员从 0 到 1 自己搭的——能给客户看的、实打实的备考工具站。',
+        studentTitle: '学员作品',
+        studentDesc: '辅警备考工具箱——3 个子站（刷题库/真题库/法规库），学员从零搭建，手把手带教完成。',
         scTag1: '题库导航', scTag2: '历年真题', scTag3: '错题本',
         groupBank: '题库定制', priceBank: '¥99 起', nameBank: '题库定制',
         groupBuild: '建站服务', priceBuild: '¥299 起', nameBuild: '纯建站',
