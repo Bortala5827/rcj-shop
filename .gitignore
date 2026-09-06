@@ -3,3 +3,7 @@
 node_modules/
 .DS_Store
 *.log
+
+# 本地遗留/构建产物，不发布到 Pages
+*.bak
+shot-dinner.cjs
