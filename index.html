@@ -468,32 +468,13 @@
     .mobile-nav-backdrop.open { display:block; opacity:1; }
 
     /* ── 信任数据栏（stats bar）── */
-    .stats-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; padding:2rem 2.5rem; background:linear-gradient(135deg,#f0fdfa 0%,#ecfeff 100%); border:1px solid #ccfbf1; border-radius:var(--radius); margin:2rem 0; }
+    .stats-bar { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; padding:2rem 2.5rem; background:linear-gradient(135deg,#f0fdfa 0%,#ecfeff 100%); border:1px solid #ccfbf1; border-radius:var(--radius); margin:2rem 0; }
     .stat-item { text-align:center; }
     .stat-num { font-size:1.8rem; font-weight:800; color:var(--primary); line-height:1.2; }
     .stat-label { font-size:.8rem; color:var(--muted); margin-top:0.35rem; font-weight:500; }
-    @media (max-width:640px) { .stats-bar { grid-template-columns:repeat(2,1fr); gap:1rem 0.5rem; padding:1.25rem 1rem; } .stat-num { font-size:1.4rem; } .stat-label { font-size:.72rem; } }
+    @media (max-width:640px) { .stats-bar { grid-template-columns:repeat(3,1fr); gap:0.75rem 0.5rem; padding:1.25rem 1rem; } .stat-num { font-size:1.4rem; } .stat-label { font-size:.72rem; } }
 
-    /* ── 价格对比卡片 ── */
-    .pricing-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; margin:2rem 0; }
-    @media (max-width:768px) { .pricing-cards { grid-template-columns:1fr; gap:1rem; } .pricing-card { padding:1.5rem 1.25rem; } }
-    .pricing-card { border:1.5px solid var(--border); border-radius:16px; padding:2rem 1.5rem; background:#fff; transition:transform .25s, box-shadow .25s, border-color .25s; position:relative; }
-    .pricing-card:hover { transform:translateY(-6px); box-shadow:0 16px 40px rgba(13,148,136,.12); border-color:#5eead4; }
-    .pricing-card.featured { border-color:var(--primary); box-shadow:0 4px 20px rgba(13,148,136,.1); }
-    .pricing-card.featured::before { content:""; position:absolute; top:-1px; left:-1px; right:-1px; height:4px; background:linear-gradient(90deg,#0d9488,#14b8a6); border-radius:14px 14px 0 0; }
-    .pricing-card-tag { position:absolute; top:-12px; right:1rem; background:var(--primary); color:#fff; font-size:.72rem; font-weight:700; padding:3px 12px; border-radius:999px; }
-    .pricing-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:0.4rem; }
-    .pricing-card .pc-price { font-size:1.5rem; font-weight:800; color:var(--primary); margin-bottom:0.5rem; }
-    .pricing-card .pc-price small { font-size:.8rem; color:var(--muted); font-weight:400; }
-    .pricing-card .pc-desc { font-size:.85rem; color:var(--muted); line-height:1.6; margin-bottom:1rem; }
-    .pricing-card .pc-features { list-style:none; padding:0; margin:0 0 1.25rem; }
-    .pricing-card .pc-features li { font-size:.82rem; color:#374151; padding:0.35rem 0 0.35rem 1.4rem; position:relative; }
-    .pricing-card .pc-features li::before { content:"✓"; position:absolute; left:0; color:var(--primary); font-weight:700; }
-    .pricing-card .pc-cta { display:block; text-align:center; width:100%; padding:0.7rem; border-radius:8px; font-weight:700; font-size:.9rem; text-decoration:none; transition:all .2s; border:1.5px solid var(--primary); color:var(--primary); background:transparent; cursor:pointer; }
-    .pricing-card .pc-cta:hover { background:var(--primary); color:#fff; }
-    .pricing-card.featured .pc-cta { background:var(--primary); color:#fff; }
-    .pricing-card.featured .pc-cta:hover { background:var(--primary-hover); }
-
+    
     /* ── FAQ 手风琴 ── */
     .faq-section { padding:1rem 0; }
     .faq-section h2 { font-size:1.5rem; font-weight:700; text-align:center; margin-bottom:1.5rem; }
@@ -591,7 +572,6 @@
           <div class="stats-bar reveal" data-page-node-id="TzU9vFLFxyH7uOaiFXWAVi">
             <div class="stat-item" data-page-node-id="dHHUy3ioIiz9HYGeuaEe5V"><div class="stat-num" data-i18n="statsSold" data-page-node-id="UAoODoHdB4vily04oeViEB">20+ Copies Sold</div><div class="stat-label" data-page-node-id="Xskx1SoSCg5k2YCT1XtVHC">★★★★★</div></div>
             <div class="stat-item" data-page-node-id="EqT5BsNaVFXMswqFz50G3u"><div class="stat-num" data-i18n="statsHosting" data-page-node-id="NO6kXWdL08EkHHOlqZrFqK">Free Hosting</div><div class="stat-label" data-page-node-id="J2eYo5XsQ5o0DlaYnkawkB">Cloudflare CDN</div></div>
-            <div class="stat-item" data-page-node-id="IDJo6BwfmnDhh4BASr4pGU"><div class="stat-num" data-i18n="statsLang" data-page-node-id="DHGNp39m9K0qGMzEPvJDIR">3 Languages</div><div class="stat-label" data-page-node-id="rBnf8io6Y3dJgQCYXO3gZ8">EN / 中 / 日</div></div>
             <div class="stat-item" data-page-node-id="IRht0wWHQzoaNWmRCfTESB"><div class="stat-num" data-i18n="statsSupport" data-page-node-id="MSqbTFGmpF0Ec0Y2qm9u9F">30-Day Support</div><div class="stat-label" data-page-node-id="ARPvjKHlRB0V9EFzValfsJ">Free Revisions</div></div>
           </div>
 
@@ -697,44 +677,6 @@
             Large orders: 10% deposit first, balance on delivery via WeChat / Alipay.
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- 价格对比卡片 -->
-    <div class="pricing-cards reveal" id="pricing" data-page-node-id="yDY7CFrC0M8LKzV7xMIOan">
-      <div class="pricing-card" data-page-node-id="y9BYEfdYnxQz0jY8CH17fY">
-        <h3 data-i18n="nameBank" data-page-node-id="gS4f9eZ2D2C0XcK6MAxF17">Question Bank</h3>
-        <div class="pc-price" data-cny="99" data-page-node-id="7Bf3aJdzdNWibdZ6wdxREy">from ¥99</div>
-        <p class="pc-desc" data-i18n="descBank" data-page-node-id="5zikhQoDRHwGK7HNG9jLMy">HTML practice page + Anki deck, priced by city & question count</p>
-        <ul class="pc-features" data-page-node-id="crDDxDYoJ0oeE37gluCOYf">
-          <li data-i18n="pcBankFeat1" data-page-node-id="yGzfziGxhQBHvfQynGc9bU">Online + offline practice</li>
-          <li data-i18n="pcBankFeat2" data-page-node-id="iqbAIWaVyxjVFlaRqcJM1i">Anki .apkg deck included</li>
-          <li data-i18n="pcBankFeat3" data-page-node-id="iseIuqspm3XiE8bDAacJ6o">City-customized questions</li>
-        </ul>
-        <a class="pc-cta" href="#buySection" data-i18n="buyNow" data-page-node-id="0i8OpQf5r7DdF0EZAUZXzm">Buy Now</a>
-      </div>
-      <div class="pricing-card featured" data-page-node-id="gBkeF0OdasSOINjrgkLmdH">
-        <span class="pricing-card-tag" data-i18n="pcPopular" data-page-node-id="vkBvftNsqPldg862fFZy8x">Popular</span>
-        <h3 data-i18n="nameBuild" data-page-node-id="8tGBF75IvibuBxvnCpST62">Website Building</h3>
-        <div class="pc-price" data-cny="299" data-page-node-id="KIo6MxcH26lnu6f9KCiF7l">from ¥299</div>
-        <p class="pc-desc" data-i18n="descBuild" data-page-node-id="dQ72dw8y0ptSzAN8jGtgvH">Personal site / blog / tool page, priced by complexity</p>
-        <ul class="pc-features" data-page-node-id="qppG6JaMIUrBShnFp0rXQK">
-          <li data-i18n="pcBuildFeat1" data-page-node-id="nEuExO30MzpcNb0v4al2t6">Domain + HTTPS setup</li>
-          <li data-i18n="pcBuildFeat2" data-page-node-id="8KumSiZSBM1It0BmMJpdeE">Free Cloudflare Pages hosting</li>
-          <li data-i18n="pcBuildFeat3" data-page-node-id="wofvE9qDhnIk00cr2DWEgM">SEO optimization included</li>
-        </ul>
-        <a class="pc-cta" href="#buySection" data-i18n="buyNow" data-page-node-id="Q4RdnCUVRiDPB0Z0hb0ago">Buy Now</a>
-      </div>
-      <div class="pricing-card" data-page-node-id="rKmZ4H89BgTTU83iHBxgm3">
-        <h3 data-i18n="nameHost" data-page-node-id="pSIgbacBEJiwV1r1ueZiMi">Admin Backend, Ready to Use</h3>
-        <div class="pc-price" data-cny="49" data-page-node-id="rqHf3CCciVsKam39ZtRXLT">from ¥49</div>
-        <p class="pc-desc" data-i18n="descHost" data-page-node-id="wlen4lsZoeVHCGd4gCjUPd">I host your material at a dedicated path — no GitHub/Cloudflare hassle</p>
-        <ul class="pc-features" data-page-node-id="JtX6avVBrsl6jyfzqccm0p">
-          <li data-i18n="pcHostFeat1" data-page-node-id="XgAZ7UymReBhUHMljEtai3">Ready-to-use admin panel</li>
-          <li data-i18n="pcHostFeat2" data-page-node-id="sr74KboCD6HCY4T7gJRERm">Orders & analytics managed</li>
-          <li data-i18n="pcHostFeat3" data-page-node-id="SlrLVwVmPrK6xZO2J8VUzb">No GitHub/CF setup needed</li>
-        </ul>
-        <a class="pc-cta" href="#buySection" data-i18n="buyNow" data-page-node-id="5L5xWUY4iDpZ09Z1Ci0mvG">Buy Now</a>
       </div>
     </div>
 
@@ -857,17 +799,13 @@
         ogTitle: 'Custom Question Banks & Websites | RCJ Lab',
         ogDesc: 'Custom question banks (Anki + offline HTML) and done-for-you websites for civil-service & job interviews. 20+ copies sold. Multilingual.',
         heroTitle: 'Custom Question Banks & Done-for-You Websites',
-        statsSold: '20+ Copies Sold', statsHosting: 'Free Hosting', statsLang: '3 Languages', statsSupport: '30-Day Support',
+        statsSold: '20+ Copies Sold', statsHosting: 'Free Hosting', statsSupport: '30-Day Support',
         navServices: 'Services', navShowcase: 'Showcase', navPricing: 'Pricing', navFaq: 'FAQ',
         faqTitle: 'Frequently Asked Questions',
         faqQ1: 'How long is the delivery time?', faqA1: 'Question banks are delivered within 3-5 days. Website building takes 5-10 days depending on complexity. You will receive progress updates along the way.',
         faqQ2: 'Do you offer revisions after delivery?', faqA2: 'Yes. All services include free revisions within 30 days of delivery. Just tell me what needs changing.',
         faqQ3: 'What payment methods are supported?', faqA3: 'Xianyu (闲鱼) for domestic buyers, PayPal for overseas. Large orders use a 10% deposit + balance-on-delivery model. The deposit is refundable.',
         faqQ4: 'Can I host and maintain the site myself?', faqA4: 'Absolutely — all sites are built on Cloudflare Pages (free hosting, global CDN). I teach you domain setup, DNS, and Cloudflare so you can maintain it yourself.',
-        pcPopular: 'Popular',
-        pcBankFeat1: 'Online + offline practice', pcBankFeat2: 'Anki .apkg deck included', pcBankFeat3: 'City-customized questions',
-        pcBuildFeat1: 'Domain + HTTPS setup', pcBuildFeat2: 'Free Cloudflare Pages hosting', pcBuildFeat3: 'SEO optimization included',
-        pcHostFeat1: 'Ready-to-use admin panel', pcHostFeat2: 'Orders & analytics managed', pcHostFeat3: 'No GitHub/CF setup needed',
         ctaTitle: 'Ready to start?', ctaBtn: 'Get Started',
         workTitle: 'Showcase', workBadge: 'My Work',
         workDinnerTitle: 'Dinner for You', workDinnerDesc: 'Invite-only couple order system. Cloudflare Pages + D1 + Resend, fully self-built.',
@@ -882,11 +820,8 @@
         scDesc: 'Question banks ｜ Past papers ｜ Master-class banks. Built from scratch by a student, running on Cloudflare Pages with 3 sub-sites.',
         scTag1: 'Question Bank Hub', scTag2: 'Past Papers', scTag3: 'Mistake Notebook',
         groupBank: 'Question Bank', priceBank: 'from ¥99', nameBank: 'Question Bank',
-        descBank: 'HTML practice page + Anki deck, priced by city & question count',
         groupBuild: 'Website', priceBuild: 'from ¥299', nameBuild: 'Website Building',
-        descBuild: 'Personal site / blog / tool page, priced by complexity',
         groupHost: 'Admin Backend', priceHost: 'from ¥49', nameHost: 'Admin Backend, Ready to Use',
-        descHost: 'Ready-to-use admin backend — orders & analytics managed for you. No GitHub/Cloudflare setup.',
         groupFree: 'Free', priceFree: 'Free',
         descFree: 'Sing a song, get the material free',
         singBadge: 'Free', singCta: 'Start (free)', singNote: 'No purchase needed · just sing', paidDivider: 'Paid options',
@@ -925,17 +860,13 @@
         ogTitle: 'オリジナル問題集＆サイト制作 | RCJ Lab',
         ogDesc: '公務員・面接対策向けオリジナル問題集とサイト制作代行。20件以上の販売実績。多言語対応。',
         heroTitle: 'オリジナル問題集 & サイト制作サービス',
-        statsSold: '20件以上販売', statsHosting: '無料ホスティング', statsLang: '3言語対応', statsSupport: '30日サポート',
+        statsSold: '20件以上販売', statsHosting: '無料ホスティング', statsSupport: '30日サポート',
         navServices: 'サービス', navShowcase: '作品', navPricing: '料金', navFaq: 'よくある質問',
         faqTitle: 'よくある質問',
         faqQ1: '納品までどのくらいかかりますか？', faqA1: '問題集は3〜5日以内、サイト制作は複雑さにより5〜10日です。進捗は随時お知らせします。',
         faqQ2: '納品後の修正は可能ですか？', faqA2: 'はい。すべてのサービスに30日間の無料修正が含まれます。変更点をお伝えください。',
         faqQ3: '対応している決済方法は？', faqA3: '国内は闲魚（シアンユ）、海外は PayPal です。高額サービスは内金10%＋残金納品時払い。内金は返金可能です。',
         faqQ4: '自分でホスティング・運用できますか？', faqA4: 'はい。すべて Cloudflare Pages（無料ホスティング・世界CDN）上に構築。ドメイン・DNS・Cloudflare の設定まで手ほどきします。',
-        pcPopular: '人気',
-        pcBankFeat1: 'オンライン+オフライン練習', pcBankFeat2: 'Ankiデッキ付き', pcBankFeat3: '都市別カスタム問題',
-        pcBuildFeat1: 'ドメイン+HTTPS設定', pcBuildFeat2: 'Cloudflare Pages無料ホスティング', pcBuildFeat3: 'SEO対策込み',
-        pcHostFeat1: 'すぐ使える管理パネル', pcHostFeat2: '注文・分析お任せ', pcHostFeat3: 'GitHub/CF設定不要',
         ctaTitle: '始めましょうか？', ctaBtn: '始める',
         workTitle: '作品', workBadge: '自分の作品',
         workDinnerTitle: 'Dinner for You', workDinnerDesc: '招待制カップル注文システム。Cloudflare Pages + D1 + Resend、完全自作。',
@@ -950,11 +881,8 @@
         scDesc: '問題集 ｜ 過去問 ｜ 名師問題集。受講生がゼロから自作し、Cloudflare Pages 上で稼働。サブサイト3つ付き。',
         scTag1: '問題集ナビ', scTag2: '過去問', scTag3: '間違いノート',
         groupBank: '問題集', priceBank: '¥99〜', nameBank: '問題集',
-        descBank: 'HTML 練習ページ + Anki デッキ。都市・問題数により価格変動',
         groupBuild: 'サイト制作', priceBuild: '¥299〜', nameBuild: 'サイト制作',
-        descBuild: '個人サイト / ブログ / ツールページ。機能の複雑さにより価格変動',
         groupHost: '管理バックエンド', priceHost: '¥49〜', nameHost: '管理バックエンド（すぐ使える）',
-        descHost: 'すぐ使える管理バックエンド。注文・サポート・分析を全部代行、自分で構築不要。',
         groupFree: '無料', priceFree: '無料',
         descFree: '歌を一曲いただくと資料を無料プレゼント',
         singBadge: '無料', singCta: '無料で始める', singNote: '購入不要・歌うだけ', paidDivider: '有料オプション',
@@ -993,17 +921,13 @@
         ogTitle: '定制题库与建站服务 | RCJ Lab',
         ogDesc: '深圳辅警等公职/面试考试题库定制（Anki卡组+离线刷题页），基于 Cloudflare 部署。已售 20+ 份。多语言支持。',
         heroTitle: '定制题库 & 一站式建站服务',
-        statsSold: '已售 20+ 份', statsHosting: '免费托管', statsLang: '三语支持', statsSupport: '30天售后',
+        statsSold: '已售 20+ 份', statsHosting: '免费托管', statsSupport: '30天售后',
         navServices: '服务', navShowcase: '案例', navPricing: '价格', navFaq: '常见问题',
         faqTitle: '常见问题',
         faqQ1: '交付周期要多久？', faqA1: '题库定制 3-5 天交付；建站服务 5-10 天，视功能复杂度而定。全程有进度同步。',
         faqQ2: '交付后还支持修改吗？', faqA2: '支持。所有服务交付后 30 天内免费修改，告诉我要改哪里就行。',
         faqQ3: '支持哪些付款方式？', faqA3: '国内闲鱼，海外 PayPal。大额服务支持定金 10% + 余款交付时付的模式，定金可退。',
         faqQ4: '我可以自己托管和维护吗？', faqA4: '当然可以。所有站点基于 Cloudflare Pages（免费托管、全球 CDN）。我会手把手教你域名、DNS、Cloudflare 配置，交付后你自己就能改。',
-        pcPopular: '热门',
-        pcBankFeat1: '在线+离线刷题', pcBankFeat2: '附 Anki 卡组', pcBankFeat3: '按城市定制题目',
-        pcBuildFeat1: '域名+HTTPS配置', pcBuildFeat2: 'Cloudflare 免费托管', pcBuildFeat3: 'SEO优化包含',
-        pcHostFeat1: '开箱即用管理后台', pcHostFeat2: '订单数据全托管', pcHostFeat3: '无需折腾 GitHub/CF',
         ctaTitle: '准备好开始了吗？', ctaBtn: '立即开始',
         workTitle: '作品展示', workBadge: '我的作品',
         workDinnerTitle: 'Dinner for You', workDinnerDesc: '邀请制情侣点餐系统。Cloudflare Pages + D1 + Resend，全自建。',
@@ -1018,11 +942,8 @@
         scDesc: '刷题库 ｜ 真题库 ｜ 名师题库。学员从 0 到 1 自己搭建，跑在 Cloudflare Pages 上，另含 3 个子站。',
         scTag1: '题库导航', scTag2: '历年真题', scTag3: '错题本',
         groupBank: '题库定制', priceBank: '¥99 起', nameBank: '题库定制',
-        descBank: 'HTML 刷题页为主，附 Anki 卡组，按城市/题量定价',
         groupBuild: '建站服务', priceBuild: '¥299 起', nameBuild: '纯建站',
-        descBuild: '个人站/博客/工具页，按功能复杂度定价',
         groupHost: '管理后台', priceHost: '¥49 起', nameHost: '管理后台，开箱易用',
-        descHost: '开箱即用的管理后台：订单、数据全托管，无需自己搭 GitHub/Cloudflare。',
         groupFree: '0元购', priceFree: '¥0',
         descFree: '唱一首歌，资料免费送',
         singBadge: '免费', singCta: '开始（免费）', singNote: '无需下单 · 唱就送', paidDivider: '付费选项',
@@ -1075,7 +996,7 @@
       return 'from $' + usd;
     }
     function updatePrices() {
-      document.querySelectorAll('.variant-price[data-cny], .pc-price[data-cny]').forEach(function (el) {
+      document.querySelectorAll('.variant-price[data-cny]').forEach(function (el) {
         el.textContent = priceLabel(parseFloat(el.getAttribute('data-cny')));
       });
     }
