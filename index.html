@@ -446,12 +446,6 @@
     .cf-strip .sep { opacity:.4; margin:0 8px; }
 
     /* ── 顶部导航增强：section 链接 ── */
-    .nav-sections { display:flex; align-items:center; gap:1rem; }
-    .nav-sections a { font-size:.85rem; color:var(--muted); text-decoration:none; transition:color .2s; position:relative; }
-    .nav-sections a:hover { color:var(--primary); }
-    .nav-sections a::after { content:""; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--primary); transition:width .2s; }
-    .nav-sections a:hover::after { width:100%; }
-    @media (max-width:768px) { .nav-sections { display:none; } }
 
     /* ── 移动端汉堡菜单 ── */
     .nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; border:none; background:none; }
@@ -507,7 +501,7 @@
     .cta-bar .cta-btn { display:inline-block; padding:0.9rem 2.5rem; background:#fff; color:var(--primary); border-radius:50px; font-weight:700; font-size:1.05rem; text-decoration:none; transition:transform .2s, box-shadow .2s; position:relative; }
     .cta-bar .cta-btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.15); }
     /* 锚点偏移（防止 fixed nav 遮挡） */
-    #services, #showcase, #pricing, #faq, #buySection { scroll-margin-top: 80px; }
+    #showcase, #faq, #buySection { scroll-margin-top: 80px; }
 
     /* ── 作品展示（统一卡片网格）── */
     .work-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.25rem; margin:1.5rem 0; }
@@ -527,12 +521,6 @@
   <div class="top-nav" data-page-node-id="iAY0AYYrFqrMr4hZIh6VN1">
     <div class="brand" data-page-node-id="sPw49iK9uU4Q7M8EZwRik0"><span data-page-node-id="afpdP4nqIfhXwjwGVfMasj">RCJ</span> <span data-i18n="brandSuffix" data-page-node-id="5DFH7FqbblvIAiprLo6WMU">定制服务</span></div>
     <div style="display:flex;align-items:center;gap:12px" data-page-node-id="PsomYiuKdG6uXmcyDnLKzp">
-      <nav class="nav-sections" data-page-node-id="StFWUTrXgy70d0zHLPjrTc">
-        <a href="#services" data-i18n="navServices" data-page-node-id="9568MYC8ZJolIjTrylzxj7">Services</a>
-        <a href="#showcase" data-i18n="navShowcase" data-page-node-id="jvvbwFlFX0g8sMoBzu0dwH">Showcase</a>
-        <a href="#pricing" data-i18n="navPricing" data-page-node-id="F9nQhfvq4MDT0a8BUAFZtA">Pricing</a>
-        <a href="#faq" data-i18n="navFaq" data-page-node-id="2waHQhVpfi3Gf4ODvQAelm">FAQ</a>
-      </nav>
       <a href="https://rcj-stack-9xe.pages.dev/" target="_blank" rel="noopener" data-i18n="liveDemo" style="font-weight:600;color:var(--primary);border:1px solid var(--primary);border-radius:999px;padding:4px 12px;font-size:.85rem;text-decoration:none" data-page-node-id="yjR1jInQt7H1xT2UlQhkzj">Live Demo</a>
       <div class="lang-switch" id="langSwitch" data-page-node-id="lwLgqcne5jwAEnhtE6r9Cu">
         <button type="button" id="langTrigger" class="lang-trigger" aria-haspopup="true" aria-expanded="false" data-page-node-id="o6WydNHD6pIEdMwDSeSCrv">
@@ -552,10 +540,6 @@
   <!-- 移动端导航面板 -->
   <div class="mobile-nav-backdrop" id="navBackdrop" data-page-node-id="v5mi5FKMT0OmNKkM10nUAO"></div>
   <div class="mobile-nav-panel" id="mobileNavPanel" data-page-node-id="KIuWMHMbMroN7yEwei2FW7">
-    <a href="#services" data-i18n="navServices" data-page-node-id="PCVehHthB6AU7tTTVRKEes">Services</a>
-    <a href="#showcase" data-i18n="navShowcase" data-page-node-id="1mRGaEDhisqc7rEdLhnKNx">Showcase</a>
-    <a href="#pricing" data-i18n="navPricing" data-page-node-id="cIyB7KrqavHdwomewPWFf4">Pricing</a>
-    <a href="#faq" data-i18n="navFaq" data-page-node-id="bvnjnRbgZ8gXZhE0Gf6EIY">FAQ</a>
     <a href="https://rcj-stack-9xe.pages.dev/" target="_blank" rel="noopener" data-i18n="liveDemo" data-page-node-id="alh6M2iHMiDli6ekPEH9lg">Live Demo</a>
     <a href="https://955827.xyz/" data-i18n="backHome" data-page-node-id="JEgpM7CsCKr5y8qgx4fdU5">首页</a>
   </div>
@@ -800,7 +784,6 @@
         ogDesc: 'Custom question banks (Anki + offline HTML) and done-for-you websites for civil-service & job interviews. 20+ copies sold. Multilingual.',
         heroTitle: 'Custom Question Banks & Done-for-You Websites',
         statsSold: '20+ Copies Sold', statsHosting: 'Free Hosting', statsSupport: '30-Day Support',
-        navServices: 'Services', navShowcase: 'Showcase', navPricing: 'Pricing', navFaq: 'FAQ',
         faqTitle: 'Frequently Asked Questions',
         faqQ1: 'How long is the delivery time?', faqA1: 'Question banks are delivered within 3-5 days. Website building takes 5-10 days depending on complexity. You will receive progress updates along the way.',
         faqQ2: 'Do you offer revisions after delivery?', faqA2: 'Yes. All services include free revisions within 30 days of delivery. Just tell me what needs changing.',
@@ -861,7 +844,6 @@
         ogDesc: '公務員・面接対策向けオリジナル問題集とサイト制作代行。20件以上の販売実績。多言語対応。',
         heroTitle: 'オリジナル問題集 & サイト制作サービス',
         statsSold: '20件以上販売', statsHosting: '無料ホスティング', statsSupport: '30日サポート',
-        navServices: 'サービス', navShowcase: '作品', navPricing: '料金', navFaq: 'よくある質問',
         faqTitle: 'よくある質問',
         faqQ1: '納品までどのくらいかかりますか？', faqA1: '問題集は3〜5日以内、サイト制作は複雑さにより5〜10日です。進捗は随時お知らせします。',
         faqQ2: '納品後の修正は可能ですか？', faqA2: 'はい。すべてのサービスに30日間の無料修正が含まれます。変更点をお伝えください。',
@@ -922,7 +904,6 @@
         ogDesc: '深圳辅警等公职/面试考试题库定制（Anki卡组+离线刷题页），基于 Cloudflare 部署。已售 20+ 份。多语言支持。',
         heroTitle: '定制题库 & 一站式建站服务',
         statsSold: '已售 20+ 份', statsHosting: '免费托管', statsSupport: '30天售后',
-        navServices: '服务', navShowcase: '案例', navPricing: '价格', navFaq: '常见问题',
         faqTitle: '常见问题',
         faqQ1: '交付周期要多久？', faqA1: '题库定制 3-5 天交付；建站服务 5-10 天，视功能复杂度而定。全程有进度同步。',
         faqQ2: '交付后还支持修改吗？', faqA2: '支持。所有服务交付后 30 天内免费修改，告诉我要改哪里就行。',
