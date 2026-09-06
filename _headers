@@ -1,0 +1,8 @@
+# rcj-shop 缓存策略（2026-09-06 部署优化）
+# HTML 不缓存，确保发布即时生效
+/*
+  Cache-Control: no-cache
+
+# 静态资源（图片等）长缓存
+/assets/*
+  Cache-Control: public, max-age=86400, must-revalidate
