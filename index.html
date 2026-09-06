@@ -1018,7 +1018,7 @@
       if (LANG === 'zh') {
         var base = '¥' + Number(cny).toFixed(2).replace(/\.00$/, '') + ' 起';
         // 账号只支持美元时，中文界面仍按人民币标价，但标注实际扣款币种，避免误会
-        return RCJ_CNY_ENABLED ? base : base + '（≈$' + usd + '）';
+        return base;
       }
       if (LANG === 'ja') return '$' + usd + '〜';
       return 'from $' + usd;
