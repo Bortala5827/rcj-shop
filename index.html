@@ -479,8 +479,7 @@
     .stat-icon { font-size:1.6rem; line-height:1; }
     .stat-num { font-size:1.8rem; font-weight:800; color:var(--primary); line-height:1.2; }
     .stat-label { font-size:.8rem; color:var(--muted); margin-top:0.35rem; font-weight:500; }
-    .reassurance { text-align:center; padding:1.25rem 1.5rem; margin:1.5rem 0; background:linear-gradient(135deg,#fefce8 0%,#fffbeb 100%); border:1px solid #fde68a; border-radius:var(--radius); font-size:.92rem; font-weight:600; color:#92400e; }
-    @media (max-width:640px) { .stats-bar { grid-template-columns:repeat(3,1fr); gap:0.75rem 0.5rem; padding:1.25rem 1rem; } .stat-num { font-size:1.4rem; } .stat-label { font-size:.72rem; } .stat-icon { font-size:1.3rem; } .reassurance { padding:1rem 1.25rem; font-size:.82rem; } .variant-fit, .variant-price-note { font-size:.72rem; } }
+    @media (max-width:640px) { .stats-bar { grid-template-columns:repeat(3,1fr); gap:0.75rem 0.5rem; padding:1.25rem 1rem; } .stat-num { font-size:1.4rem; } .stat-label { font-size:.72rem; } .stat-icon { font-size:1.3rem; } .variant-fit, .variant-price-note { font-size:.72rem; } }
 
     
     /* ── FAQ 手风琴 ── */
@@ -585,11 +584,7 @@
             </div>
           </div>
 
-          <!-- 安心承诺 -->
-          <div class="reassurance reveal" data-page-node-id="reassuranceBar">
-            <span data-i18n="reassurance" data-page-node-id="reassuranceText">Zero basis? No problem — hand-holding teaching, 3-day launch, money-back guarantee</span>
-          </div>
-
+          
           <div class="detail-section reveal" data-page-node-id="NClOAWFaBf13iJTigbgn6O">
             <h2 class="highlight-title" data-i18n="bankTitle" data-page-node-id="cx5k05s6vgsveiwYOluAg0">Question Bank</h2>
             <div class="feature-grid" data-page-node-id="F4PfnywMD3EPgJRZuLQOnY">
@@ -874,7 +869,6 @@
         priceNote: 'No hidden fees · Includes basic setup teaching',
         bankFit: 'Best for those who already have content — I just import your questions',
         buildFit: 'For complete beginners — site + hosting + video tutorials + 1-on-1 voice Q&A',
-        reassurance: 'Zero basis? No problem — hand-holding teaching, 3-day launch, money-back guarantee'
       },
       ja: {
         brandSuffix: 'カスタムサービス', backHome: 'ホーム', liveDemo: 'デモを見る', cfStrip: '届出不要 · グローバル高速アクセス · 即時公開 · 無料ホスティング',
@@ -938,7 +932,6 @@
         priceNote: '追加費用なし · 基本的な設定帶教を含む',
         bankFit: '問題はすでに持っている——インポートだけしてもらう',
         buildFit: '初心者向け——サイト＋ホスティング＋動画帶教＋1対1音声答疑',
-        reassurance: '初心者でも大丈夫——手把手帶教、3日で公開、返金保証'
       },
       zh: {
         brandSuffix: '定制服务', backHome: '返回首页', liveDemo: '查看演示', cfStrip: '免备案　·　全球高速访问　·　即开即用　·　免费托管',
@@ -1002,7 +995,6 @@
         priceNote: '无隐形消费 · 包含基础搭建教学',
         bankFit: '适合已有内容的客户——只需帮你导入题目',
         buildFit: '零基础专属——网站+托管+全套视频带教+1对1语音答疑',
-        reassurance: '零基础也不怕——手把手带教，3天上线，学不会全额退款'
       }
     };
     // 优先英文：首屏固定 EN（本地历史偏好只用于"用户已手动切过"的情景，默认仍是 EN）
