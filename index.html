@@ -9,14 +9,55 @@
   <link rel="alternate" hreflang="x-default" href="https://shop.955827.xyz/" />
   <meta name="description" data-i18n-content="metaDesc" content="Custom question banks (Anki + offline HTML) and done-for-you websites for civil-service & job interviews. Built on Cloudflare Pages. Multilingual support.">
   <meta name="keywords" content="custom question bank,interview prep,Anki deck,website building,Cloudflare Pages,civil service exam">
+  <meta name="author" content="RCJ9527">
+  <meta name="robots" content="index, follow">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shop.955827.xyz/">
+  <meta property="og:title" data-i18n-content="ogTitle" content="Custom Question Banks & Websites | RCJ Lab">
+  <meta property="og:description" data-i18n-content="ogDesc" content="Custom question banks (Anki + offline HTML) and done-for-you websites for civil-service & job interviews. 20+ copies sold. Multilingual.">
+  <meta property="og:image" content="https://shop.955827.xyz/assets/showcase-021100.jpg">
+  <meta property="og:site_name" content="RCJ Lab">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" data-i18n-content="ogTitle" content="Custom Question Banks & Websites | RCJ Lab">
+  <meta name="twitter:description" data-i18n-content="ogDesc" content="Custom question banks (Anki + offline HTML) and done-for-you websites for civil-service & job interviews. 20+ copies sold.">
+  <meta name="twitter:image" content="https://shop.955827.xyz/assets/showcase-021100.jpg">
+  <!-- Performance hints -->
+  <link rel="preconnect" href="https://955827.xyz">
+  <link rel="dns-prefetch" href="https://955827.xyz">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Custom Question Banks & Website Building",
-    "provider": { "@type": "Person", "name": "RCJ9527" },
+    "serviceType": "Custom question banks and website building",
+    "provider": { "@type": "Person", "name": "RCJ9527", "url": "https://955827.xyz/" },
     "description": "Custom question banks (Anki deck + offline HTML practice page) and done-for-you websites for civil-service and job-interview candidates.",
-    "url": "https://shop.955827.xyz/"
+    "url": "https://shop.955827.xyz/",
+    "areaServed": ["CN", "JP", "Global"],
+    "offers": [
+      { "@type": "Offer", "name": "Question Bank", "priceCurrency": "CNY", "price": "99" },
+      { "@type": "Offer", "name": "Website Building", "priceCurrency": "CNY", "price": "299" },
+      { "@type": "Offer", "name": "Hosting / Admin Backend", "priceCurrency": "CNY", "price": "49" }
+    ],
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "20" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What is the delivery time?", "acceptedAnswer": { "@type": "Answer", "text": "Question banks are delivered within 3-5 days; website building takes 5-10 days depending on complexity." } },
+      { "@type": "Question", "name": "Do you offer revisions?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, all services include free revisions within 30 days of delivery." } },
+      { "@type": "Question", "name": "What payment methods are supported?", "acceptedAnswer": { "@type": "Answer", "text": "Xianyu (闲鱼) for domestic buyers, PayPal for overseas. Large orders use a 10% deposit + balance model." } },
+      { "@type": "Question", "name": "Can I host it myself?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — all sites are built on Cloudflare Pages (free hosting). I teach you how to maintain it yourself." } },
+      { "@type": "Question", "name": "Is there a free option?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — sing a song via the Sing to Me feature and get materials for free, no purchase needed." } }
+    ]
   }
   </script>
   <style>
@@ -403,6 +444,101 @@
     .demo-banner a:hover { text-decoration:underline; }
     .cf-strip { background:#ecfdf5; border-bottom:1px solid #a7f3d0; color:#065f46; text-align:center; font-size:.82rem; font-weight:600; padding:7px 14px; letter-spacing:.02em; }
     .cf-strip .sep { opacity:.4; margin:0 8px; }
+
+    /* ── 顶部导航增强：section 链接 ── */
+    .nav-sections { display:flex; align-items:center; gap:1rem; }
+    .nav-sections a { font-size:.85rem; color:var(--muted); text-decoration:none; transition:color .2s; position:relative; }
+    .nav-sections a:hover { color:var(--primary); }
+    .nav-sections a::after { content:""; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--primary); transition:width .2s; }
+    .nav-sections a:hover::after { width:100%; }
+    @media (max-width:768px) { .nav-sections { display:none; } }
+
+    /* ── 移动端汉堡菜单 ── */
+    .nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; border:none; background:none; }
+    .nav-hamburger span { width:22px; height:2.5px; background:var(--text); border-radius:2px; transition:all .3s; }
+    .nav-hamburger.open span:nth-child(1) { transform:translateY(7.5px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity:0; }
+    .nav-hamburger.open span:nth-child(3) { transform:translateY(-7.5px) rotate(-45deg); }
+    @media (max-width:768px) { .nav-hamburger { display:flex; } }
+    .mobile-nav-panel { display:none; position:fixed; top:0; right:0; width:75%; max-width:320px; height:100vh; background:#fff; box-shadow:-4px 0 24px rgba(0,0,0,.12); z-index:500; flex-direction:column; padding:4rem 1.5rem 2rem; gap:0.5rem; transform:translateX(100%); transition:transform .3s cubic-bezier(.34,1.3,.5,1); }
+    .mobile-nav-panel.open { transform:translateX(0); display:flex; }
+    .mobile-nav-panel a { font-size:1.1rem; color:var(--text); text-decoration:none; padding:0.85rem 0; border-bottom:1px solid var(--border); transition:color .2s; }
+    .mobile-nav-panel a:hover { color:var(--primary); }
+    .mobile-nav-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:499; opacity:0; transition:opacity .3s; }
+    .mobile-nav-backdrop.open { display:block; opacity:1; }
+
+    /* ── 信任数据栏（stats bar）── */
+    .stats-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; padding:1.5rem 2rem; background:linear-gradient(135deg,#f0fdfa 0%,#ecfeff 100%); border:1px solid #ccfbf1; border-radius:var(--radius); margin:1.5rem 0; }
+    .stat-item { text-align:center; }
+    .stat-num { font-size:1.6rem; font-weight:800; color:var(--primary); line-height:1.2; }
+    .stat-label { font-size:.78rem; color:var(--muted); margin-top:0.25rem; }
+    @media (max-width:640px) { .stats-bar { grid-template-columns:repeat(2,1fr); gap:1rem 0.5rem; padding:1rem; } .stat-num { font-size:1.3rem; } }
+
+    /* ── 价格对比卡片 ── */
+    .pricing-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:1.5rem 0; }
+    @media (max-width:768px) { .pricing-cards { grid-template-columns:1fr; } }
+    .pricing-card { border:1.5px solid var(--border); border-radius:14px; padding:1.75rem 1.5rem; background:#fff; transition:transform .25s, box-shadow .25s, border-color .25s; position:relative; }
+    .pricing-card:hover { transform:translateY(-6px); box-shadow:0 16px 40px rgba(13,148,136,.12); border-color:#5eead4; }
+    .pricing-card.featured { border-color:var(--primary); box-shadow:0 4px 20px rgba(13,148,136,.1); }
+    .pricing-card.featured::before { content:""; position:absolute; top:-1px; left:-1px; right:-1px; height:4px; background:linear-gradient(90deg,#0d9488,#14b8a6); border-radius:14px 14px 0 0; }
+    .pricing-card-tag { position:absolute; top:-12px; right:1rem; background:var(--primary); color:#fff; font-size:.72rem; font-weight:700; padding:3px 12px; border-radius:999px; }
+    .pricing-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:0.4rem; }
+    .pricing-card .pc-price { font-size:1.5rem; font-weight:800; color:var(--primary); margin-bottom:0.5rem; }
+    .pricing-card .pc-price small { font-size:.8rem; color:var(--muted); font-weight:400; }
+    .pricing-card .pc-desc { font-size:.85rem; color:var(--muted); line-height:1.6; margin-bottom:1rem; }
+    .pricing-card .pc-features { list-style:none; padding:0; margin:0 0 1.25rem; }
+    .pricing-card .pc-features li { font-size:.82rem; color:#374151; padding:0.35rem 0 0.35rem 1.4rem; position:relative; }
+    .pricing-card .pc-features li::before { content:"✓"; position:absolute; left:0; color:var(--primary); font-weight:700; }
+    .pricing-card .pc-cta { display:block; text-align:center; width:100%; padding:0.7rem; border-radius:8px; font-weight:700; font-size:.9rem; text-decoration:none; transition:all .2s; border:1.5px solid var(--primary); color:var(--primary); background:transparent; cursor:pointer; }
+    .pricing-card .pc-cta:hover { background:var(--primary); color:#fff; }
+    .pricing-card.featured .pc-cta { background:var(--primary); color:#fff; }
+    .pricing-card.featured .pc-cta:hover { background:var(--primary-hover); }
+
+    /* ── FAQ 手风琴 ── */
+    .faq-section { padding:1rem 0; }
+    .faq-section h2 { font-size:1.5rem; font-weight:700; text-align:center; margin-bottom:1.5rem; }
+    .faq-item { border:1px solid var(--border); border-radius:10px; margin-bottom:0.75rem; overflow:hidden; transition:box-shadow .2s; }
+    .faq-item:hover { box-shadow:0 4px 16px rgba(0,0,0,.06); }
+    .faq-q { display:flex; align-items:center; justify-content:space-between; width:100%; padding:1rem 1.25rem; font-size:.95rem; font-weight:600; background:#fff; border:none; cursor:pointer; text-align:left; font-family:inherit; color:var(--text); transition:background .2s; }
+    .faq-q:hover { background:#f9fafb; }
+    .faq-q::after { content:"+"; font-size:1.3rem; color:var(--primary); transition:transform .25s; flex:none; margin-left:1rem; }
+    .faq-item.open .faq-q::after { transform:rotate(45deg); }
+    .faq-a { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+    .faq-a-inner { padding:0 1.25rem 1rem; font-size:.88rem; color:#4b5563; line-height:1.7; }
+    @media (max-width:640px) { .faq-q { font-size:.88rem; padding:0.85rem 1rem; } .faq-a-inner { font-size:.82rem; } }
+
+    /* ── 返回顶部按钮 ── */
+    .back-to-top { position:fixed; bottom:24px; right:20px; width:44px; height:44px; border-radius:50%; background:var(--primary); color:#fff; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.3rem; box-shadow:0 4px 16px rgba(13,148,136,.35); opacity:0; pointer-events:none; transition:opacity .3s, transform .2s; z-index:400; }
+    .back-to-top.show { opacity:1; pointer-events:auto; }
+    .back-to-top:hover { transform:translateY(-3px); background:var(--primary-hover); }
+    @media (max-width:480px) { .back-to-top { bottom:80px; right:16px; } }
+
+    /* ── 滚动渐入动画 ── */
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    @media (prefers-reduced-motion:reduce) { .reveal { opacity:1; transform:none; transition:none; } }
+
+    /* ── CTA 引导条 ── */
+    .cta-bar { text-align:center; padding:2rem 1rem; margin:1.5rem 0; background:linear-gradient(135deg,#0d9488 0%,#14b8a6 100%); border-radius:var(--radius); color:#fff; }
+    .cta-bar h3 { font-size:1.3rem; font-weight:700; margin-bottom:0.5rem; }
+    .cta-bar p { font-size:.88rem; opacity:.9; margin-bottom:1rem; }
+    .cta-bar .cta-btn { display:inline-block; padding:0.8rem 2rem; background:#fff; color:var(--primary); border-radius:50px; font-weight:700; font-size:1rem; text-decoration:none; transition:transform .2s, box-shadow .2s; }
+    .cta-bar .cta-btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.15); }
+    /* 锚点偏移（防止 fixed nav 遮挡） */
+    #services, #showcase, #pricing, #faq, #buySection { scroll-margin-top: 80px; }
+
+    /* ── 作品展示（统一卡片网格）── */
+    .work-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1rem; margin:1rem 0; }
+    .work-card { display:flex; flex-direction:column; gap:.35rem; padding:1.1rem 1.15rem; border:1px solid var(--border); border-radius:12px; background:#fff; text-decoration:none; color:inherit; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+    .work-card:hover { transform:translateY(-4px); box-shadow:0 12px 30px rgba(13,148,136,.12); border-color:#5eead4; }
+    .work-card-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:.2rem; }
+    .work-badge { font-size:.7rem; font-weight:700; color:#0f766e; background:#ccfbf1; padding:2px 9px; border-radius:6px; }
+    .work-visit { font-size:.85rem; color:var(--muted); transition:color .2s; text-decoration:none; }
+    .work-card:hover .work-visit { color:var(--primary); }
+    .work-title { font-weight:700; font-size:.95rem; color:var(--text); }
+    .work-domain { font-size:.74rem; color:var(--muted); font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    .work-desc { font-size:.82rem; color:#4b5563; line-height:1.55; margin:0; }
+    @media (max-width:640px) { .work-grid { grid-template-columns:1fr; gap:.7rem; } .work-card { padding:.9rem 1rem; } .work-title { font-size:.88rem; } .work-desc { font-size:.78rem; } }
   </style>
 </head>
 <body>
@@ -410,6 +546,12 @@
   <div class="top-nav">
     <div class="brand"><span>RCJ</span> <span data-i18n="brandSuffix">定制服务</span></div>
     <div style="display:flex;align-items:center;gap:12px">
+      <nav class="nav-sections">
+        <a href="#services" data-i18n="navServices">Services</a>
+        <a href="#showcase" data-i18n="navShowcase">Showcase</a>
+        <a href="#pricing" data-i18n="navPricing">Pricing</a>
+        <a href="#faq" data-i18n="navFaq">FAQ</a>
+      </nav>
       <a href="https://rcj-stack-9xe.pages.dev/" target="_blank" rel="noopener" data-i18n="liveDemo" style="font-weight:600;color:var(--primary);border:1px solid var(--primary);border-radius:999px;padding:4px 12px;font-size:.85rem;text-decoration:none">Live Demo</a>
       <div class="lang-switch" id="langSwitch">
         <button type="button" id="langTrigger" class="lang-trigger" aria-haspopup="true" aria-expanded="false">
@@ -421,8 +563,20 @@
           <button type="button" data-lang="ja">日本語</button>
         </div>
       </div>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><span></span><span></span><span></span></button>
       <a href="https://955827.xyz/" data-i18n="backHome">首页</a>
     </div>
+  </div>
+
+  <!-- 移动端导航面板 -->
+  <div class="mobile-nav-backdrop" id="navBackdrop"></div>
+  <div class="mobile-nav-panel" id="mobileNavPanel">
+    <a href="#services" data-i18n="navServices">Services</a>
+    <a href="#showcase" data-i18n="navShowcase">Showcase</a>
+    <a href="#pricing" data-i18n="navPricing">Pricing</a>
+    <a href="#faq" data-i18n="navFaq">FAQ</a>
+    <a href="https://rcj-stack-9xe.pages.dev/" target="_blank" rel="noopener" data-i18n="liveDemo">Live Demo</a>
+    <a href="https://955827.xyz/" data-i18n="backHome">首页</a>
   </div>
 
   <main>
@@ -431,15 +585,23 @@
       <div class="product-layout">
         <!-- 左侧详情 -->
         <div class="product-details">
-          <h1 class="product-title" data-i18n="heroTitle">Custom Question Banks &amp; Done-for-You Websites</h1>
+          <h1 class="product-title reveal" data-i18n="heroTitle">Custom Question Banks &amp; Done-for-You Websites</h1>
 
-          <div class="detail-section">
+          <!-- 信任数据栏 -->
+          <div class="stats-bar reveal">
+            <div class="stat-item"><div class="stat-num" data-i18n="statsSold">20+ Copies Sold</div><div class="stat-label">★★★★★</div></div>
+            <div class="stat-item"><div class="stat-num" data-i18n="statsHosting">Free Hosting</div><div class="stat-label">Cloudflare CDN</div></div>
+            <div class="stat-item"><div class="stat-num" data-i18n="statsLang">3 Languages</div><div class="stat-label">EN / 中 / 日</div></div>
+            <div class="stat-item"><div class="stat-num" data-i18n="statsSupport">30-Day Support</div><div class="stat-label">Free Revisions</div></div>
+          </div>
+
+          <div class="detail-section reveal" id="services">
             <h2 data-i18n="whatTitle">What is this?</h2>
             <p data-i18n-html="whatP1">A one-stop service for exam candidates: <strong>custom interview question banks</strong> + <strong>personal website building</strong>. No tech hassle — just open it and start practicing.</p>
             <p data-i18n="whatP2">Already built the Shenzhen auxiliary police interview bank (20+ copies sold). Other cities can be customized.</p>
           </div>
 
-          <div class="detail-section">
+          <div class="detail-section reveal">
             <h2 class="highlight-title" data-i18n="bankTitle">Question Bank</h2>
             <div class="feature-grid">
               <div class="feature-item" style="--accent:#059669;--icon-bg:#d1fae5;">
@@ -457,7 +619,7 @@
             </div>
           </div>
 
-          <div class="detail-section">
+          <div class="detail-section reveal">
             <h2 class="highlight-title" data-i18n="buildTitle">What's Included in Website Building?</h2>
             <ul>
               <li data-i18n="buildLi1">Personal site / blog / tool page</li>
@@ -468,57 +630,29 @@
               <li data-i18n="buildLi6">Hands-on teaching: domain &amp; DNS, Cloudflare, AI/API — you can maintain it yourself</li>
             </ul>
 
-            <!-- 学员作品展示（默认折叠，点击展开） -->
-            <div class="showcase" id="showcase" data-sc-key="rcj_sc_open">
-              <div class="sc-bar">
-                <button type="button" class="sc-toggle" id="scToggle" aria-expanded="false" aria-controls="scBody" data-i18n-title="scToggleTip" title="Expand / collapse student work">
-                  <span class="sc-caret">▸</span>
-                  <span class="sc-bar-badge" data-i18n="scBadge">Student Work</span>
-                  <span class="sc-bar-title" data-i18n="scTitle">Auxiliary Police Exam Toolkit</span>
-                  <span class="sc-bar-domain">021100.xyz</span>
-                </button>
-                <a class="sc-visit" href="https://021100.xyz/" target="_blank" rel="noopener" data-i18n="scOpen">Visit ↗</a>
-              </div>
-              <div class="sc-body" id="scBody" hidden>
-                <p class="showcase-sub" data-i18n="scSub">Domain &amp; DNS → Cloudflare → AI tools &amp; APIs — built entirely by the student:</p>
-                <a class="showcase-card" href="https://021100.xyz/" target="_blank" rel="noopener">
-                  <img class="sc-shot" src="assets/showcase-021100.jpg" alt="021100.xyz 学员作品截图" loading="lazy" width="1180" height="860">
-                  <p class="sc-desc" data-i18n="scDesc">Question banks ｜ Past papers ｜ Master-class banks. Built from scratch by a student, running on Cloudflare Pages with 3 sub-sites.</p>
-                  <div class="sc-tags">
-                    <span data-i18n="scTag1">Question Bank Hub</span>
-                    <span data-i18n="scTag2">Past Papers</span>
-                    <span data-i18n="scTag3">Mistake Notebook</span>
+            <!-- 作品展示 -->
+            <div class="detail-section reveal" id="showcase">
+              <h2 class="highlight-title" data-i18n="workTitle">作品展示</h2>
+              <div class="work-grid">
+                <!-- Dinner for You -->
+                <a class="work-card" href="https://dinner.955827.xyz/" target="_blank" rel="noopener">
+                  <div class="work-card-head">
+                    <span class="work-badge" data-i18n="workBadge">My Work</span>
+                    <span class="work-visit" data-i18n="scOpen">Visit ↗</span>
                   </div>
-                  <div class="sc-subs">
-                    <span class="sc-sub">ga.021100.xyz</span>
-                    <span class="sc-sub">zttk.021100.xyz</span>
-                    <span class="sc-sub">fgtk.021100.xyz</span>
-                  </div>
+                  <span class="work-title" data-i18n="workDinnerTitle">Dinner for You</span>
+                  <span class="work-domain">dinner.955827.xyz</span>
+                  <p class="work-desc" data-i18n="workDinnerDesc">Invite-only couple order system. Cloudflare Pages + D1 + Resend, fully self-built.</p>
                 </a>
-              </div>
-            </div>
-
-            <!-- 我的作品展示（默认折叠，点击展开） -->
-            <div class="showcase mine" id="showcase-mine" data-sc-key="rcj_sc_open_showcase_mine">
-              <div class="sc-bar">
-                <button type="button" class="sc-toggle" aria-expanded="false" aria-controls="scBodyMine" data-i18n-title="myToggleTip" title="Expand / collapse my work">
-                  <span class="sc-caret">▸</span>
-                  <span class="sc-bar-badge mine" data-i18n="myBadge">My Work</span>
-                  <span class="sc-bar-title" data-i18n="myTitle">Dinner for You · Couple Order System</span>
-                  <span class="sc-bar-domain">dinner.955827.xyz</span>
-                </button>
-                <a class="sc-visit" href="https://dinner.955827.xyz/" target="_blank" rel="noopener" data-i18n="scOpen">Visit ↗</a>
-              </div>
-              <div class="sc-body" id="scBodyMine" hidden>
-                <p class="showcase-sub" data-i18n="mySub">A self-built template project I run myself:</p>
-                <a class="showcase-card" href="https://dinner.955827.xyz/" target="_blank" rel="noopener">
-                  <img class="sc-shot" src="assets/showcase-dinner.jpg" alt="dinner.955827.xyz 我的作品截图" loading="lazy" width="1180" height="900">
-                  <p class="sc-desc" data-i18n="myDesc">Invite-only entry → pick a dish → record a song → email replies. Built with Cloudflare Pages + D1 + Resend.</p>
-                  <div class="sc-tags">
-                    <span data-i18n="myTag1">Invite-Only</span>
-                    <span data-i18n="myTag2">Cloudflare Pages</span>
-                    <span data-i18n="myTag3">Email Notify</span>
+                <!-- FaceTalk -->
+                <a class="work-card" href="https://facetalk.955827.xyz/" target="_blank" rel="noopener">
+                  <div class="work-card-head">
+                    <span class="work-badge" data-i18n="workBadge">My Work</span>
+                    <span class="work-visit" data-i18n="scOpen">Visit ↗</span>
                   </div>
+                  <span class="work-title" data-i18n="workFaceTalkTitle">FaceTalk</span>
+                  <span class="work-domain">facetalk.955827.xyz</span>
+                  <p class="work-desc" data-i18n="workFaceTalkDesc">60-second voice tryout + mutual match + burn-after-read. Interview practice, reimagined.</p>
                 </a>
               </div>
             </div>
@@ -596,6 +730,76 @@
         </div>
       </div>
     </div>
+
+    <!-- 价格对比卡片 -->
+    <div class="pricing-cards reveal" id="pricing">
+      <div class="pricing-card">
+        <h3 data-i18n="nameBank">Question Bank</h3>
+        <div class="pc-price" data-cny="99">from ¥99</div>
+        <p class="pc-desc" data-i18n="descBank">HTML practice page + Anki deck, priced by city & question count</p>
+        <ul class="pc-features">
+          <li data-i18n="pcBankFeat1">Online + offline practice</li>
+          <li data-i18n="pcBankFeat2">Anki .apkg deck included</li>
+          <li data-i18n="pcBankFeat3">City-customized questions</li>
+        </ul>
+        <a class="pc-cta" href="#buySection" data-i18n="buyNow">Buy Now</a>
+      </div>
+      <div class="pricing-card featured">
+        <span class="pricing-card-tag" data-i18n="pcPopular">Popular</span>
+        <h3 data-i18n="nameBuild">Website Building</h3>
+        <div class="pc-price" data-cny="299">from ¥299</div>
+        <p class="pc-desc" data-i18n="descBuild">Personal site / blog / tool page, priced by complexity</p>
+        <ul class="pc-features">
+          <li data-i18n="pcBuildFeat1">Domain + HTTPS setup</li>
+          <li data-i18n="pcBuildFeat2">Free Cloudflare Pages hosting</li>
+          <li data-i18n="pcBuildFeat3">SEO optimization included</li>
+        </ul>
+        <a class="pc-cta" href="#buySection" data-i18n="buyNow">Buy Now</a>
+      </div>
+      <div class="pricing-card">
+        <h3 data-i18n="nameHost">Admin Backend, Ready to Use</h3>
+        <div class="pc-price" data-cny="49">from ¥49</div>
+        <p class="pc-desc" data-i18n="descHost">I host your material at a dedicated path — no GitHub/Cloudflare hassle</p>
+        <ul class="pc-features">
+          <li data-i18n="pcHostFeat1">Ready-to-use admin panel</li>
+          <li data-i18n="pcHostFeat2">Orders & analytics managed</li>
+          <li data-i18n="pcHostFeat3">No GitHub/CF setup needed</li>
+        </ul>
+        <a class="pc-cta" href="#buySection" data-i18n="buyNow">Buy Now</a>
+      </div>
+    </div>
+
+    <!-- FAQ 手风琴 -->
+    <div class="faq-section reveal" id="faq">
+      <h2 data-i18n="faqTitle">Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <button type="button" class="faq-q" data-i18n="faqQ1">How long is the delivery time?</button>
+        <div class="faq-a"><div class="faq-a-inner" data-i18n="faqA1">Question banks are delivered within 3-5 days. Website building takes 5-10 days depending on complexity.</div></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q" data-i18n="faqQ2">Do you offer revisions after delivery?</button>
+        <div class="faq-a"><div class="faq-a-inner" data-i18n="faqA2">Yes. All services include free revisions within 30 days of delivery.</div></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q" data-i18n="faqQ3">What payment methods are supported?</button>
+        <div class="faq-a"><div class="faq-a-inner" data-i18n="faqA3">Xianyu for domestic, PayPal for overseas. 10% deposit + balance model.</div></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q" data-i18n="faqQ4">Can I host and maintain the site myself?</button>
+        <div class="faq-a"><div class="faq-a-inner" data-i18n="faqA4">Yes — all sites are on Cloudflare Pages. I teach you everything.</div></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q" data-i18n="faqQ5">Is there really a free option?</button>
+        <div class="faq-a"><div class="faq-a-inner" data-i18n="faqA5">Yes! Sing a song via Sing to Me and get materials free.</div></div>
+      </div>
+    </div>
+
+    <!-- CTA 引导条 -->
+    <div class="cta-bar reveal">
+      <h3 data-i18n="ctaTitle">Ready to start?</h3>
+      <p data-i18n="ctaDesc">Question banks, websites, or hosting — pick a plan and let's get building.</p>
+      <a class="cta-btn" href="#buySection" data-i18n="ctaBtn">Get Started</a>
+    </div>
   <!-- Sing to Me · 录音棚弹窗 -->
   <div class="sing-overlay" id="singOverlay">
     <div class="sing-booth">
@@ -671,6 +875,9 @@
     </div>
   </div>
 
+  <!-- 返回顶部按钮 -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
   <footer>
     <div class="cf-strip"><span data-i18n="cfStrip">☁️ Cloudflare 专属建站　·　免备案　·　全球加速　·　即开即用</span></div>
     <p>© RCJ9527</p>
@@ -684,7 +891,25 @@
         sandboxBanner: '⚠️ Sandbox — test mode, payments are NOT real',
         pageTitle: 'Custom Question Banks & Websites | RCJ Lab',
         metaDesc: 'Custom question banks (Anki + offline HTML) and done-for-you websites for civil-service & job interviews. Built on Cloudflare Pages. Multilingual support.',
+        ogTitle: 'Custom Question Banks & Websites | RCJ Lab',
+        ogDesc: 'Custom question banks (Anki + offline HTML) and done-for-you websites for civil-service & job interviews. 20+ copies sold. Multilingual.',
         heroTitle: 'Custom Question Banks & Done-for-You Websites',
+        statsSold: '20+ Copies Sold', statsHosting: 'Free Hosting', statsLang: '3 Languages', statsSupport: '30-Day Support',
+        navServices: 'Services', navShowcase: 'Showcase', navPricing: 'Pricing', navFaq: 'FAQ',
+        faqTitle: 'Frequently Asked Questions',
+        faqQ1: 'How long is the delivery time?', faqA1: 'Question banks are delivered within 3-5 days. Website building takes 5-10 days depending on complexity. You will receive progress updates along the way.',
+        faqQ2: 'Do you offer revisions after delivery?', faqA2: 'Yes. All services include free revisions within 30 days of delivery. Just tell me what needs changing.',
+        faqQ3: 'What payment methods are supported?', faqA3: 'Xianyu (闲鱼) for domestic buyers, PayPal for overseas. Large orders use a 10% deposit + balance-on-delivery model. The deposit is refundable.',
+        faqQ4: 'Can I host and maintain the site myself?', faqA4: 'Absolutely — all sites are built on Cloudflare Pages (free hosting, global CDN). I teach you domain setup, DNS, and Cloudflare so you can maintain it yourself.',
+        faqQ5: 'Is there really a free option?', faqA5: 'Yes! Use the "Sing to Me" feature — sing a song (≤90s), submit it, and get the materials for free. No purchase needed.',
+        pcPopular: 'Popular',
+        pcBankFeat1: 'Online + offline practice', pcBankFeat2: 'Anki .apkg deck included', pcBankFeat3: 'City-customized questions',
+        pcBuildFeat1: 'Domain + HTTPS setup', pcBuildFeat2: 'Free Cloudflare Pages hosting', pcBuildFeat3: 'SEO optimization included',
+        pcHostFeat1: 'Ready-to-use admin panel', pcHostFeat2: 'Orders & analytics managed', pcHostFeat3: 'No GitHub/CF setup needed',
+        ctaTitle: 'Ready to start?', ctaDesc: 'Question banks, websites, or hosting — pick a plan and let\u2019s get building.', ctaBtn: 'Get Started',
+        workTitle: 'Showcase', workBadge: 'My Work',
+        workDinnerTitle: 'Dinner for You', workDinnerDesc: 'Invite-only couple order system. Cloudflare Pages + D1 + Resend, fully self-built.',
+        workFaceTalkTitle: 'FaceTalk', workFaceTalkDesc: '60-second voice tryout + mutual match + burn-after-read. Interview practice, reimagined.',
         whatTitle: 'What is this?',
         whatP1: 'A one-stop service for exam candidates: <strong>custom interview question banks</strong> + <strong>personal website building</strong>. No tech hassle — just open it and start practicing.',
         whatP2: 'Already built the Shenzhen auxiliary police interview bank (20+ copies sold). Other cities can be customized.',
@@ -746,7 +971,25 @@
         sandboxBanner: '⚠️ サンドボックス — テストモード（決済は実際には行われません）',
         pageTitle: 'オリジナル問題集＆サイト制作 | RCJ Lab',
         metaDesc: '公務員・面接対策向けオリジナル問題集（Ankiデッキ＋オフラインHTML）とサイト制作代行サービス。Cloudflare Pagesで構築。多言語対応。',
+        ogTitle: 'オリジナル問題集＆サイト制作 | RCJ Lab',
+        ogDesc: '公務員・面接対策向けオリジナル問題集とサイト制作代行。20件以上の販売実績。多言語対応。',
         heroTitle: 'オリジナル問題集 & サイト制作サービス',
+        statsSold: '20件以上販売', statsHosting: '無料ホスティング', statsLang: '3言語対応', statsSupport: '30日サポート',
+        navServices: 'サービス', navShowcase: '作品', navPricing: '料金', navFaq: 'よくある質問',
+        faqTitle: 'よくある質問',
+        faqQ1: '納品までどのくらいかかりますか？', faqA1: '問題集は3〜5日以内、サイト制作は複雑さにより5〜10日です。進捗は随時お知らせします。',
+        faqQ2: '納品後の修正は可能ですか？', faqA2: 'はい。すべてのサービスに30日間の無料修正が含まれます。変更点をお伝えください。',
+        faqQ3: '対応している決済方法は？', faqA3: '国内は闲魚（シアンユ）、海外は PayPal です。高額サービスは内金10%＋残金納品時払い。内金は返金可能です。',
+        faqQ4: '自分でホスティング・運用できますか？', faqA4: 'はい。すべて Cloudflare Pages（無料ホスティング・世界CDN）上に構築。ドメイン・DNS・Cloudflare の設定まで手ほどきします。',
+        faqQ5: '本当に無料の選択肢はありますか？', faqA5: 'はい！「Sing to Me」機能で歌を一曲（90秒以内）録音・送信すると、資料を無料でプレゼントします。購入不要です。',
+        pcPopular: '人気',
+        pcBankFeat1: 'オンライン+オフライン練習', pcBankFeat2: 'Ankiデッキ付き', pcBankFeat3: '都市別カスタム問題',
+        pcBuildFeat1: 'ドメイン+HTTPS設定', pcBuildFeat2: 'Cloudflare Pages無料ホスティング', pcBuildFeat3: 'SEO対策込み',
+        pcHostFeat1: 'すぐ使える管理パネル', pcHostFeat2: '注文・分析お任せ', pcHostFeat3: 'GitHub/CF設定不要',
+        ctaTitle: '始めましょうか？', ctaDesc: '問題集、サイト制作、ホスティング — プランを選んで始めましょう。', ctaBtn: '始める',
+        workTitle: '作品', workBadge: '自分の作品',
+        workDinnerTitle: 'Dinner for You', workDinnerDesc: '招待制カップル注文システム。Cloudflare Pages + D1 + Resend、完全自作。',
+        workFaceTalkTitle: 'FaceTalk', workFaceTalkDesc: '60秒ボイス試聴＋相互マッチング＋閲覧後消滅。面接練習を再定義。',
         whatTitle: 'サービス内容',
         whatP1: '受験生向けのワンストップサービス：<strong>面接問題集のカスタム制作</strong> + <strong>個人サイト構築</strong>。面倒な設定は不要、すぐに使えます。',
         whatP2: '深圳輔警（補助警察）面接問題集は20件以上の販売実績。他都市も対応可能です。',
@@ -808,7 +1051,25 @@
         sandboxBanner: '⚠️ 沙箱模式 — 测试环境，付款不会产生真实扣款',
         pageTitle: '定制题库与建站服务 | RCJ Lab',
         metaDesc: '深圳辅警等公职/面试考试题库定制（Anki卡组+离线刷题页），基于 Cloudflare 部署（免备案），提供AI一站式建站与开箱即用的管理后台服务。',
+        ogTitle: '定制题库与建站服务 | RCJ Lab',
+        ogDesc: '深圳辅警等公职/面试考试题库定制（Anki卡组+离线刷题页），基于 Cloudflare 部署。已售 20+ 份。多语言支持。',
         heroTitle: '定制题库 & 一站式建站服务',
+        statsSold: '已售 20+ 份', statsHosting: '免费托管', statsLang: '三语支持', statsSupport: '30天售后',
+        navServices: '服务', navShowcase: '案例', navPricing: '价格', navFaq: '常见问题',
+        faqTitle: '常见问题',
+        faqQ1: '交付周期要多久？', faqA1: '题库定制 3-5 天交付；建站服务 5-10 天，视功能复杂度而定。全程有进度同步。',
+        faqQ2: '交付后还支持修改吗？', faqA2: '支持。所有服务交付后 30 天内免费修改，告诉我要改哪里就行。',
+        faqQ3: '支持哪些付款方式？', faqA3: '国内闲鱼，海外 PayPal。大额服务支持定金 10% + 余款交付时付的模式，定金可退。',
+        faqQ4: '我可以自己托管和维护吗？', faqA4: '当然可以。所有站点基于 Cloudflare Pages（免费托管、全球 CDN）。我会手把手教你域名、DNS、Cloudflare 配置，交付后你自己就能改。',
+        faqQ5: '真的有免费选项吗？', faqA5: '有！使用「Sing to Me」功能，唱一首歌（≤90秒）提交即可免费领取资料，无需购买。',
+        pcPopular: '热门',
+        pcBankFeat1: '在线+离线刷题', pcBankFeat2: '附 Anki 卡组', pcBankFeat3: '按城市定制题目',
+        pcBuildFeat1: '域名+HTTPS配置', pcBuildFeat2: 'Cloudflare 免费托管', pcBuildFeat3: 'SEO优化包含',
+        pcHostFeat1: '开箱即用管理后台', pcHostFeat2: '订单数据全托管', pcHostFeat3: '无需折腾 GitHub/CF',
+        ctaTitle: '准备好开始了吗？', ctaDesc: '题库、建站、托管 — 选一个方案，马上开始。', ctaBtn: '立即开始',
+        workTitle: '作品展示', workBadge: '我的作品',
+        workDinnerTitle: 'Dinner for You', workDinnerDesc: '邀请制情侣点餐系统。Cloudflare Pages + D1 + Resend，全自建。',
+        workFaceTalkTitle: 'FaceTalk', workFaceTalkDesc: '60秒试音 + 双向互选 + 阅后即焚。面试练习，重新定义。',
         whatTitle: '这是什么？',
         whatP1: '面向备考人的一站式服务：<strong>定制面试题库</strong> + <strong>个人网站搭建</strong>。不用自己折腾，拿来就能练、就能用。',
         whatP2: '已做深圳辅警面试题库，卖出 20+ 份，其他城市可定制。',
@@ -886,7 +1147,7 @@
       return 'from $' + usd;
     }
     function updatePrices() {
-      document.querySelectorAll('.variant-price[data-cny]').forEach(function (el) {
+      document.querySelectorAll('.variant-price[data-cny], .pc-price[data-cny]').forEach(function (el) {
         el.textContent = priceLabel(parseFloat(el.getAttribute('data-cny')));
       });
     }
@@ -1514,6 +1775,77 @@
   // 统一浏览埋点 → rcj-analytics-d1 (site=shop)，跨域 GET，失败静默不影响购物
   (function () {
     try { var _t = new Image(); _t.src = 'https://955827.xyz/api/track?site=shop&t=' + Date.now(); } catch (e) {}
+  })();
+
+  // ── 滚动渐入动画（IntersectionObserver）──
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('visible'); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+
+  // ── 平滑滚动导航 ──
+  (function () {
+    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var id = a.getAttribute('href');
+        if (id === '#' || id.length < 2) return;
+        var target = document.querySelector(id);
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+  })();
+
+  // ── FAQ 手风琴 ──
+  (function () {
+    document.querySelectorAll('.faq-q').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var item = btn.closest('.faq-item');
+        var ans = item.querySelector('.faq-a');
+        var isOpen = item.classList.contains('open');
+        // 先关闭所有
+        document.querySelectorAll('.faq-item.open').forEach(function (other) {
+          if (other !== item) { other.classList.remove('open'); other.querySelector('.faq-a').style.maxHeight = null; }
+        });
+        // 切换当前
+        if (isOpen) { item.classList.remove('open'); ans.style.maxHeight = null; }
+        else { item.classList.add('open'); ans.style.maxHeight = ans.scrollHeight + 'px'; }
+      });
+    });
+  })();
+
+  // ── 返回顶部按钮 ──
+  (function () {
+    var btn = document.getElementById('backToTop');
+    if (!btn) return;
+    window.addEventListener('scroll', function () {
+      btn.classList.toggle('show', window.scrollY > 400);
+    }, { passive: true });
+    btn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  })();
+
+  // ── 移动端汉堡菜单 ──
+  (function () {
+    var burger = document.getElementById('navHamburger');
+    var panel = document.getElementById('mobileNavPanel');
+    var backdrop = document.getElementById('navBackdrop');
+    if (!burger || !panel) return;
+    function toggleNav(open) {
+      var show = (open === undefined) ? !panel.classList.contains('open') : open;
+      panel.classList.toggle('open', show);
+      backdrop.classList.toggle('open', show);
+      burger.classList.toggle('open', show);
+      document.body.style.overflow = show ? 'hidden' : '';
+    }
+    burger.addEventListener('click', function () { toggleNav(); });
+    backdrop.addEventListener('click', function () { toggleNav(false); });
+    panel.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { toggleNav(false); }); });
   })();
   </script>
 </body>
