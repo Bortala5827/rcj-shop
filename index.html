@@ -624,7 +624,6 @@
             <ul>
               <li data-i18n="buildLi1">Personal site / blog / tool page</li>
               <li data-i18n="buildLi2">Domain binding + HTTPS setup</li>
-              <li data-i18n="buildLi3">Built on Cloudflare Pages — free hosting, global CDN</li>
               <li data-i18n="buildLi4">Basic SEO optimization</li>
               <li data-i18n="buildLi5">AI feature integration guidance (optional)</li>
               <li data-i18n="buildLi6">Hands-on teaching: domain &amp; DNS, Cloudflare, AI/API — you can maintain it yourself</li>
@@ -664,47 +663,34 @@
         <div class="sidebar" id="buySection">
           <!-- Sing to Me · 重点 -->
           <div class="sing-feature">
-            <span class="sf-badge" data-i18n="singBadge">Featured · Free</span>
-            <h3>Sing to Me 🎤</h3>
-            <p data-i18n="descFree">Sing a song, get the material free</p>
-            <button class="sing-feature-cta" onclick="(function(){var e=document.createEvent('Event');e.initEvent('opensingbooth',true,true);document.dispatchEvent(e);})()" data-i18n="singCta">Sing to Me — Start (Free)</button>
-            <p class="sf-note" data-i18n="singNote">No purchase needed · just sing</p>
+            <span class="sf-badge" data-i18n="singBadge">Free</span>
+            <h3>Sing to Me</h3>
+            <p data-i18n="descFree">Sing a song — get the material free</p>
+            <button class="sing-feature-cta" onclick="(function(){var e=document.createEvent('Event');e.initEvent('opensingbooth',true,true);document.dispatchEvent(e);})()" data-i18n="singCta">Start (free)</button>
           </div>
 
           <div class="paid-divider" data-i18n="paidDivider">Paid options</div>
 
           <div class="plan-group">
-            <div class="plan-group-title" data-i18n="groupBank">Question Bank</div>
             <div class="variant-card muted selected" onclick="selectVariant(this, '题库定制')">
               <div class="variant-price" data-cny="99">from ¥99</div>
-              <div>
-                <div class="variant-details" data-i18n="nameBank">Question Bank</div>
-                <div class="variant-desc" data-i18n="descBank">HTML practice page + Anki deck, priced by city &amp; question count</div>
-              </div>
+              <div class="variant-details" data-i18n="nameBank">Question Bank</div>
             </div>
           </div>
 
           <div class="plan-group">
-            <div class="plan-group-title" data-i18n="groupBuild">Website</div>
             <div class="variant-card muted" onclick="selectVariant(this, '纯建站')">
               <div class="variant-price" data-cny="299">from ¥299</div>
-              <div>
-                <div class="variant-details" data-i18n="nameBuild">Website Building</div>
-                <div class="variant-desc" data-i18n="descBuild">Personal site / blog / tool page, priced by complexity</div>
-              </div>
+              <div class="variant-details" data-i18n="nameBuild">Website Building</div>
             </div>
           </div>
 
 
 
           <div class="plan-group">
-            <div class="plan-group-title" data-i18n="groupHost">Hosting</div>
             <div class="variant-card muted" onclick="selectVariant(this, '代托管')">
               <div class="variant-price" data-cny="49">from ¥49</div>
-              <div>
-                <div class="variant-details" data-i18n="nameHost">管理后台，开箱易用</div>
-                <div class="variant-desc" data-i18n="descHost">I host your material at a dedicated path — no GitHub/Cloudflare hassle</div>
-              </div>
+              <div class="variant-details" data-i18n="nameHost">管理后台，开箱易用</div>
             </div>
           </div>
 
@@ -725,7 +711,7 @@
           </div>
 
           <div class="payment-notice" data-i18n="paymentNotice">
-            Large orders: pay a 10% deposit first, balance on delivery via WeChat/Alipay. Free option: sing a song.
+            Large orders: 10% deposit first, balance on delivery via WeChat / Alipay.
           </div>
         </div>
       </div>
@@ -937,12 +923,12 @@
         descHost: 'Ready-to-use admin backend — orders & analytics managed for you. No GitHub/Cloudflare setup.',
         groupFree: 'Free', priceFree: 'Free',
         descFree: 'Sing a song, get the material free',
-        singBadge: 'Featured · Free', singCta: 'Sing to Me — Start (Free)', singNote: 'No purchase needed · just sing', paidDivider: 'Paid options',
+        singBadge: 'Free', singCta: 'Start (free)', singNote: 'No purchase needed · just sing', paidDivider: 'Paid options',
         buyNow: 'Buy Now',
         specDetails: 'Details', specDelivery: 'Delivery', specDeliveryV: 'Cloud drive / Email',
         specPayment: 'Payment', specPaymentV: 'Deposit + Balance',
         specHosting: 'Hosting', specSupport: 'Support', specSupportV: '30 days',
-        paymentNotice: 'Large orders: pay a 10% deposit first, balance on delivery via WeChat/Alipay. Free option: sing a song.',
+        paymentNotice: 'Large orders: 10% deposit first, balance on delivery via WeChat / Alipay.',
         singFree: 'Free',
         singHead: 'Sing me a song — get the material free',
         singMicTitle: 'Start recording', singReady: "Tap the mic when you're ready",
@@ -1017,12 +1003,12 @@
         descHost: 'すぐ使える管理バックエンド。注文・サポート・分析を全部代行、自分で構築不要。',
         groupFree: '無料', priceFree: '無料',
         descFree: '歌を一曲いただくと資料を無料プレゼント',
-        singBadge: 'おすすめ・無料', singCta: 'Sing to Me を始める（無料）', singNote: '購入不要・歌うだけ', paidDivider: '有料オプション',
+        singBadge: '無料', singCta: '無料で始める', singNote: '購入不要・歌うだけ', paidDivider: '有料オプション',
         buyNow: '今すぐ購入',
         specDetails: '詳細', specDelivery: '納品方法', specDeliveryV: 'クラウド / メール',
         specPayment: 'お支払い', specPaymentV: '内金 + 残金',
         specHosting: 'ホスティング', specSupport: 'サポート', specSupportV: '30日間',
-        paymentNotice: '高額サービスは内金10%を先払い、残金は納品時に WeChat / 支付宝 でお支払い。無料プランは歌を一曲。',
+        paymentNotice: '高額サービスは内金10%を先払い、残金は納品時に WeChat / 支付宝 でお支払い。',
         singFree: '無料',
         singHead: '歌っていただけたら資料をプレゼント',
         singMicTitle: '録音開始', singReady: '準備ができたらマイクをタップ',
@@ -1097,12 +1083,12 @@
         descHost: '开箱即用的管理后台：订单、数据全托管，无需自己搭 GitHub/Cloudflare。',
         groupFree: '0元购', priceFree: '¥0',
         descFree: '唱一首歌，资料免费送',
-        singBadge: '重点推荐 · 0元购', singCta: '开始 Sing to Me（免费）', singNote: '无需下单 · 唱就送', paidDivider: '付费选项',
+        singBadge: '免费', singCta: '开始（免费）', singNote: '无需下单 · 唱就送', paidDivider: '付费选项',
         buyNow: '立即购买',
         specDetails: '交付详情', specDelivery: '交付方式', specDeliveryV: '网盘/邮箱',
         specPayment: '付款方式', specPaymentV: '定金 + 余款',
         specHosting: '建站托管', specSupport: '售后支持', specSupportV: '30天',
-        paymentNotice: '大额服务先付定金（10%），余款交付时微信/支付宝收取；0元购为我唱首歌即可领资料。',
+        paymentNotice: '大额服务先付定金（10%），余款交付时微信/支付宝收取。',
         singFree: '0元购',
         singHead: '唱一首歌，资料免费送',
         singMicTitle: '开始录音', singReady: '准备好就点击麦克风',
