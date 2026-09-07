@@ -875,6 +875,7 @@
         chatPh: 'Type a message...', chatSend: 'Send',
         chatGreeting: 'Hi! How can I help you?',
         chatHint: 'Ask about question banks, website building, etc.',
+        humanTrigger: 'human|agent|operator|real person|live chat|support',
         createFail: 'Failed to create order', netErr: 'Network error: ',
         xianyuLabel: 'Buy on Xianyu',
         payOverseas: 'Overseas? Pay with PayPal',
@@ -944,6 +945,7 @@
         chatPh: 'メッセージを入力...', chatSend: '送信',
         chatGreeting: 'こんにちは！何かお手伝いできることはありますか？',
         chatHint: '問題集制作・サイト制作などについてお気軽にどうぞ',
+        humanTrigger: '人間|オペレーター|担当者|スタッフ|サポート|生身|リアル|電話|human|agent|operator|live chat|support',
         createFail: '注文の作成に失敗しました', netErr: '通信エラー：',
         xianyuLabel: '闲魚（シアンユ）で購入',
         payOverseas: '海外の方は PayPal で',
@@ -1013,6 +1015,7 @@
         chatPh: '输入消息…', chatSend: '发送',
         chatGreeting: '你好！有什么可以帮你的？',
         chatHint: '可以咨询题库定制、建站服务等问题',
+        humanTrigger: '人工|真人|客服|找人|转人工|人|电话|human|agent|operator|live chat|support',
         createFail: '创建订单失败', netErr: '网络错误：',
         xianyuLabel: '去闲鱼购买',
         payOverseas: '海外用户？用 PayPal 支付',
@@ -1610,7 +1613,8 @@
       // 用户消息含"转人工"意图 → 显示按钮（一旦显示就保持显示）
       function maybeShowHuman(text) {
         if (!text) return;
-        var re = /(人工|真人|客服|找\s*人|转\s*人工|human|agent|operator|real\s*person|live\s*chat|人間|オペレーター|サポート|担当者|スタッフ)/i;
+        var pattern = t('humanTrigger', 'human|agent|operator|live chat|support');
+        var re = new RegExp('(' + pattern + ')', 'i');
         if (re.test(text)) humanBtn.classList.add('show');
       }
 
