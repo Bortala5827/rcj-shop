@@ -1504,6 +1504,8 @@
       } catch(e) {}
 
       closeBtn.addEventListener('click', togglePanel);
+      // 暴露给外部调用（AI 转人工时直接唤起，不依赖 click 事件）
+      fab._togglePanel = togglePanel;
 
       async function handleSend() {
         var text = inputEl.value.trim();
@@ -1659,7 +1661,11 @@
         humanBtn.classList.add('show');
         closePanel();
         var humanFab = document.querySelector('.rcj-chat-fab');
-        if (humanFab) humanFab.click();
+        if (humanFab) {
+          // 直接调 supportly 的 togglePanel（FAB 无 click 监听，只能靠拖拽逻辑触发）
+          if (typeof humanFab._togglePanel === 'function') humanFab._togglePanel();
+          else humanFab.click();
+        }
       });
 
       async function handleSend() {
