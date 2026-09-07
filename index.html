@@ -846,6 +846,10 @@
         faqQ2: 'Do you offer revisions after delivery?', faqA2: 'Yes. All services include free revisions within 30 days of delivery. Just tell me what needs changing.',
         faqQ3: 'What payment methods are supported?', faqA3: 'Xianyu (闲鱼) for domestic buyers, PayPal for overseas. Large orders use a 10% deposit + balance-on-delivery model. The deposit is refundable.',
         faqQ4: 'Can I host and maintain the site myself?', faqA4: 'Absolutely. I deliver everything on a free, globally-fast platform with no server management needed. I hand-hold you through domain setup and any tweaks — you can maintain it yourself after delivery.',
+        aiFabTip: 'Ask AI', aiTitle: 'Shopping Advisor', aiSub: 'Pricing · delivery · payment',
+        aiWelcome: 'Hi! Ask me about pricing, delivery or payment — plain answers, no jargon.',
+        aiPh: 'Ask about pricing, delivery…', aiSend: 'Send',
+        aiHuman: 'Talk to a human', aiErr: 'Something went wrong. Please try again, or talk to a human.',
         ctaTitle: 'Ready to start?', ctaBtn: 'Get Started',
         workTitle: 'Showcase', workBadge: 'My Work',
         workDinnerTitle: 'Dinner for You', workDinnerDesc: 'A couples-only ordering system that real users interact with daily. Built from scratch — zero to live, step by step.',
@@ -911,6 +915,10 @@
         faqQ2: '納品後の修正は可能ですか？', faqA2: 'はい。すべてのサービスに30日間の無料修正が含まれます。変更点をお伝えください。',
         faqQ3: '対応している決済方法は？', faqA3: '国内は闲魚（シアンユ）、海外は PayPal です。高額サービスは内金10%＋残金納品時払い。内金は返金可能です。',
         faqQ4: '自分でホスティング・運用できますか？', faqA4: 'はい。無料で世界中から高速にアクセスできるプラットフォームに構築于いて、サーバー管理は不要です。ドメイン設定から修正まで、一から手把手で帶教します。',
+        aiFabTip: 'AI に聞く', aiTitle: '購入アドバイザー', aiSub: '価格・納品・支払い',
+        aiWelcome: 'こんにちは！価格・納品・支払いについて、わかりやすくお答えします。',
+        aiPh: '価格や納品について質問…', aiSend: '送信',
+        aiHuman: '担当者に相談', aiErr: 'エラーが発生しました。もう一度お試しいただくか、担当者にご相談ください。',
         ctaTitle: '始めましょうか？', ctaBtn: '始める',
         workTitle: '作品', workBadge: '自分の作品',
         workDinnerTitle: 'Dinner for You', workDinnerDesc: 'カップル専用注文システム。実際に_daily_使われている。ゼロから1つ1つ構築した。',
@@ -976,6 +984,10 @@
         faqQ2: '交付后还支持修改吗？', faqA2: '支持。所有服务交付后 30 天内免费修改，告诉我要改哪里就行。',
         faqQ3: '支持哪些付款方式？', faqA3: '国内闲鱼，海外 PayPal。大额服务支持定金 10% + 余款交付时付的模式，定金可退。',
         faqQ4: '我可以自己托管和维护吗？', faqA4: '当然可以。我交付在免费、全球高速的平台上，不用你管服务器。从域名绑定到后期微调，我手把手教，交付后你自己就能改。',
+        aiFabTip: '问 AI', aiTitle: '选品顾问', aiSub: '价格 · 交付 · 付款',
+        aiWelcome: '你好！价格、交付、付款都可以问我，说人话，不绕弯。',
+        aiPh: '问问价格、交付…', aiSend: '发送',
+        aiHuman: '转人工客服', aiErr: '出了点问题，可以重试，或者直接转人工客服。',
         ctaTitle: '准备好开始了吗？', ctaBtn: '立即开始',
         workTitle: '作品展示', workBadge: '我的作品',
         workDinnerTitle: 'Dinner for You', workDinnerDesc: '情侣专属点餐系统，真实用户每天在用。从零搭建，一步步做到上线——可展示的完整案例。',
@@ -1531,6 +1543,170 @@
       inputEl.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
       });
+    })();
+
+    // ===== AI 选品顾问 Widget（调主站 ai-chat 网关，scene=shop）=====
+    (function () {
+      var AI_API = 'https://955827.xyz/api/ai-chat';
+      var AI_SCENE = 'shop';
+      var MAX_TURNS = 8;
+
+      function curLang() {
+        try { return (typeof LANG !== 'undefined' && LANG) || document.documentElement.lang || 'en'; }
+        catch (e) { return 'en'; }
+      }
+      function tx(k, fb) {
+        try { var d = I18N[curLang()]; return (d && d[k]) || fb; } catch (e) { return fb; }
+      }
+
+      var css = document.createElement('style');
+      css.textContent = `
+        .rcj-ai-fab { position: fixed; bottom: 84px; left: 18px; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #4f46e5, #6366f1); color: #fff; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(79,70,229,.4); z-index: 9998; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; letter-spacing: .02em; transition: transform .25s, box-shadow .25s; }
+        .rcj-ai-fab:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 6px 24px rgba(79,70,229,.5); }
+        .rcj-ai-fab .rcj-ai-tip { position: absolute; left: 60px; top: 50%; transform: translateY(-50%); background: linear-gradient(135deg, #4f46e5, #6366f1); color: #fff; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s, left .2s; }
+        .rcj-ai-fab:hover .rcj-ai-tip { opacity: 1; left: 64px; }
+        .rcj-ai-panel { position: fixed; bottom: 158px; left: 18px; width: 360px; max-width: calc(100vw - 36px); height: 480px; max-height: calc(100vh - 220px); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); border-radius: 18px; box-shadow: 0 16px 48px rgba(0,0,0,.15); z-index: 9997; display: none; flex-direction: column; overflow: hidden; border: 1px solid #e5e7eb; animation: rcjAiIn .25s cubic-bezier(.34,1.3,.5,1) both; }
+        .rcj-ai-panel.show { display: flex; }
+        @keyframes rcjAiIn { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .rcj-ai-header { background: linear-gradient(135deg, #4f46e5, #6366f1); color: #fff; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+        .rcj-ai-header-title { font-weight: 700; font-size: 15px; }
+        .rcj-ai-header-sub { font-size: 11px; opacity: .9; margin-top: 2px; }
+        .rcj-ai-close { background: rgba(255,255,255,.15); border: none; color: #fff; font-size: 15px; cursor: pointer; padding: 2px 8px; border-radius: 6px; }
+        .rcj-ai-close:hover { background: rgba(255,255,255,.28); }
+        .rcj-ai-messages { flex: 1; overflow-y: auto; padding: 16px; background: #f9fafb; }
+        .rcj-ai-msg { margin-bottom: 12px; display: flex; }
+        .rcj-ai-msg.user { justify-content: flex-end; }
+        .rcj-ai-bubble { max-width: 82%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.6; word-wrap: break-word; white-space: pre-wrap; }
+        .rcj-ai-msg.user .rcj-ai-bubble { background: #4f46e5; color: #fff; border-bottom-right-radius: 4px; }
+        .rcj-ai-msg.agent .rcj-ai-bubble { background: #fff; color: #111827; border: 1px solid #e5e7eb; border-bottom-left-radius: 4px; }
+        .rcj-ai-msg.system .rcj-ai-bubble { background: #eef2ff; color: #4338ca; font-size: 12px; text-align: center; }
+        .rcj-ai-foot { padding: 10px 12px; border-top: 1px solid #e5e7eb; background: #fff; }
+        .rcj-ai-row { display: flex; gap: 8px; }
+        .rcj-ai-foot input { flex: 1; padding: 10px 14px; border: 1px solid #e5e7eb; border-radius: 24px; font-size: 14px; outline: none; }
+        .rcj-ai-foot input:focus { border-color: #6366f1; }
+        .rcj-ai-send { background: #4f46e5; color: #fff; border: none; border-radius: 24px; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer; }
+        .rcj-ai-send:disabled { opacity: .5; cursor: not-allowed; }
+        .rcj-ai-human { width: 100%; background: #fff; color: #4f46e5; border: 1px solid #c7d2fe; border-radius: 10px; padding: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+        .rcj-ai-human:hover { background: #eef2ff; }
+        @media (max-width: 640px) { .rcj-ai-panel { left: 12px; right: 12px; width: auto; max-width: none; } }
+      `;
+      document.head.appendChild(css);
+
+      // ---- DOM ----
+      var fab = document.createElement('button');
+      fab.className = 'rcj-ai-fab';
+      fab.type = 'button';
+      fab.innerHTML = 'AI<span class="rcj-ai-tip"></span>';
+      document.body.appendChild(fab);
+
+      var panel = document.createElement('div');
+      panel.className = 'rcj-ai-panel';
+      panel.innerHTML = `
+        <div class="rcj-ai-header">
+          <div>
+            <div class="rcj-ai-header-title"></div>
+            <div class="rcj-ai-header-sub"></div>
+          </div>
+          <button class="rcj-ai-close" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="rcj-ai-messages"></div>
+        <div class="rcj-ai-foot">
+          <div class="rcj-ai-row">
+            <input type="text" />
+            <button class="rcj-ai-send" type="button"></button>
+          </div>
+          <button class="rcj-ai-human" type="button"></button>
+        </div>
+      `;
+      document.body.appendChild(panel);
+
+      var msgBox = panel.querySelector('.rcj-ai-messages');
+      var inputEl = panel.querySelector('input');
+      var sendBtn = panel.querySelector('.rcj-ai-send');
+      var history = [];
+
+      function refreshStatic() {
+        fab.querySelector('.rcj-ai-tip').textContent = tx('aiFabTip', 'Ask AI');
+        panel.querySelector('.rcj-ai-header-title').textContent = tx('aiTitle', 'Shopping Advisor');
+        panel.querySelector('.rcj-ai-header-sub').textContent = tx('aiSub', 'Pricing · delivery · payment');
+        inputEl.placeholder = tx('aiPh', 'Ask about pricing, delivery…');
+        sendBtn.textContent = tx('aiSend', 'Send');
+        panel.querySelector('.rcj-ai-human').textContent = tx('aiHuman', 'Talk to a human');
+      }
+
+      function addMsg(text, who) {
+        var d = document.createElement('div');
+        d.className = 'rcj-ai-msg ' + who;
+        var b = document.createElement('div');
+        b.className = 'rcj-ai-bubble';
+        b.textContent = text;
+        d.appendChild(b);
+        msgBox.appendChild(d);
+        msgBox.scrollTop = msgBox.scrollHeight;
+        return d;
+      }
+
+      function openPanel() {
+        refreshStatic();
+        panel.classList.add('show');
+        if (!history.length) addMsg(tx('aiWelcome', 'Hi! Ask me about pricing, delivery or payment.'), 'agent');
+        inputEl.focus();
+      }
+      function closePanel() { panel.classList.remove('show'); }
+
+      fab.addEventListener('click', function () {
+        if (panel.classList.contains('show')) closePanel(); else openPanel();
+      });
+      panel.querySelector('.rcj-ai-close').addEventListener('click', closePanel);
+
+      // 转人工：收起 AI 面板并唤起人工客服（supportly）
+      panel.querySelector('.rcj-ai-human').addEventListener('click', function () {
+        closePanel();
+        var humanFab = document.querySelector('.rcj-chat-fab');
+        if (humanFab) humanFab.click();
+      });
+
+      async function handleSend() {
+        var text = (inputEl.value || '').trim();
+        if (!text) return;
+        inputEl.value = '';
+        addMsg(text, 'user');
+        history.push({ role: 'user', content: text });
+
+        var typing = addMsg('…', 'agent');
+        sendBtn.disabled = true;
+        try {
+          var res = await fetch(AI_API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              scene: AI_SCENE,
+              messages: history.slice(-MAX_TURNS)
+            })
+          });
+          var data = await res.json();
+          typing.remove();
+          if (data && data.reply) {
+            addMsg(data.reply, 'agent');
+            history.push({ role: 'assistant', content: data.reply });
+          } else {
+            addMsg(tx('aiErr', 'Something went wrong. Please try again, or talk to a human.'), 'system');
+          }
+        } catch (e) {
+          typing.remove();
+          addMsg(tx('aiErr', 'Something went wrong. Please try again, or talk to a human.'), 'system');
+        }
+        sendBtn.disabled = false;
+        inputEl.focus();
+      }
+
+      sendBtn.addEventListener('click', handleSend);
+      inputEl.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
+      });
+
+      // 页面语言切换后，重开面板即刷新文案
+      refreshStatic();
     })();
   </script>
   <script>
