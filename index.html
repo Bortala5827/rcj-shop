@@ -463,18 +463,6 @@
     /* ── 顶部导航增强：section 链接 ── */
 
     /* ── 移动端汉堡菜单 ── */
-    .nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; border:none; background:none; }
-    .nav-hamburger span { width:22px; height:2.5px; background:var(--text); border-radius:2px; transition:all .3s; }
-    .nav-hamburger.open span:nth-child(1) { transform:translateY(7.5px) rotate(45deg); }
-    .nav-hamburger.open span:nth-child(2) { opacity:0; }
-    .nav-hamburger.open span:nth-child(3) { transform:translateY(-7.5px) rotate(-45deg); }
-    @media (max-width:768px) { .nav-hamburger { display:flex; } }
-    .mobile-nav-panel { display:none; position:fixed; top:0; right:0; width:75%; max-width:320px; height:100vh; background:#fff; box-shadow:-4px 0 24px rgba(0,0,0,.12); z-index:500; flex-direction:column; padding:4rem 1.5rem 2rem; gap:0.5rem; transform:translateX(100%); transition:transform .3s cubic-bezier(.34,1.3,.5,1); }
-    .mobile-nav-panel.open { transform:translateX(0); display:flex; }
-    .mobile-nav-panel a { font-size:1.1rem; color:var(--text); text-decoration:none; padding:0.85rem 0; border-bottom:1px solid var(--border); transition:color .2s; }
-    .mobile-nav-panel a:hover { color:var(--primary); }
-    .mobile-nav-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:499; opacity:0; transition:opacity .3s; }
-    .mobile-nav-backdrop.open { display:block; opacity:1; }
 
     /* ── 信任数据栏（stats bar）── */
     .stats-bar { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; padding:2.5rem 2.5rem; background:linear-gradient(135deg,#f0fdfa 0%,#ecfeff 100%); border:1px solid #ccfbf1; border-radius:20px; margin:2.5rem 0; box-shadow:var(--shadow-sm); }
@@ -547,16 +535,8 @@
           <button type="button" data-lang="ja" data-page-node-id="NrHBCY2Xau1q2Y401Dg4Xh">日本語</button>
         </div>
       </div>
-      <button class="nav-hamburger" id="navHamburger" aria-label="Menu" data-page-node-id="rvtsxUXiWqO1dAMquESiHB"><span data-page-node-id="XmB20gVcP84mAF9MPFfBw8"></span><span data-page-node-id="QRTwlnWlj9L9C768AWFwVV"></span><span data-page-node-id="xkRkLEdQCkqxCt8I1E00zf"></span></button>
       <a href="https://955827.xyz/" data-i18n="backHome" data-page-node-id="F5DGI2qGhHYKRxF0lSad4O">首页</a>
     </div>
-  </div>
-
-  <!-- 移动端导航面板 -->
-  <div class="mobile-nav-backdrop" id="navBackdrop" data-page-node-id="v5mi5FKMT0OmNKkM10nUAO"></div>
-  <div class="mobile-nav-panel" id="mobileNavPanel" data-page-node-id="KIuWMHMbMroN7yEwei2FW7">
-    <a href="https://rcj-stack-9xe.pages.dev/" target="_blank" rel="noopener" data-i18n="liveDemo" data-page-node-id="alh6M2iHMiDli6ekPEH9lg">Live Demo</a>
-    <a href="https://955827.xyz/" data-i18n="backHome" data-page-node-id="JEgpM7CsCKr5y8qgx4fdU5">首页</a>
   </div>
 
   <main data-page-node-id="jiqFx591PRTXOy2oLxAgCO">
@@ -1906,24 +1886,6 @@
       btn.classList.toggle('show', window.scrollY > 400);
     }, { passive: true });
     btn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
-  })();
-
-  // ── 移动端汉堡菜单 ──
-  (function () {
-    var burger = document.getElementById('navHamburger');
-    var panel = document.getElementById('mobileNavPanel');
-    var backdrop = document.getElementById('navBackdrop');
-    if (!burger || !panel) return;
-    function toggleNav(open) {
-      var show = (open === undefined) ? !panel.classList.contains('open') : open;
-      panel.classList.toggle('open', show);
-      backdrop.classList.toggle('open', show);
-      burger.classList.toggle('open', show);
-      document.body.style.overflow = show ? 'hidden' : '';
-    }
-    burger.addEventListener('click', function () { toggleNav(); });
-    backdrop.addEventListener('click', function () { toggleNav(false); });
-    panel.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { toggleNav(false); }); });
   })();
   </script>
 </body>
