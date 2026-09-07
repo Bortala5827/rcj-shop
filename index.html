@@ -1257,7 +1257,7 @@
       // 注入 CSS
       var css = document.createElement('style');
       css.textContent = `
-        .rcj-chat-fab { position: fixed; bottom: 22px; left: 18px; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #0d9488, #14b8a6); color: white; border: none; cursor: grab; box-shadow: 0 4px 16px rgba(13,148,136,0.4); z-index: 9998; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; transition: transform .25s, box-shadow .25s; user-select: none; touch-action: none; }
+        .rcj-chat-fab { position: fixed; bottom: 22px; left: 18px; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #0d9488, #14b8a6); color: white; border: none; cursor: grab; box-shadow: 0 4px 16px rgba(13,148,136,0.4); z-index: 9998; display: none !important; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; transition: transform .25s, box-shadow .25s; user-select: none; touch-action: none; }
         .rcj-chat-fab:active { cursor: grabbing; }
         .rcj-chat-fab:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 6px 24px rgba(13,148,136,0.5); }
         .rcj-chat-fab.active { box-shadow: 0 0 0 4px rgba(13,148,136,0.2), 0 4px 16px rgba(13,148,136,0.4); }
@@ -1566,8 +1566,9 @@
         .rcj-ai-foot input:focus { border-color: #6366f1; }
         .rcj-ai-send { background: #4f46e5; color: #fff; border: none; border-radius: 24px; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer; }
         .rcj-ai-send:disabled { opacity: .5; cursor: not-allowed; }
-        .rcj-ai-human { width: 100%; background: #fff; color: #4f46e5; border: 1px solid #c7d2fe; border-radius: 10px; padding: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+        .rcj-ai-human { display: none; width: 100%; background: #fff; color: #4f46e5; border: 1px solid #c7d2fe; border-radius: 10px; padding: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer; margin-top: 8px; }
         .rcj-ai-human:hover { background: #eef2ff; }
+        .rcj-ai-human.show { display: block; }
         @media (max-width: 640px) { .rcj-ai-panel { left: 12px; right: 12px; width: auto; max-width: none; } }
       `;
       document.head.appendChild(css);
@@ -1603,7 +1604,15 @@
       var msgBox = panel.querySelector('.rcj-ai-messages');
       var inputEl = panel.querySelector('input');
       var sendBtn = panel.querySelector('.rcj-ai-send');
+      var humanBtn = panel.querySelector('.rcj-ai-human');
       var history = [];
+
+      // 用户消息含"转人工"意图 → 显示按钮（一旦显示就保持显示）
+      function maybeShowHuman(text) {
+        if (!text) return;
+        var re = /(人工|真人|客服|找\s*人|转\s*人工|human|agent|operator|real\s*person|live\s*chat|人間|オペレーター|サポート|担当者|スタッフ)/i;
+        if (re.test(text)) humanBtn.classList.add('show');
+      }
 
       function refreshStatic() {
         fab.querySelector('.rcj-ai-tip').textContent = tx('aiFabTip', 'Ask AI');
@@ -1623,6 +1632,8 @@
         d.appendChild(b);
         msgBox.appendChild(d);
         msgBox.scrollTop = msgBox.scrollHeight;
+        if (who === 'user') maybeShowHuman(text);
+        if (who === 'system') humanBtn.classList.add('show');
         return d;
       }
 
@@ -1640,7 +1651,8 @@
       panel.querySelector('.rcj-ai-close').addEventListener('click', closePanel);
 
       // 转人工：收起 AI 面板并唤起人工客服（supportly）
-      panel.querySelector('.rcj-ai-human').addEventListener('click', function () {
+      humanBtn.addEventListener('click', function () {
+        humanBtn.classList.add('show');
         closePanel();
         var humanFab = document.querySelector('.rcj-chat-fab');
         if (humanFab) humanFab.click();
