@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<!-- RCJ 免费公开课 · 克制接入：排期与报名，转化回商城 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="title">Free Live Classes | RCJ Lab</title>
+  <link rel="canonical" href="https://shop.955827.xyz/course.html" />
+  <link rel="alternate" hreflang="x-default" href="https://shop.955827.xyz/course.html" />
+  <meta name="description" data-i18n-content="metaDesc" content="Free live classes — learn first, decide later. Join a class, then choose your custom question bank or website.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="RCJ9527">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e88e5'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='system-ui' font-size='30' font-weight='800' fill='white'%3ER%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #ffffff; --text: #111827; --muted: #6b7280;
+      --primary: #0d9488; --primary-hover: #0f766e;
+      --border: #e6e8eb; --card-bg: #f9fafb;
+      --radius: 14px; --max-width: 900px;
+      --shadow-sm: 0 1px 3px rgba(15,23,42,.05), 0 1px 2px rgba(15,23,42,.04);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--text); }
+
+    .top-nav { max-width: var(--max-width); margin: 0 auto; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+    .top-nav .brand { font-weight: 700; font-size: 1.1rem; }
+    .top-nav .brand span { color: var(--primary); }
+    .top-nav a { text-decoration: none; color: var(--muted); font-size: .9rem; }
+    .top-nav a:hover { color: var(--primary); }
+    .lang-switch { position: relative; }
+    .lang-trigger { background: none; border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; font: inherit; font-size: .85rem; color: var(--text); cursor: pointer; }
+    .lang-menu { position: absolute; right: 0; top: 130%; background: #fff; border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-sm); padding: 4px; z-index: 20; }
+    .lang-menu button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 6px 14px; font: inherit; font-size: .85rem; cursor: pointer; border-radius: 7px; }
+    .lang-menu button:hover, .lang-menu button.active { background: var(--card-bg); color: var(--primary); }
+
+    main { max-width: var(--max-width); margin: 0 auto; padding: 0 1rem 3rem; }
+    .hero { padding: 2.5rem 0 1.5rem; }
+    .hero h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: -.02em; }
+    .hero-sub { color: var(--muted); margin-top: .5rem; font-size: 1.02rem; }
+
+    .class-list { display: flex; flex-direction: column; gap: .75rem; margin-top: 1rem; }
+    .class-card { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: var(--shadow-sm); }
+    .cc-badge { flex: none; font-size: .72rem; font-weight: 700; border-radius: 6px; padding: 2px 8px; }
+    .cc-badge.open { color: #0f766e; background: #ccfbf1; }
+    .cc-badge.full { color: #b45309; background: #fef3c7; }
+    .cc-badge.done { color: #6b7280; background: #f3f4f6; }
+    .cc-title { font-weight: 700; font-size: 1.02rem; }
+    .cc-meta { color: var(--muted); font-size: .85rem; margin-top: 2px; }
+    .cc-btn { flex: none; text-decoration: none; background: var(--primary); color: #fff; font-weight: 600; font-size: .9rem; border-radius: 999px; padding: 8px 22px; transition: background .2s; }
+    .cc-btn:hover { background: var(--primary-hover); }
+    .cc-btn.disabled { background: #d1d5db; pointer-events: none; }
+
+    .fit { margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.25rem; }
+    .fit h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: .6rem; }
+    .fit ul { margin-left: 1.25rem; color: #374151; font-size: .92rem; }
+    .fit li { margin-bottom: .3rem; }
+
+    .next { margin-top: 2rem; border: 1px dashed var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .next p { color: var(--muted); font-size: .92rem; }
+    .next a { text-decoration: none; color: var(--primary); font-weight: 600; font-size: .92rem; }
+    .next a:hover { text-decoration: underline; }
+
+    footer { border-top: 1px solid var(--border); text-align: center; padding: 1rem; color: var(--muted); font-size: .82rem; }
+    .cf-strip { color: var(--muted); }
+    footer p { margin-top: .25rem; }
+    @media (max-width: 560px) {
+      .hero h1 { font-size: 1.9rem; }
+      .class-card { flex-direction: column; align-items: stretch; text-align: left; }
+      .cc-btn { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-nav">
+    <div class="brand"><span>RCJ</span> <span data-i18n="brandSuffix">定制服务</span></div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="lang-switch">
+        <button type="button" class="lang-trigger" id="langTrigger"><span id="langTriggerLabel">EN</span> ▾</button>
+        <div class="lang-menu" id="langMenu" hidden>
+          <button type="button" data-lang="en">English</button>
+          <button type="button" data-lang="zh">中文</button>
+          <button type="button" data-lang="ja">日本語</button>
+        </div>
+      </div>
+      <a href="/" data-i18n="backShop">返回商城</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="hero">
+      <h1 data-i18n="heroTitle">Free Live Classes</h1>
+      <p class="hero-sub" data-i18n="heroSub">Learn first, decide later. Join a free class — then choose your custom question bank or website.</p>
+    </div>
+
+    <!-- 排期（与飞书「课程排期」表同步维护：https://feishu.doubao.com/base/LyTlbkK8tapMJhsky8xcakkEnag） -->
+    <div class="class-list">
+      <div class="class-card">
+        <div>
+          <span class="cc-badge open" data-i18n="stOpen">报名中</span>
+          <div class="cc-title">公考申论答题框架</div>
+          <div class="cc-meta">09-15 · 19:30</div>
+        </div>
+        <a class="cc-btn" href="https://zcnenra2wy0k.feishu.cn/share/base/shrcnpfiCfvPsH7Zapi9XjH1Eyf" target="_blank" rel="noopener" data-i18n="signUp">报名</a>
+      </div>
+      <div class="class-card">
+        <div>
+          <span class="cc-badge full" data-i18n="stFull">已满</span>
+          <div class="cc-title">辅警面试高频题型实战</div>
+          <div class="cc-meta">09-03 · 19:30</div>
+        </div>
+        <a class="cc-btn disabled" data-i18n="stFull">已满</a>
+      </div>
+      <div class="class-card">
+        <div>
+          <span class="cc-badge done" data-i18n="stDone">已结束</span>
+          <div class="cc-title">结构化面试：综合分析题入门</div>
+          <div class="cc-meta">08-20 · 19:30</div>
+        </div>
+        <a class="cc-btn disabled" data-i18n="stDone">已结束</a>
+      </div>
+    </div>
+
+    <div class="fit">
+      <h2 data-i18n="fitTitle">适合谁</h2>
+      <ul>
+        <li data-i18n="fit1">准备辅警 / 消防 / 公考 / 事业编面试，想先感受讲课风格</li>
+        <li data-i18n="fit2">对定制题库或建站服务感兴趣，想先建立信任再下单</li>
+        <li data-i18n="fit3">零基础，想了解怎么把刷题和上岸准备做扎实</li>
+      </ul>
+    </div>
+
+    <div class="next">
+      <p data-i18n="nextText">想更进一步？定制题库 / 一站式建站，都在商城。</p>
+      <a href="/" data-i18n="nextBtn">去商城看看 →</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="cf-strip" data-i18n="cfStrip">免备案　·　全球高速访问　·　即开即用　·　免费托管</div>
+    <p>© RCJ9527</p>
+  </footer>
+
+  <script>
+  (function () {
+    var I18N = {
+      en: {
+        brandSuffix: 'Custom Services', backShop: 'Back to Shop', cfStrip: 'No ICP Filing Needed · Global Fast Access · Live Instantly · Free Hosting',
+        title: 'Free Live Classes | RCJ Lab', metaDesc: 'Free live classes — learn first, decide later. Join a class, then choose your custom question bank or website.',
+        heroTitle: 'Free Live Classes', heroSub: 'Learn first, decide later. Join a free class — then choose your custom question bank or website.',
+        stOpen: 'Open', stFull: 'Full', stDone: 'Ended', signUp: 'Sign up',
+        fitTitle: 'Who is it for', fit1: 'Preparing for auxiliary-police / firefighter / civil-service / public-institution interviews — get a feel for the teaching style first.',
+        fit2: 'Interested in a custom question bank or website — build trust before you order.',
+        fit3: 'A complete beginner — learn how to practice effectively and prepare for success.',
+        nextText: 'Want to go further? Custom question banks & done-for-you websites are in the shop.', nextBtn: 'Visit the shop →'
+      },
+      ja: {
+        brandSuffix: 'カスタムサービス', backShop: 'ショップへ戻る', cfStrip: '届出不要 · グローバル高速アクセス · 即時公開 · 無料ホスティング',
+        title: '無料オンライン講座 | RCJ Lab', metaDesc: '無料のオンライン講座——受講してから決める。問題集・サイト制作はショップで。',
+        heroTitle: '無料オンライン講座', heroSub: '受講してから決める。まず無料講座に参加して、それから問題集やサイト制作を選べます。',
+        stOpen: '募集中', stFull: '満席', stDone: '終了', signUp: '申し込む',
+        fitTitle: 'こんな方に', fit1: '面接対策の予定がある方。まず講師のスタイルを体感できます。',
+        fit2: '問題集やサイト制作に興味がある方。信頼してから注文できます。',
+        fit3: 'ゼロから始める方。効率的な学習の進め方を知れます。',
+        nextText: 'もっと深めたい？問題集・サイト制作はショップで。', nextBtn: 'ショップを見る →'
+      },
+      zh: {
+        brandSuffix: '定制服务', backShop: '返回商城', cfStrip: '免备案　·　全球高速访问　·　即开即用　·　免费托管',
+        title: '免费公开课 | RCJ Lab', metaDesc: '免费公开课——先听课，再决定。听完课再决定要不要定制题库或建站。',
+        heroTitle: '免费公开课', heroSub: '先听课，再决定。免费听一节课，再决定要不要定制题库或建站服务。',
+        stOpen: '报名中', stFull: '已满', stDone: '已结束', signUp: '报名',
+        fitTitle: '适合谁', fit1: '准备辅警 / 消防 / 公考 / 事业编面试，想先感受讲课风格',
+        fit2: '对定制题库或建站服务感兴趣，想先建立信任再下单',
+        fit3: '零基础，想了解怎么把刷题和上岸准备做扎实',
+        nextText: '想更进一步？定制题库 / 一站式建站，都在商城。', nextBtn: '去商城看看 →'
+      }
+    };
+    var LANG = 'en';
+    try { var saved = localStorage.getItem('rcj_lang'); if (saved && I18N[saved] && saved !== 'en') LANG = saved; } catch (e) {}
+    function t(key) { return (I18N[LANG] && I18N[LANG][key]) || I18N.en[key] || key; }
+    function applyLang(lang) {
+      if (!I18N[lang]) return;
+      LANG = lang;
+      try { localStorage.setItem('rcj_lang', LANG); } catch (e) {}
+      document.documentElement.lang = LANG;
+      document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
+      document.querySelectorAll('[data-i18n-content]').forEach(function (el) { el.setAttribute('content', t(el.getAttribute('data-i18n-content'))); });
+      var lbl = document.getElementById('langTriggerLabel');
+      if (lbl) lbl.textContent = LANG === 'zh' ? '中' : (LANG === 'ja' ? '日' : 'EN');
+      document.querySelectorAll('#langMenu button').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-lang') === LANG); });
+    }
+    var trigger = document.getElementById('langTrigger');
+    var menu = document.getElementById('langMenu');
+    if (trigger && menu) {
+      trigger.addEventListener('click', function (e) {
+        e.stopPropagation();
+        menu.hidden = !menu.hidden;
+      });
+      menu.querySelectorAll('button').forEach(function (b) {
+        b.addEventListener('click', function (e) {
+          e.stopPropagation();
+          applyLang(b.getAttribute('data-lang'));
+          menu.hidden = true;
+        });
+      });
+      document.addEventListener('click', function () { menu.hidden = true; });
+    }
+    applyLang(LANG);
+  })();
+  </script>
+</body>
+</html>
