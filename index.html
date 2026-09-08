@@ -44,7 +44,7 @@
       { "@type": "Offer", "name": "Question Bank", "priceCurrency": "CNY", "price": "99" },
       { "@type": "Offer", "name": "Website Building", "priceCurrency": "CNY", "price": "299" },
       { "@type": "Offer", "name": "Hosting / Admin Backend", "priceCurrency": "CNY", "price": "49" }
-    ],
+    ]
   }
   </script>
   <script type="application/ld+json">
@@ -575,6 +575,19 @@
           
           <p class="class-entry reveal"><a href="/course.html" data-i18n="classEntry">Free live classes — learn first, decide later →</a></p>
 
+          <div id="classBridge" class="class-bridge" hidden>
+            <span data-i18n="bridgeText">欢迎来自免费公开课的你 · 先听课再决定，定制题库与建站都在这里</span>
+            <a href="#buySection" data-i18n="bridgeBtn">去定制你的题库 →</a>
+            <button type="button" class="bridge-close" aria-label="关闭">×</button>
+          </div>
+          <style>
+            .class-bridge{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin:.5rem 0 1rem;padding:.8rem 1rem;background:#f0fdfa;border:1px solid #99f6e4;border-radius:12px;font-size:.92rem;color:#134e4a}
+            .class-bridge a{color:#0f766e;font-weight:600;text-decoration:none}
+            .class-bridge a:hover{text-decoration:underline}
+            .class-bridge .bridge-close{margin-left:auto;background:none;border:0;font-size:1.05rem;line-height:1;color:#0f766e;cursor:pointer;padding:2px 6px;border-radius:6px}
+            .class-bridge .bridge-close:hover{background:#ccfbf1}
+          </style>
+
           <div class="detail-section reveal">
             <h2 class="highlight-title" data-i18n="bankTitle">Question Bank</h2>
             <div class="feature-grid">
@@ -891,6 +904,7 @@
         bankFit: 'Best for those who already have content — I just import your questions',
         buildFit: 'For complete beginners — site + hosting + video tutorials + 1-on-1 voice Q&A',
         classEntry: 'Free live classes — learn first, decide later →',
+        bridgeText: 'Welcome from the free live class — learn first, decide later. Custom question banks & websites are here.', bridgeBtn: 'Customize your question bank →',
       },
       ja: {
         brandSuffix: 'カスタムサービス', backHome: 'ホーム', liveDemo: 'デモを見る', cfStrip: '届出不要 · グローバル高速アクセス · 即時公開 · 無料ホスティング',
@@ -962,6 +976,7 @@
         bankFit: '問題はすでに持っている——インポートだけしてもらう',
         buildFit: '初心者向け——サイト＋ホスティング＋動画帶教＋1対1音声答疑',
         classEntry: '無料オンライン講座 — 受講してから決める →',
+        bridgeText: '無料オンライン講座からお越しの方へ——受講してから決める。問題集・サイト制作はこちら。', bridgeBtn: '問題集を作る →',
       },
       zh: {
         brandSuffix: '定制服务', backHome: '返回首页', liveDemo: '查看演示', cfStrip: '免备案　·　全球高速访问　·　即开即用　·　免费托管',
@@ -1033,6 +1048,7 @@
         bankFit: '适合已有内容的客户——只需帮你导入题目',
         buildFit: '零基础专属——网站+托管+全套视频带教+1对1语音答疑',
         classEntry: '免费公开课 · 先听课，再决定 →',
+        bridgeText: '欢迎来自免费公开课的你 · 先听课再决定，定制题库与建站都在这里', bridgeBtn: '去定制你的题库 →',
       }
     };
     // 优先英文：首屏固定 EN（本地历史偏好只用于"用户已手动切过"的情景，默认仍是 EN）
@@ -1919,6 +1935,21 @@
       btn.classList.toggle('show', window.scrollY > 400);
     }, { passive: true });
     btn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  })();
+
+  // 来自免费公开课（course.html?src=feishu-class）的承接横幅
+  (function () {
+    try {
+      var src = new URLSearchParams(location.search).get('src');
+      if (src === 'feishu-class') {
+        var b = document.getElementById('classBridge');
+        if (b) {
+          b.hidden = false;
+          var c = b.querySelector('.bridge-close');
+          if (c) c.addEventListener('click', function () { b.hidden = true; });
+        }
+      }
+    } catch (e) {}
   })();
   </script>
 </body>

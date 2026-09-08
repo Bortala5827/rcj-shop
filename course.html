@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- RCJ 免费公开课 · 克制接入：排期与报名，转化回商城 -->
-<html lang="en">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -132,7 +132,7 @@
 
     <div class="next">
       <p data-i18n="nextText">想更进一步？定制题库 / 一站式建站，都在商城。</p>
-      <a href="/" data-i18n="nextBtn">去商城看看 →</a>
+      <a href="/?src=feishu-class" data-i18n="nextBtn">去商城看看 →</a>
     </div>
   </main>
 
@@ -147,36 +147,36 @@
       en: {
         brandSuffix: 'Custom Services', backShop: 'Back to Shop', cfStrip: 'No ICP Filing Needed · Global Fast Access · Live Instantly · Free Hosting',
         title: 'Free Live Classes | RCJ Lab', metaDesc: 'Free live classes — learn first, decide later. Join a class, then choose your custom question bank or website.',
-        heroTitle: 'Free Live Classes', heroSub: 'Learn first, decide later. Join a free class — then choose your custom question bank or website.',
+        heroTitle: 'Free Live Classes', heroSub: 'Stuck on interview prep? Join a free live class first — feel the teaching style, then decide on a custom question bank or website.',
         stOpen: 'Open', stFull: 'Full', stDone: 'Ended', signUp: 'Sign up',
         fitTitle: 'Who is it for', fit1: 'Preparing for auxiliary-police / firefighter / civil-service / public-institution interviews — get a feel for the teaching style first.',
         fit2: 'Interested in a custom question bank or website — build trust before you order.',
         fit3: 'A complete beginner — learn how to practice effectively and prepare for success.',
-        nextText: 'Want to go further? Custom question banks & done-for-you websites are in the shop.', nextBtn: 'Visit the shop →'
+        nextText: 'Finished the class and want more?', nextBtn: 'Customize your question bank →'
       },
       ja: {
         brandSuffix: 'カスタムサービス', backShop: 'ショップへ戻る', cfStrip: '届出不要 · グローバル高速アクセス · 即時公開 · 無料ホスティング',
         title: '無料オンライン講座 | RCJ Lab', metaDesc: '無料のオンライン講座——受講してから決める。問題集・サイト制作はショップで。',
-        heroTitle: '無料オンライン講座', heroSub: '受講してから決める。まず無料講座に参加して、それから問題集やサイト制作を選べます。',
+        heroTitle: '無料オンライン講座', heroSub: '面接対策で行き詰まってる？まず無料講座に参加して講師のスタイルを確認し、それから問題集やサイト制作を決められます。',
         stOpen: '募集中', stFull: '満席', stDone: '終了', signUp: '申し込む',
         fitTitle: 'こんな方に', fit1: '面接対策の予定がある方。まず講師のスタイルを体感できます。',
         fit2: '問題集やサイト制作に興味がある方。信頼してから注文できます。',
         fit3: 'ゼロから始める方。効率的な学習の進め方を知れます。',
-        nextText: 'もっと深めたい？問題集・サイト制作はショップで。', nextBtn: 'ショップを見る →'
+        nextText: '講座を受けて、もっと深めたい？', nextBtn: '問題集を作る →'
       },
       zh: {
         brandSuffix: '定制服务', backShop: '返回商城', cfStrip: '免备案　·　全球高速访问　·　即开即用　·　免费托管',
         title: '免费公开课 | RCJ Lab', metaDesc: '免费公开课——先听课，再决定。听完课再决定要不要定制题库或建站。',
-        heroTitle: '免费公开课', heroSub: '先听课，再决定。免费听一节课，再决定要不要定制题库或建站服务。',
+        heroTitle: '免费公开课', heroSub: '面试没思路、刷题没方向？先来听一节免费公开课——感受讲课风格，觉得值再决定要不要定制题库或建站。',
         stOpen: '报名中', stFull: '已满', stDone: '已结束', signUp: '报名',
         fitTitle: '适合谁', fit1: '准备辅警 / 消防 / 公考 / 事业编面试，想先感受讲课风格',
         fit2: '对定制题库或建站服务感兴趣，想先建立信任再下单',
         fit3: '零基础，想了解怎么把刷题和上岸准备做扎实',
-        nextText: '想更进一步？定制题库 / 一站式建站，都在商城。', nextBtn: '去商城看看 →'
+        nextText: '听完课，想更进一步？', nextBtn: '去定制你的专属题库 →'
       }
     };
-    var LANG = 'en';
-    try { var saved = localStorage.getItem('rcj_lang'); if (saved && I18N[saved] && saved !== 'en') LANG = saved; } catch (e) {}
+    var LANG = 'zh';
+    try { var saved = localStorage.getItem('rcj_lang'); if (saved && I18N[saved]) LANG = saved; } catch (e) {}
     function t(key) { return (I18N[LANG] && I18N[LANG][key]) || I18N.en[key] || key; }
     function applyLang(lang) {
       if (!I18N[lang]) return;
