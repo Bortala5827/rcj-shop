@@ -586,6 +586,8 @@
             .class-bridge a:hover{text-decoration:underline}
             .class-bridge .bridge-close{margin-left:auto;background:none;border:0;font-size:1.05rem;line-height:1;color:#0f766e;cursor:pointer;padding:2px 6px;border-radius:6px}
             .class-bridge .bridge-close:hover{background:#ccfbf1}
+            .sidebar.bridge-flash{animation:bridgeFlash 1.3s ease}
+            @keyframes bridgeFlash{0%{box-shadow:0 0 0 0 rgba(15,118,110,.45)}100%{box-shadow:0 0 0 14px rgba(15,118,110,0)}}
           </style>
 
           <div class="detail-section reveal">
@@ -1048,7 +1050,7 @@
         bankFit: '适合已有内容的客户——只需帮你导入题目',
         buildFit: '零基础专属——网站+托管+全套视频带教+1对1语音答疑',
         classEntry: '免费公开课 · 先听课，再决定 →',
-        bridgeText: '欢迎来自免费公开课的你 · 先听课再决定，定制题库与建站都在这里', bridgeBtn: '去定制你的题库 →',
+        bridgeText: '欢迎来自免费建站公开课的同学 · 先听课再决定，定制站点与题库都在这里', bridgeBtn: '去定制你的站点 →',
       }
     };
     // 优先英文：首屏固定 EN（本地历史偏好只用于"用户已手动切过"的情景，默认仍是 EN）
@@ -1947,6 +1949,15 @@
           b.hidden = false;
           var c = b.querySelector('.bridge-close');
           if (c) c.addEventListener('click', function () { b.hidden = true; });
+          var go = b.querySelector('[data-i18n="bridgeBtn"]');
+          if (go) go.addEventListener('click', function (e) {
+            var t = document.getElementById('buySection');
+            if (t) {
+              e.preventDefault();
+              t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              t.classList.remove('bridge-flash'); void t.offsetWidth; t.classList.add('bridge-flash');
+            }
+          });
         }
       }
     } catch (e) {}
