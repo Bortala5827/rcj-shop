@@ -52,8 +52,10 @@ export async function onRequestPost({ request, env }) {
     const t = beijing();
     const curSym = currency === 'CNY' ? '¥' : '$';
     const line = `【RCJ 收款】${item.name} 定金 ${curSym}${paidAmt}（${currency}）\n🕒 ${t}\n商品：${item.name}\n已收定金：${curSym}${paidAmt}（余款 ${curSym}${toCurrency(item.balance, currency)} 待交付时收）\n付款邮箱：${payerEmail || '(未知)'}\n联系邮箱：${email || '(未填)'}\n联系手机：${phone || '(未填)'}\nPayPal 单：${orderId}`;
-    // 订单通知：Telegram + 邮件
-    await notifyTelegram(env, line);
+    // 订单通知：Telegram + 邮件（失败仅记录，不阻断支付结果）
+    const tgRes = await notifyTelegram(env, line);
+    if (tgRes && tgRes.error) console.error('[capture] Telegram 通知失败', tgRes.error);
+    if (tgRes && tgRes.skipped) console.warn('[capture] Telegram 未发送（未配置）');
     const mailHtml = `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:20px;">
 <p style="font-size:16px;font-weight:700;color:#0d9488;">RCJ 收到新订单</p>
 <table style="width:100%;font-size:14px;color:#374151;">
@@ -66,7 +68,9 @@ export async function onRequestPost({ request, env }) {
 <tr><td style="padding:4px 0;color:#6b7280;">联系手机</td><td>${phone || '(未填)'}</td></tr>
 <tr><td style="padding:4px 0;color:#6b7280;">PayPal 单</td><td>${orderId}</td></tr>
 </table></div>`;
-    await notifyOwner(env, `【RCJ 收款】${item.name} 定金 ${curSym}${paidAmt}`, mailHtml);
+    const mailRes = await notifyOwner(env, `【RCJ 收款】${item.name} 定金 ${curSym}${paidAmt}`, mailHtml);
+    if (mailRes && mailRes.error) console.error('[capture] 邮件通知失败', mailRes.error);
+    if (mailRes && mailRes.skipped) console.warn('[capture] 邮件未发送（未配置）');
 
     return json({ ok: true, status: 'paid', id });
   } catch (e) {

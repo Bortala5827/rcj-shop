@@ -138,7 +138,7 @@ export async function recordOrder(env, o) {
 }
 
 export async function notifyOwner(env, subject, html) {
-  if (!env.RESEND_API_KEY) return { skipped: true };
+  if (!env.RESEND_API_KEY) { console.warn('[notify] RESEND_API_KEY 未配置，跳过邮件'); return { skipped: true }; }
   const to = env.NOTIFY_EMAIL || NOTIFY_TO;
   try {
     const r = await fetch('https://api.resend.com/emails', {
@@ -147,14 +147,14 @@ export async function notifyOwner(env, subject, html) {
       body: JSON.stringify({ from: EMAIL_FROM, to: [to], subject, html }),
     });
     const d = await r.json().catch(() => ({}));
-    if (!r.ok) return { error: d.message || ('HTTP ' + r.status) };
+    if (!r.ok) { console.error('[notify] Resend 邮件发送失败', r.status, d); return { error: d.message || ('HTTP ' + r.status) }; }
     return { ok: true, id: d.id };
-  } catch (e) { return { error: e.message }; }
+  } catch (e) { console.error('[notify] Resend 邮件异常', e); return { error: e.message }; }
 }
 
 export async function notifyTelegram(env, text) {
   const token = env.TG_BOT_TOKEN, chat = env.TG_CHAT_ID;
-  if (!token || !chat) return { skipped: true };
+  if (!token || !chat) { console.warn('[notify] TG_BOT_TOKEN/TG_CHAT_ID 未配置，跳过 Telegram'); return { skipped: true }; }
   try {
     const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
@@ -162,9 +162,9 @@ export async function notifyTelegram(env, text) {
       body: JSON.stringify({ chat_id: chat, text, parse_mode: 'HTML' }),
     });
     const d = await r.json().catch(() => ({}));
-    if (!r.ok) return { error: d.description || ('HTTP ' + r.status) };
+    if (!r.ok) { console.error('[notify] Telegram 发送失败', r.status, d); return { error: d.description || ('HTTP ' + r.status) }; }
     return { ok: true, id: d.result && d.result.message_id };
-  } catch (e) { return { error: e.message }; }
+  } catch (e) { console.error('[notify] Telegram 异常', e); return { error: e.message }; }
 }
 
 export function beijing() {
