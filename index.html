@@ -495,12 +495,6 @@
     .faq-a-inner { padding:0 1.25rem 1rem; font-size:.88rem; color:#4b5563; line-height:1.7; }
     @media (max-width:640px) { .faq-q { font-size:.88rem; padding:0.85rem 1rem; } .faq-a-inner { font-size:.82rem; } }
 
-    /* ── 返回顶部按钮 ── */
-    .back-to-top { position:fixed; bottom:84px; right:18px; width:44px; height:44px; border-radius:50%; background:var(--primary); color:#fff; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.3rem; box-shadow:0 4px 16px rgba(13,148,136,.35); opacity:0; pointer-events:none; transition:opacity .3s, transform .2s; z-index:400; }
-    .back-to-top.show { opacity:1; pointer-events:auto; }
-    .back-to-top:hover { transform:translateY(-3px); background:var(--primary-hover); }
-    @media (max-width:480px) { .back-to-top { bottom:80px; right:16px; } }
-
     /* ── 滚动渐入动画 ── */
     .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
     .reveal.visible { opacity:1; transform:translateY(0); }
@@ -814,9 +808,6 @@
     </div>
   </div>
 
-  <!-- 返回顶部按钮 -->
-  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
-
   <footer>
     <div class="cf-strip"><span data-i18n="cfStrip">Cloudflare 专属建站　·　免备案　·　全球加速　·　即开即用</span></div>
     <p>© RCJ9527</p>
@@ -887,6 +878,7 @@
         chatPh: 'Type a message...', chatSend: 'Send',
         chatGreeting: 'Hi! How can I help you?',
         chatHint: 'Ask about question banks, website building, etc.',
+        chatSessionExpired: 'Session expired — please send again.',
         humanTrigger: 'human|agent|operator|real person|live chat|support',
         createFail: 'Failed to create order', netErr: 'Network error: ',
         xianyuLabel: 'Buy on Xianyu',
@@ -959,6 +951,7 @@
         chatPh: 'メッセージを入力...', chatSend: '送信',
         chatGreeting: 'こんにちは！何かお手伝いできることはありますか？',
         chatHint: '問題集制作・サイト制作などについてお気軽にどうぞ',
+        chatSessionExpired: 'セッションが切れました。もう一度送信してください。',
         humanTrigger: '人間|オペレーター|担当者|スタッフ|サポート|生身|リアル|電話|human|agent|operator|live chat|support',
         createFail: '注文の作成に失敗しました', netErr: '通信エラー：',
         xianyuLabel: '闲魚（シアンユ）で購入',
@@ -1031,6 +1024,7 @@
         chatPh: '输入消息…', chatSend: '发送',
         chatGreeting: '你好！有什么可以帮你的？',
         chatHint: '可以咨询题库定制、建站服务等问题',
+        chatSessionExpired: '会话已失效，请重新发送。',
         humanTrigger: '人工|真人|客服|找人|转人工|人|电话|human|agent|operator|live chat|support',
         createFail: '创建订单失败', netErr: '网络错误：',
         xianyuLabel: '去闲鱼购买',
@@ -1284,7 +1278,7 @@
         .rcj-chat-fab.active { box-shadow: 0 0 0 4px rgba(13,148,136,0.2), 0 4px 16px rgba(13,148,136,0.4); }
         .rcj-chat-fab .rcj-tip { position: absolute; left: 60px; top: 50%; transform: translateY(-50%); background: linear-gradient(135deg, #0d9488, #14b8a6); color: #fff; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s, left .2s; }
         .rcj-chat-fab:hover .rcj-tip { opacity: 1; left: 64px; }
-        .rcj-chat-panel { position: fixed; bottom: 96px; left: 18px; width: 360px; max-width: calc(100vw - 36px); height: 500px; max-height: calc(100vh - 120px); background: rgba(255,255,255,0.96); backdrop-filter: blur(16px); border-radius: 18px; box-shadow: 0 16px 48px rgba(0,0,0,0.15); z-index: 9997; display: none; flex-direction: column; overflow: hidden; border: 1px solid #e5e7eb; animation: rcjPanelIn .25s cubic-bezier(.34,1.3,.5,1) both; }
+        .rcj-chat-panel { position: fixed; bottom: 24px; left: 18px; width: 360px; max-width: calc(100vw - 36px); height: 500px; max-height: calc(100vh - 48px); background: rgba(255,255,255,0.96); backdrop-filter: blur(16px); border-radius: 18px; box-shadow: 0 16px 48px rgba(0,0,0,0.15); z-index: 9997; display: none; flex-direction: column; overflow: hidden; border: 1px solid #e5e7eb; animation: rcjPanelIn .25s cubic-bezier(.34,1.3,.5,1) both; }
         .rcj-chat-panel.show { display: flex; }
         @keyframes rcjPanelIn { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
         .rcj-chat-header { background: linear-gradient(135deg, #0d9488, #14b8a6); color: white; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
@@ -1309,7 +1303,7 @@
         .rcj-chat-typing span:nth-child(2) { animation-delay: 0.2s; }
         .rcj-chat-typing span:nth-child(3) { animation-delay: 0.4s; }
         @keyframes rcjBounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-8px); } }
-        @media (max-width: 480px) { .rcj-chat-panel { left: 12px; right: 12px; width: auto; bottom: 84px; } .rcj-chat-fab { left: 16px; bottom: 16px; } }
+        @media (max-width: 767px) { .rcj-chat-panel { left: 10px; right: 10px; width: auto; bottom: 12px; height: 72vh; max-height: 72vh; } }
       `;
       document.head.appendChild(css);
 
@@ -1392,15 +1386,33 @@
         return session;
       }
 
-      async function sendMessage(text) {
-        if (!session) await createSession();
-        var clientId = 'msg_' + Date.now();
-        var resp = await fetch(SUPPORTLY_API + '/api/widget/conversations/' + session.conversationId + '/messages', {
+      function clearSession() {
+        session = null;
+        lastMessageId = null;
+        try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+      }
+
+      function postMessage(text, clientId) {
+        return fetch(SUPPORTLY_API + '/api/widget/conversations/' + session.conversationId + '/messages', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.visitorToken },
           body: JSON.stringify({ content: text, clientMessageId: clientId, pageUrl: location.href, pageTitle: document.title })
         });
-        var data = await resp.json();
+      }
+
+      async function sendMessage(text) {
+        if (!session) await createSession();
+        var clientId = 'msg_' + Date.now();
+        var resp = await postMessage(text, clientId);
+        // 会话被清理/令牌失效 → 丢弃本地陈旧会话，重建后重试一次（否则站长收不到任何提醒）
+        if (resp.status === 401 || resp.status === 404) {
+          clearSession();
+          await createSession();
+          resp = await postMessage(text, clientId);
+        }
+        if (resp.status === 401 || resp.status === 404) throw new Error(t('chatSessionExpired'));
+        var data = await resp.json().catch(function(){ return {}; });
+        if (!resp.ok) throw new Error((data.error && data.error.message) || ('HTTP ' + resp.status));
         if (data.data && data.data.inboundMessage) {
           lastMessageId = data.data.inboundMessage.id;
         }
@@ -1414,6 +1426,7 @@
           var resp = await fetch(url, {
             headers: { 'Authorization': 'Bearer ' + session.visitorToken }
           });
+          if (resp.status === 401 || resp.status === 404) { clearSession(); stopPolling(); return; }
           var data = await resp.json();
           if (data.data && data.data.messages) {
             data.data.messages.forEach(function(msg) {
@@ -1449,6 +1462,7 @@
           stopPolling();
         }
       }
+      fab._togglePanel = togglePanel;
 
       // 拖拽功能
       var isDragging = false;
@@ -1564,11 +1578,7 @@
 
       var css = document.createElement('style');
       css.textContent = `
-        .rcj-ai-fab { position: fixed; bottom: 84px; left: 18px; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #4f46e5, #6366f1); color: #fff; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(79,70,229,.4); z-index: 9998; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; letter-spacing: .02em; transition: transform .25s, box-shadow .25s; }
-        .rcj-ai-fab:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 6px 24px rgba(79,70,229,.5); }
-        .rcj-ai-fab .rcj-ai-tip { position: absolute; left: 60px; top: 50%; transform: translateY(-50%); background: linear-gradient(135deg, #4f46e5, #6366f1); color: #fff; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s, left .2s; }
-        .rcj-ai-fab:hover .rcj-ai-tip { opacity: 1; left: 64px; }
-        .rcj-ai-panel { position: fixed; bottom: 158px; left: 18px; width: 360px; max-width: calc(100vw - 36px); height: 480px; max-height: calc(100vh - 220px); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); border-radius: 18px; box-shadow: 0 16px 48px rgba(0,0,0,.15); z-index: 9997; display: none; flex-direction: column; overflow: hidden; border: 1px solid #e5e7eb; animation: rcjAiIn .25s cubic-bezier(.34,1.3,.5,1) both; }
+        .rcj-ai-panel { position: fixed; bottom: 24px; left: 18px; width: 360px; max-width: calc(100vw - 36px); height: 480px; max-height: calc(100vh - 48px); background: rgba(255,255,255,.96); backdrop-filter: blur(16px); border-radius: 18px; box-shadow: 0 16px 48px rgba(0,0,0,.15); z-index: 9997; display: none; flex-direction: column; overflow: hidden; border: 1px solid #e5e7eb; animation: rcjAiIn .25s cubic-bezier(.34,1.3,.5,1) both; }
         .rcj-ai-panel.show { display: flex; }
         @keyframes rcjAiIn { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
         .rcj-ai-header { background: linear-gradient(135deg, #4f46e5, #6366f1); color: #fff; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
@@ -1592,17 +1602,12 @@
         .rcj-ai-human { display: none; width: 100%; background: #fff; color: #4f46e5; border: 1px solid #c7d2fe; border-radius: 10px; padding: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer; margin-top: 8px; }
         .rcj-ai-human:hover { background: #eef2ff; }
         .rcj-ai-human.show { display: block; }
-        @media (max-width: 640px) { .rcj-ai-panel { left: 12px; right: 12px; width: auto; max-width: none; } }
+        @media (max-width: 767px) { .rcj-ai-panel { left: 10px; right: 10px; width: auto; max-width: none; bottom: 12px; height: 72vh; max-height: 72vh; } }
       `;
       document.head.appendChild(css);
 
       // ---- DOM ----
-      var fab = document.createElement('button');
-      fab.className = 'rcj-ai-fab';
-      fab.type = 'button';
-      fab.innerHTML = 'AI<span class="rcj-ai-tip"></span>';
-      document.body.appendChild(fab);
-
+      // 不再创建独立悬浮 AI 按钮，统一由 radial 轮盘唤起
       var panel = document.createElement('div');
       panel.className = 'rcj-ai-panel';
       panel.innerHTML = `
@@ -1639,7 +1644,6 @@
       }
 
       function refreshStatic() {
-        fab.querySelector('.rcj-ai-tip').textContent = tx('aiFabTip', 'Ask AI');
         panel.querySelector('.rcj-ai-header-title').textContent = tx('aiTitle', 'Shopping Advisor');
         panel.querySelector('.rcj-ai-header-sub').textContent = tx('aiSub', 'Pricing · delivery · payment');
         inputEl.placeholder = tx('aiPh', 'Ask about pricing, delivery…');
@@ -1669,10 +1673,10 @@
       }
       function closePanel() { panel.classList.remove('show'); }
 
-      fab.addEventListener('click', function () {
-        if (panel.classList.contains('show')) closePanel(); else openPanel();
-      });
       panel.querySelector('.rcj-ai-close').addEventListener('click', closePanel);
+      // 统一暴露给 radial 轮盘
+      window.rcjOpenAiPanel = openPanel;
+      window.rcjCloseAiPanel = closePanel;
 
       // 转人工：收起 AI 面板并唤起人工客服（supportly）
       humanBtn.addEventListener('click', function () {
@@ -1737,12 +1741,13 @@
       { name: '案例', action: 'showcase' },
       { name: '服务', action: 'buy' },
       { name: '问答', action: 'faq' },
+      { name: 'AI', action: 'ai' },
       { name: '客服', action: 'support' },
       { name: '课程', action: 'course' },
       { name: '邮箱', action: 'email' },
       { name: 'Sing', action: 'sing' }
     ];
-    var RADIUS = 116;
+    var RADIUS = 118;
     var css = document.createElement('style');
     css.textContent = `
         .rcj-radial-trigger { display:none; }
@@ -1756,7 +1761,7 @@
         .rcj-radial-wheel { position:relative; width:100%; height:100%; border-radius:50%; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.45); backdrop-filter:blur(24px); box-shadow:0 0 50px rgba(0,0,0,.3); will-change:transform; }
         .rcj-radial-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:72px; height:72px; border-radius:50%; background:#f0fdfa; border:4px solid #99f6e4; display:flex; align-items:center; justify-content:center; z-index:10; box-shadow:inset 0 2px 8px rgba(0,0,0,.08); }
         .rcj-radial-center button { width:48px; height:48px; border-radius:50%; border:none; background:#0d9488; color:#fff; font-size:20px; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(13,148,136,.5); }
-        .rcj-radial-item { position:absolute; top:50%; left:50%; width:58px; height:58px; margin:-29px 0 0 -29px; }
+        .rcj-radial-item { position:absolute; top:50%; left:50%; width:54px; height:54px; margin:-27px 0 0 -27px; }
         .rcj-radial-item a { display:flex; align-items:center; justify-content:center; width:100%; height:100%; border-radius:50%; background:rgba(255,255,255,.92); color:#1f2937; text-decoration:none; font-size:12px; font-weight:800; box-shadow:0 4px 12px rgba(0,0,0,.12); border:1px solid rgba(255,255,255,.6); transition:transform .15s, background .15s; }
         .rcj-radial-item a:active { transform:scale(.92); background:#f0fdfa; }
       }
@@ -1851,6 +1856,10 @@
       else if (act === 'course') location.href = 'course.html';
       else if (act === 'email') { var eb = document.getElementById('emailBtn'); if (eb) eb.click(); }
       else if (act === 'sing') document.dispatchEvent(new CustomEvent('opensingbooth'));
+      else if (act === 'ai') {
+        if (window.rcjOpenAiPanel) window.rcjOpenAiPanel();
+        else { var p = document.querySelector('.rcj-ai-panel'); if (p) p.classList.add('show'); }
+      }
       else if (act === 'support') {
         var hf = document.querySelector('.rcj-chat-fab');
         if (hf && typeof hf._togglePanel === 'function') hf._togglePanel();
@@ -2048,16 +2057,6 @@
         else { item.classList.add('open'); ans.style.maxHeight = ans.scrollHeight + 'px'; }
       });
     });
-  })();
-
-  // ── 返回顶部按钮 ──
-  (function () {
-    var btn = document.getElementById('backToTop');
-    if (!btn) return;
-    window.addEventListener('scroll', function () {
-      btn.classList.toggle('show', window.scrollY > 400);
-    }, { passive: true });
-    btn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
   })();
 
   </script>
