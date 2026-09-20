@@ -493,7 +493,7 @@
     @media (max-width:640px) { .faq-q { font-size:.88rem; padding:0.85rem 1rem; } .faq-a-inner { font-size:.82rem; } }
 
     /* ── 返回顶部按钮 ── */
-    .back-to-top { position:fixed; bottom:24px; right:20px; width:44px; height:44px; border-radius:50%; background:var(--primary); color:#fff; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.3rem; box-shadow:0 4px 16px rgba(13,148,136,.35); opacity:0; pointer-events:none; transition:opacity .3s, transform .2s; z-index:400; }
+    .back-to-top { position:fixed; bottom:84px; right:18px; width:44px; height:44px; border-radius:50%; background:var(--primary); color:#fff; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.3rem; box-shadow:0 4px 16px rgba(13,148,136,.35); opacity:0; pointer-events:none; transition:opacity .3s, transform .2s; z-index:400; }
     .back-to-top.show { opacity:1; pointer-events:auto; }
     .back-to-top:hover { transform:translateY(-3px); background:var(--primary-hover); }
     @media (max-width:480px) { .back-to-top { bottom:80px; right:16px; } }
@@ -1722,6 +1722,68 @@
       refreshStatic();
     })();
   </script>
+  <script>
+  // RCJ 导航悬浮球（参考 blog GlobalToolbox · 纯原生实现，teal 品牌色）
+  (function () {
+    var ITEMS = [
+      { name: '主站', url: 'https://955827.xyz', icon: '🏠' },
+      { name: '题库', url: 'https://exam.955827.xyz', icon: '📚' },
+      { name: '面试', url: 'https://facetalk.955827.xyz', icon: '💬' },
+      { name: '点餐', url: 'https://dinner.955827.xyz', icon: '🍽️' },
+      { name: '表达', url: 'https://speak.955827.xyz', icon: '🎤' },
+      { name: 'SaaS', url: 'https://rcj-stack-9xe.pages.dev', icon: '🧩' },
+      { name: '博客', url: 'https://blog.955827.xyz', icon: '✍️' },
+      { name: '客服', action: 'support', icon: '🛟' }
+    ];
+    var css = document.createElement('style');
+    css.textContent = `
+      .rcj-nav-fab { position: fixed; right: 18px; bottom: 22px; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg,#0d9488,#14b8a6); color:#fff; border:none; cursor:pointer; box-shadow:0 4px 16px rgba(13,148,136,.4); z-index:9998; display:flex; align-items:center; justify-content:center; transition: transform .25s, box-shadow .25s; }
+      .rcj-nav-fab:hover { transform: translateY(-2px) scale(1.05); }
+      .rcj-nav-fab.open { transform: rotate(45deg); }
+      .rcj-nav-panel { position: fixed; right: 18px; bottom: 84px; width: 240px; max-width: calc(100vw - 36px); background: rgba(255,255,255,.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border:1px solid #e5e7eb; border-radius: 18px; box-shadow:0 16px 48px rgba(0,0,0,.15); z-index:9997; padding:8px; display:none; flex-direction:column; gap:2px; transform-origin: bottom right; animation: rcjNavIn .22s cubic-bezier(.34,1.3,.5,1) both; }
+      .rcj-nav-panel.show { display:flex; }
+      @keyframes rcjNavIn { from { opacity:0; transform: translateY(12px) scale(.96); } to { opacity:1; transform: translateY(0) scale(1); } }
+      .rcj-nav-item { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; color:#111827; text-decoration:none; font-size:14px; transition: background .15s; }
+      .rcj-nav-item:hover { background:#f0fdfa; }
+      .rcj-nav-ico { font-size:18px; width:22px; text-align:center; flex:none; }
+      .rcj-nav-name { font-weight:700; }
+      @media (max-width:480px){ .rcj-nav-panel { left:12px; right:12px; width:auto; } .rcj-nav-fab { right:16px; bottom:16px; } }
+    `;
+    document.head.appendChild(css);
+    var fab = document.createElement('button');
+    fab.className = 'rcj-nav-fab';
+    fab.setAttribute('aria-label', 'RCJ 导航');
+    fab.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>';
+    document.body.appendChild(fab);
+    var panel = document.createElement('div');
+    panel.className = 'rcj-nav-panel';
+    panel.innerHTML = ITEMS.map(function (it) {
+      return '<a class="rcj-nav-item" data-act="' + (it.action || '') + '" href="' + (it.url || '#') + '" target="_blank" rel="noopener"><span class="rcj-nav-ico">' + it.icon + '</span><span class="rcj-nav-name">' + it.name + '</span></a>';
+    }).join('');
+    document.body.appendChild(panel);
+    fab.addEventListener('click', function () {
+      var open = panel.classList.toggle('show');
+      fab.classList.toggle('open', open);
+    });
+    panel.addEventListener('click', function (e) {
+      var a = e.target.closest('.rcj-nav-item');
+      if (!a) return;
+      if (a.getAttribute('data-act') === 'support') {
+        e.preventDefault();
+        var hf = document.querySelector('.rcj-chat-fab');
+        if (hf && typeof hf._togglePanel === 'function') hf._togglePanel();
+        else if (hf) hf.click();
+        panel.classList.remove('show'); fab.classList.remove('open');
+      }
+    });
+    document.addEventListener('click', function (e) {
+      if (panel.classList.contains('show') && e.target !== fab && !fab.contains(e.target) && !panel.contains(e.target)) {
+        panel.classList.remove('show'); fab.classList.remove('open');
+      }
+    });
+  })();
+  </script>
+
   <script>
   // Sing to Me · 0元购 录音棚弹窗
   (function(){
