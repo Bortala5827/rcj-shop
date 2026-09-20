@@ -1723,61 +1723,133 @@
     })();
   </script>
   <script>
-  // RCJ 导航悬浮球（参考 blog GlobalToolbox · 纯原生实现，teal 品牌色）
+  // Shop 站内 radial 导航（参考 blog Navbar 手机端轮盘 · 仅移动端）
   (function () {
     var ITEMS = [
-      { name: '主站', url: 'https://955827.xyz' },
-      { name: '题库', url: 'https://exam.955827.xyz' },
-      { name: '面试', url: 'https://facetalk.955827.xyz' },
-      { name: '点餐', url: 'https://dinner.955827.xyz' },
-      { name: '表达', url: 'https://speak.955827.xyz' },
-      { name: 'SaaS', url: 'https://rcj-stack-9xe.pages.dev' },
-      { name: '博客', url: 'https://blog.955827.xyz' },
-      { name: '客服', action: 'support' }
+      { name: '顶部', action: 'top' },
+      { name: '案例', action: 'showcase' },
+      { name: '服务', action: 'buy' },
+      { name: '问答', action: 'faq' },
+      { name: '客服', action: 'support' },
+      { name: '课程', action: 'course' },
+      { name: '邮箱', action: 'email' },
+      { name: 'Sing', action: 'sing' }
     ];
+    var RADIUS = 116;
     var css = document.createElement('style');
     css.textContent = `
-      .rcj-nav-fab { position: fixed; right: 18px; bottom: 22px; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg,#0d9488,#14b8a6); color:#fff; border:none; cursor:pointer; box-shadow:0 4px 16px rgba(13,148,136,.4); z-index:9998; display:flex; align-items:center; justify-content:center; transition: transform .25s, box-shadow .25s; }
-      .rcj-nav-fab:hover { transform: translateY(-2px) scale(1.05); }
-      .rcj-nav-fab.open { transform: rotate(45deg); }
-      .rcj-nav-panel { position: fixed; right: 18px; bottom: 84px; width: 240px; max-width: calc(100vw - 36px); background: rgba(255,255,255,.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border:1px solid #e5e7eb; border-radius: 18px; box-shadow:0 16px 48px rgba(0,0,0,.15); z-index:9997; padding:8px; display:none; flex-direction:column; gap:2px; transform-origin: bottom right; animation: rcjNavIn .22s cubic-bezier(.34,1.3,.5,1) both; }
-      .rcj-nav-panel.show { display:flex; }
-      @keyframes rcjNavIn { from { opacity:0; transform: translateY(12px) scale(.96); } to { opacity:1; transform: translateY(0) scale(1); } }
-      .rcj-nav-item { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; color:#111827; text-decoration:none; font-size:14px; font-weight:700; transition: background .15s; }
-      .rcj-nav-item:hover { background:#f0fdfa; }
-      @media (max-width:480px){ .rcj-nav-panel { left:12px; right:12px; width:auto; } .rcj-nav-fab { right:16px; bottom:16px; } }
+        .rcj-radial-trigger { display:none; }
+      @media (max-width: 767px) {
+        .rcj-radial-trigger { display:flex; flex-direction:column; gap:5px; position:fixed; top:50%; right:0; transform:translateY(-50%); width:36px; height:96px; background:rgba(13,148,136,.85); backdrop-filter:blur(12px); border-radius:18px 0 0 18px; box-shadow:-5px 0 20px rgba(13,148,136,.35); border:1px solid rgba(255,255,255,.25); border-right:none; z-index:60; align-items:center; justify-content:center; touch-action:pan-y; }
+        .rcj-radial-trigger span { display:block; width:4px; height:4px; background:#fff; border-radius:50%; }
+        .rcj-radial-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,42,.62); backdrop-filter:blur(8px); z-index:65; }
+        .rcj-radial-overlay.show { display:block; }
+        .rcj-radial-stage { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:320px; height:320px; z-index:70; }
+        .rcj-radial-stage.show { display:block; }
+        .rcj-radial-wheel { position:relative; width:100%; height:100%; border-radius:50%; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.45); backdrop-filter:blur(24px); box-shadow:0 0 50px rgba(0,0,0,.3); will-change:transform; }
+        .rcj-radial-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:72px; height:72px; border-radius:50%; background:#f0fdfa; border:4px solid #99f6e4; display:flex; align-items:center; justify-content:center; z-index:10; box-shadow:inset 0 2px 8px rgba(0,0,0,.08); }
+        .rcj-radial-center button { width:48px; height:48px; border-radius:50%; border:none; background:#0d9488; color:#fff; font-size:20px; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(13,148,136,.5); }
+        .rcj-radial-item { position:absolute; top:50%; left:50%; width:58px; height:58px; margin:-29px 0 0 -29px; }
+        .rcj-radial-item a { display:flex; align-items:center; justify-content:center; width:100%; height:100%; border-radius:50%; background:rgba(255,255,255,.92); color:#1f2937; text-decoration:none; font-size:12px; font-weight:800; box-shadow:0 4px 12px rgba(0,0,0,.12); border:1px solid rgba(255,255,255,.6); transition:transform .15s, background .15s; }
+        .rcj-radial-item a:active { transform:scale(.92); background:#f0fdfa; }
+      }
     `;
     document.head.appendChild(css);
-    var fab = document.createElement('button');
-    fab.className = 'rcj-nav-fab';
-    fab.setAttribute('aria-label', 'RCJ 导航');
-    fab.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>';
-    document.body.appendChild(fab);
-    var panel = document.createElement('div');
-    panel.className = 'rcj-nav-panel';
-    panel.innerHTML = ITEMS.map(function (it) {
-      return '<a class="rcj-nav-item" data-act="' + (it.action || '') + '" href="' + (it.url || '#') + '" target="_blank" rel="noopener">' + it.name + '</a>';
-    }).join('');
-    document.body.appendChild(panel);
-    fab.addEventListener('click', function () {
-      var open = panel.classList.toggle('show');
-      fab.classList.toggle('open', open);
+
+    var trigger = document.createElement('button');
+    trigger.className = 'rcj-radial-trigger';
+    trigger.setAttribute('aria-label', '打开导航');
+    trigger.innerHTML = '<span></span><span></span><span></span>';
+    document.body.appendChild(trigger);
+
+    var overlay = document.createElement('div');
+    overlay.className = 'rcj-radial-overlay';
+    document.body.appendChild(overlay);
+
+    var stage = document.createElement('div');
+    stage.className = 'rcj-radial-stage';
+    var wheel = document.createElement('div');
+    wheel.className = 'rcj-radial-wheel';
+    var center = document.createElement('div');
+    center.className = 'rcj-radial-center';
+    var closeBtn = document.createElement('button');
+    closeBtn.setAttribute('aria-label', '关闭');
+    closeBtn.textContent = '✕';
+    center.appendChild(closeBtn);
+    wheel.appendChild(center);
+
+    ITEMS.forEach(function (it, i) {
+      var angle = i * (360 / ITEMS.length);
+      var el = document.createElement('div');
+      el.className = 'rcj-radial-item';
+      var link = document.createElement('a');
+      link.href = '#';
+      link.textContent = it.name;
+      link.dataset.action = it.action;
+      el.style.transform = 'rotate(' + angle + 'deg) translateY(-' + RADIUS + 'px) rotate(-' + angle + 'deg)';
+      el.appendChild(link);
+      wheel.appendChild(el);
     });
-    panel.addEventListener('click', function (e) {
-      var a = e.target.closest('.rcj-nav-item');
+    stage.appendChild(wheel);
+    document.body.appendChild(stage);
+
+    function open() { overlay.classList.add('show'); stage.classList.add('show'); document.body.style.overflow = 'hidden'; }
+    function close() { overlay.classList.remove('show'); stage.classList.remove('show'); document.body.style.overflow = ''; }
+
+    trigger.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', close);
+
+    // 轮盘拖拽旋转
+    var isDragging = false, startAngle = 0, startRot = 0, currentRot = 0, moved = false;
+    function getAngle(ev) {
+      var rect = wheel.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+      var clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
+      var clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+      return Math.atan2(clientY - cy, clientX - cx) * 180 / Math.PI;
+    }
+    function setRot(deg) {
+      wheel.style.transform = 'rotate(' + deg + 'deg)';
+      Array.from(wheel.querySelectorAll('.rcj-radial-item a')).forEach(function (a) {
+        a.style.transform = 'rotate(' + (-deg) + 'deg)';
+      });
+    }
+    wheel.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('.rcj-radial-item a')) return;
+      isDragging = true; moved = false;
+      startAngle = getAngle(e); startRot = currentRot;
+      wheel.setPointerCapture(e.pointerId);
+    });
+    wheel.addEventListener('pointermove', function (e) {
+      if (!isDragging) return;
+      var a = getAngle(e), delta = a - startAngle;
+      if (delta > 180) delta -= 360; if (delta < -180) delta += 360;
+      if (Math.abs(delta) > 2) moved = true;
+      currentRot = startRot + delta;
+      setRot(currentRot);
+    });
+    wheel.addEventListener('pointerup', function () { isDragging = false; });
+
+    stage.addEventListener('click', function (e) {
+      var a = e.target.closest('.rcj-radial-item a');
       if (!a) return;
-      if (a.getAttribute('data-act') === 'support') {
-        e.preventDefault();
+      if (moved) { moved = false; e.preventDefault(); return; }
+      e.preventDefault();
+      var act = a.dataset.action;
+      if (act === 'top') window.scrollTo({ top: 0, behavior: 'smooth' });
+      else if (act === 'showcase') document.getElementById('showcase').scrollIntoView({ behavior: 'smooth' });
+      else if (act === 'buy') document.getElementById('buySection').scrollIntoView({ behavior: 'smooth' });
+      else if (act === 'faq') document.getElementById('faq').scrollIntoView({ behavior: 'smooth' });
+      else if (act === 'course') location.href = 'course.html';
+      else if (act === 'email') { var eb = document.getElementById('emailBtn'); if (eb) eb.click(); }
+      else if (act === 'sing') document.dispatchEvent(new CustomEvent('opensingbooth'));
+      else if (act === 'support') {
         var hf = document.querySelector('.rcj-chat-fab');
         if (hf && typeof hf._togglePanel === 'function') hf._togglePanel();
         else if (hf) hf.click();
-        panel.classList.remove('show'); fab.classList.remove('open');
       }
-    });
-    document.addEventListener('click', function (e) {
-      if (panel.classList.contains('show') && e.target !== fab && !fab.contains(e.target) && !panel.contains(e.target)) {
-        panel.classList.remove('show'); fab.classList.remove('open');
-      }
+      close();
     });
   })();
   </script>
