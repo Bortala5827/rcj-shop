@@ -373,6 +373,9 @@
     /* ── 闲鱼购买入口（首选支付通道）── */
     .xianyu-link { display:flex; align-items:center; justify-content:center; width:100%; padding:.9rem; margin:1rem 0 .6rem; border:1.5px solid #000; border-radius:var(--radius); background:#ff7a1a; color:#fff; font-weight:800; font-size:1.02rem; font-family:inherit; text-decoration:none; box-sizing:border-box; transition:all .15s; }
     .xianyu-link:hover { background:#ff8c3a; transform:translate(-2px,-2px); box-shadow:4px 4px 0 #000; }
+    /* ── 飞书联系入口（教学优先走飞书会议）── */
+    .feishu-link { display:flex; align-items:center; justify-content:center; width:100%; padding:.85rem; margin:.5rem 0 0; border:1.5px solid var(--primary); border-radius:var(--radius); background:transparent; color:var(--primary); font-weight:800; font-size:.98rem; font-family:inherit; text-decoration:none; box-sizing:border-box; transition:all .15s; }
+    .feishu-link:hover { background:rgba(13,148,136,.06); transform:translate(-2px,-2px); box-shadow:3px 3px 0 var(--primary); }
         /* PayPal 退为次选通道 */
     .buy-btn-secondary { background:transparent; color:var(--primary); border:1.5px solid var(--primary); }
     .buy-btn-secondary:hover { background:rgba(0,0,0,.04); transform:none; box-shadow:none; }
@@ -689,6 +692,7 @@
           <a class="xianyu-link" href="https://m.tb.cn/h.8mRAttW?tk=BiBPTfBOjhk" target="_blank" rel="noopener">
             <span data-i18n="xianyuLabel">Buy on Xianyu</span>
           </a>
+          <a class="feishu-link" href="https://www.feishu.cn/invitation/page/add_contact/?token=3a3id6d8-7a66-4fad-b2dc-24b739fe9f5b&amp;unique_id=MVpmBBw1nfekdNIQPcDc_g==" target="_blank" rel="noopener" data-i18n="feishuContact">加飞书 · 约教学会议</a>
           <button class="buy-btn buy-btn-secondary" onclick="handlePurchase()" data-i18n="buyNow">Buy Now</button>
           <div class="pay-note" data-i18n="payOverseas">Overseas? Pay with PayPal</div>
 
@@ -886,6 +890,7 @@
         humanTrigger: 'human|agent|operator|real person|live chat|support',
         createFail: 'Failed to create order', netErr: 'Network error: ',
         xianyuLabel: 'Buy on Xianyu',
+        feishuContact: 'Add me on Feishu · book a live class',
         payOverseas: 'Overseas? Pay with PayPal',
         priceNote: 'No hidden fees · Includes basic setup teaching',
         bankFit: 'Best for those who already have content — I just import your questions',
@@ -957,6 +962,7 @@
         humanTrigger: '人間|オペレーター|担当者|スタッフ|サポート|生身|リアル|電話|human|agent|operator|live chat|support',
         createFail: '注文の作成に失敗しました', netErr: '通信エラー：',
         xianyuLabel: '闲魚（シアンユ）で購入',
+        feishuContact: 'Feishu で追加 · オンライン講座を予約',
         payOverseas: '海外の方は PayPal で',
         priceNote: '追加費用なし · 基本的な設定帶教を含む',
         bankFit: '問題はすでに持っている——インポートだけしてもらう',
@@ -1028,6 +1034,7 @@
         humanTrigger: '人工|真人|客服|找人|转人工|人|电话|human|agent|operator|live chat|support',
         createFail: '创建订单失败', netErr: '网络错误：',
         xianyuLabel: '去闲鱼购买',
+        feishuContact: '加飞书 · 约教学会议',
         payOverseas: '海外用户？用 PayPal 支付',
         priceNote: '无隐形消费 · 包含基础搭建教学',
         bankFit: '适合已有内容的客户——只需帮你导入题目',
