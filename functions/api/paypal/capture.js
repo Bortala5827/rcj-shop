@@ -1,4 +1,4 @@
-import { ITEMS, pp, recordOrder, notifyTelegram, notifyOwner, beijing, resolveCurrency, toCurrency, CNY_PER_USD, json, corsOptions } from './_lib.js';
+import { ITEMS, pp, recordOrder, notifyTelegram, notifyOwner, notifyFeishu, beijing, resolveCurrency, toCurrency, CNY_PER_USD, json, corsOptions } from './_lib.js';
 
 export async function onRequestOptions() { return corsOptions(); }
 
@@ -56,6 +56,9 @@ export async function onRequestPost({ request, env }) {
     const tgRes = await notifyTelegram(env, line);
     if (tgRes && tgRes.error) console.error('[capture] Telegram 通知失败', tgRes.error);
     if (tgRes && tgRes.skipped) console.warn('[capture] Telegram 未发送（未配置）');
+    const fsRes = await notifyFeishu(env, line);
+    if (fsRes && fsRes.error) console.error('[capture] 飞书通知失败', fsRes.error);
+    if (fsRes && fsRes.skipped) console.warn('[capture] 飞书未发送（未配置）');
     const mailHtml = `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:20px;">
 <p style="font-size:16px;font-weight:700;color:#0d9488;">RCJ 收到新订单</p>
 <table style="width:100%;font-size:14px;color:#374151;">

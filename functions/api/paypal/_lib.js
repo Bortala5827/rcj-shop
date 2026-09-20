@@ -167,6 +167,53 @@ export async function notifyTelegram(env, text) {
   } catch (e) { console.error('[notify] Telegram 异常', e); return { error: e.message }; }
 }
 
+// 飞书群通知。两种凭证任选其一，都未配置则静默跳过（与 RESEND/TG 同款行为）：
+//   A) FEISHU_WEBHOOK_URL —— 群「自定义机器人」webhook，最简，只要一个 URL
+//   B) FEISHU_APP_ID + FEISHU_APP_SECRET + FEISHU_CHAT_ID —— 自建应用机器人（chat_id 形如 oc_xxx）
+export async function notifyFeishu(env, text) {
+  const hook = env.FEISHU_WEBHOOK_URL;
+  const appId = env.FEISHU_APP_ID, appSecret = env.FEISHU_APP_SECRET, chatId = env.FEISHU_CHAT_ID;
+  if (!hook && !(appId && appSecret && chatId)) { console.warn('[notify] 飞书未配置（FEISHU_WEBHOOK_URL 或 APP_ID/SECRET/CHAT_ID），跳过'); return { skipped: true }; }
+  try {
+    if (hook) {
+      const r = await fetch(hook, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify({ msg_type: 'text', content: { text } }),
+      });
+      const d = await r.json().catch(() => ({}));
+      // 飞书 webhook 失败时仍返回 HTTP 200，靠 body 里的 code 判定
+      if (!r.ok || (d.code !== undefined && d.code !== 0)) {
+        console.error('[notify] 飞书群机器人发送失败', r.status, d);
+        return { error: d.msg || d.message || ('HTTP ' + r.status) };
+      }
+      return { ok: true };
+    }
+    // 自建应用：先换 tenant_access_token，再按 chat_id 投递
+    const tr = await fetch('https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({ app_id: appId, app_secret: appSecret }),
+    });
+    const td = await tr.json().catch(() => ({}));
+    if (!tr.ok || td.code !== 0 || !td.tenant_access_token) {
+      console.error('[notify] 飞书 tenant_access_token 获取失败', tr.status, td);
+      return { error: td.msg || ('HTTP ' + tr.status) };
+    }
+    const r = await fetch('https://open.feishu.cn/open-apis/im/v1/messages?receive_id_type=chat_id', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8', 'Authorization': 'Bearer ' + td.tenant_access_token },
+      body: JSON.stringify({ receive_id: chatId, msg_type: 'text', content: JSON.stringify({ text }) }),
+    });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok || d.code !== 0) {
+      console.error('[notify] 飞书应用机器人发送失败', r.status, d);
+      return { error: d.msg || ('HTTP ' + r.status) };
+    }
+    return { ok: true, id: d.data && d.data.message_id };
+  } catch (e) { console.error('[notify] 飞书异常', e); return { error: e.message }; }
+}
+
 export function beijing() {
   const d = new Date(Date.now() + 8 * 3600 * 1000);
   const p = n => String(n).padStart(2, '0');
