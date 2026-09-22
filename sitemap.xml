@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- RCJ Lab 商店（shop.955827.xyz）— SPA，唯一公开落地页为首页；
+  <!-- RCJ Lab 商店（shop.955827.xyz）— SPA，公开落地页：首页 + 公开课页；
        支付结果页 return.html 为交易回跳页，不收录 -->
   <url>
     <loc>https://shop.955827.xyz/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://shop.955827.xyz/course.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
