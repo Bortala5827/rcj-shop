@@ -711,6 +711,17 @@
           </div>
 
           <div class="plan-group">
+            <div class="variant-card muted" onclick="selectVariant(this, '声音定制')" id="voiceCard">
+              <div class="variant-price" data-cny="66" data-i18n="priceVoice">from ¥66</div>
+              <div class="variant-body">
+                <div class="variant-details" data-i18n="nameVoice">Custom Voice &amp; Singing</div>
+                <div class="variant-fit" data-i18n="voiceFit">A cappella covers or custom voice — tell me the song &amp; your idea, I sing it raw</div>
+                <div class="variant-price-note" data-i18n="voiceNote">Order note: song title / your email / custom request</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="plan-group">
             <div class="variant-card muted" onclick="selectVariant(this, '纯建站')">
               <div class="variant-price" data-cny="299">from ¥299</div>
               <div class="variant-body">
@@ -907,6 +918,9 @@
         groupBank: 'Question Bank', priceBank: 'from ¥99', nameBank: 'Question Bank',
         groupBuild: 'Website', priceBuild: 'from ¥299', nameBuild: 'Website Building',
         groupHost: 'Admin Backend', priceHost: 'from ¥49', nameHost: 'Admin Backend, Ready to Use',
+        groupVoice: 'Voice', priceVoice: 'from ¥66', nameVoice: 'Custom Voice & Singing',
+        voiceFit: 'A cappella covers or custom voice — tell me the song & your idea, I sing it raw',
+        voiceNote: 'Order note: song title / your email / custom request',
         groupFree: 'Free', priceFree: 'Free',
         descFree: 'Sing a song, get the material free',
         singBadge: 'Free', singCta: 'Start (free)', singNote: 'No purchase needed · just sing', paidDivider: 'Paid options',
@@ -985,6 +999,9 @@
         groupBank: '問題集', priceBank: '¥99〜', nameBank: '問題集',
         groupBuild: 'サイト制作', priceBuild: '¥299〜', nameBuild: 'サイト制作',
         groupHost: '管理バックエンド', priceHost: '¥49〜', nameHost: '管理バックエンド（すぐ使える）',
+        groupVoice: 'ボイス', priceVoice: '¥66〜', nameVoice: 'カスタムボイス＆歌唱',
+        voiceFit: 'アカペラカバーやカスタムボイス — 曲とアイデアを教えてください',
+        voiceNote: '注文メモ：曲名 / メール / カスタムリクエスト',
         groupFree: '無料', priceFree: '無料',
         descFree: '歌を一曲いただくと資料を無料プレゼント',
         singBadge: '無料', singCta: '無料で始める', singNote: '購入不要・歌うだけ', paidDivider: '有料オプション',
@@ -1063,6 +1080,9 @@
         groupBank: '题库定制', priceBank: '¥99 起', nameBank: '题库定制',
         groupBuild: '建站服务', priceBuild: '¥299 起', nameBuild: '纯建站',
         groupHost: '管理后台', priceHost: '¥49 起', nameHost: '管理后台，开箱易用',
+        groupVoice: '声音定制', priceVoice: '¥66 起', nameVoice: '声音定制 · 清唱',
+        voiceFit: '女声清唱 / 专属声音 — 告诉我歌名和想法，我来唱给你',
+        voiceNote: '下单备注：歌曲名 / 邮箱 / 定制需求',
         groupFree: '0元购', priceFree: '¥0',
         descFree: '唱一首歌，资料免费送',
         singBadge: '免费', singCta: '开始（免费）', singNote: '无需下单 · 唱就送', paidDivider: '付费选项',
@@ -1208,6 +1228,23 @@
     })();
 
     var selectedType = '题库定制';
+
+    // ── voice.955827.xyz 跳转承接：?voice=<歌名> → 自动选中声音定制 + 备注横幅 ──
+    (function () {
+      var m = (location.search || '').match(/[?&]voice=([^&]*)/);
+      if (!m || !m[1]) return;
+      var song = decodeURIComponent(m[1].replace(/\+/g, ' '));
+      var card = document.getElementById('voiceCard');
+      if (card) selectVariant(card, '声音定制');
+      window._voiceNote = '歌名: ' + song + ' / 邮箱 / 定制需求';
+      var banner = document.createElement('div');
+      banner.id = 'voiceNoteBanner';
+      banner.style.cssText = 'margin:12px 0;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,#f5f3ff,#fdf2f8);border:1px solid #e9d5ff;color:#6b21a8;font-size:.85rem;line-height:1.6;';
+      banner.innerHTML = '<b>正在为《' + song + '》下单</b><br>请备注：歌曲名 / 邮箱 / 定制需求，完成后按歌名交付音频。';
+      var sidebar = document.getElementById('buySection');
+      var insert = document.querySelector('.paid-divider');
+      if (sidebar && insert) sidebar.insertBefore(banner, insert);
+    })();
     function selectVariant(el, type) {
       document.querySelectorAll('.variant-card').forEach(function(c) { c.classList.remove('selected'); });
       el.classList.add('selected');
@@ -1231,12 +1268,13 @@
     var TYPE_NAME = {
       '题库定制': { en: 'Question Bank', ja: '問題集' },
       '纯建站':   { en: 'Website',       ja: 'サイト制作' },
-      '代托管':   { en: 'Hosting',       ja: 'ホスティング' }
+      '代托管':   { en: 'Hosting',       ja: 'ホスティング' },
+      '声音定制': { en: 'Custom Voice & Singing', ja: 'ボイス歌唱' }
     };
     function typeName(type) { return (TYPE_NAME[type] && TYPE_NAME[type][LANG]) || type; }
 
     // ── PayPal 支付（跳转式：不依赖前端 JS SDK，规避国内 paypal.com / paypalobjects.com 被墙）──
-    var PP_ITEM_MAP = { '题库定制': 'question-bank', '纯建站': 'build', '代托管': 'hosting' };
+    var PP_ITEM_MAP = { '题库定制': 'question-bank', '纯建站': 'build', '代托管': 'hosting', '声音定制': 'voice' };
     var ppCurrentKey = null;
 
     function openPayModal(type) {
@@ -1282,7 +1320,7 @@
       }
       fetch('/api/paypal/create-order', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item: ppCurrentKey, email: email, phone: phone, currency: cur() })
+        body: JSON.stringify({ item: ppCurrentKey, email: email, phone: phone, currency: cur(), note: window._voiceNote || '' })
       }).then(function (r) { return r.json(); }).then(function (d) {
         if (!d.ok || !d.approveUrl) {
           showPPMsg(d.error || t('createFail'), true);

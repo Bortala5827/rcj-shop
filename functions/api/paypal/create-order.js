@@ -13,6 +13,8 @@ export async function onRequestPost({ request, env }) {
   if (!item) return json({ ok: false, error: '商品不存在' }, 400);
   const email = String(body.email || '').slice(0, 120);
   const phone = String(body.phone || '').slice(0, 40);
+  const note = String(body.note || '').slice(0, 160);
+  const desc = 'RCJ · ' + item.name + '（定金）' + (note ? ' · 备注: ' + note : '');
 
   // 货币：前端语言决定；非法值回退到账户默认；账号不支持 CNY 时统一回落 USD
   const wanted = (body.currency === 'CNY' || body.currency === 'USD')
@@ -22,14 +24,14 @@ export async function onRequestPost({ request, env }) {
   const amountVal = toCurrency(item.deposit, currency).toFixed(2);
 
   // 回跳地址：把 item/email/cur 带在 query 里，PayPal 会追加 &token=&PayerID=
-  const returnUrl = `https://shop.955827.xyz/return.html?item=${encodeURIComponent(key)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&cur=${encodeURIComponent(currency)}`;
+  const returnUrl = `https://shop.955827.xyz/return.html?item=${encodeURIComponent(key)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&cur=${encodeURIComponent(currency)}${note ? '&note=' + encodeURIComponent(note) : ''}`;
   const cancelUrl = `https://shop.955827.xyz/return.html?cancel=1`;
 
   try {
     const res = await pp(env, 'POST', '/v2/checkout/orders', {
       intent: 'CAPTURE',
       purchase_units: [{
-        description: 'RCJ · ' + item.name + '（定金）',
+        description: desc,
         custom_id: key,
         amount: { currency_code: currency, value: amountVal },
       }],
