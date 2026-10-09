@@ -561,6 +561,15 @@
     .work-title { font-weight:700; font-size:.95rem; color:var(--text); }
     .work-desc { font-size:.82rem; color:#4b5563; line-height:1.55; margin:0; }
     @media (max-width:640px) { .work-grid { grid-template-columns:1fr; gap:.7rem; } .work-card { padding:.9rem 1rem; } .work-title { font-size:.88rem; } .work-desc { font-size:.78rem; } .feature-item { padding:1rem; } .feature-item h4 { font-size:.92rem; } .feature-item p { font-size:.8rem; } }
+    /* ===== 2026-10-09 视觉打磨（克制：统一层级与微动效） ===== */
+    .product-title { font-size: clamp(1.55rem, 3vw, 2.35rem); line-height: 1.18; letter-spacing: -.01em; }
+    .detail-section { margin-bottom: 2.2rem; }
+    .stat-item { transition: transform .22s ease, box-shadow .22s ease; }
+    .stat-item:hover { transform: translateY(-3px); }
+    .variant-card { transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+    .variant-card:hover { transform: translateY(-2px); }
+    .feature-item { transition: transform .25s ease, box-shadow .25s ease; }
+    .highlight-title { letter-spacing: -.005em; }
   </style>
 </head>
 <body>
