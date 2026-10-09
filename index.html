@@ -1590,14 +1590,7 @@
           '<p class="ck-note-hint">' + t('voiceNoteReq') + '</p>' +
           '<div class="ck-pay" id="ckPay">' +
             '<button class="ck-pay-btn selected" data-pay="paypal" onclick="pickPay(this)">' + t('payPaypal') + '<small>PayPal</small></button>' +
-            '<button class="ck-pay-btn" data-pay="alipay" onclick="pickPay(this)">' + t('payAlipay') + '<small>QR</small></button>' +
-            '<button class="ck-pay-btn" data-pay="wechat" onclick="pickPay(this)">' + t('payWechat') + '<small>QR</small></button>' +
             '<button class="ck-pay-btn" data-pay="xianyu" onclick="pickPay(this)">' + t('payXianyu') + '<small>Xianyu</small></button>' +
-          '</div>' +
-          '<div class="ck-qr" id="ckQr" hidden>' +
-            '<img id="ckQrImg" alt="QR" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">' +
-            '<div class="ord">' + t('orderNo') + ': <b id="ckOrderNo"></b></div>' +
-            '<div class="tip">' + t('qrHint') + '</div>' +
           '</div>' +
           '<div class="ck-order-line" id="ckOrderLine" hidden>' +
             '<span>' + t('orderNo') + ': <b id="ckOrderNo2"></b></span>' +
@@ -1641,20 +1634,10 @@
       ckPay = btn.getAttribute('data-pay');
       document.querySelectorAll('#ckPay .ck-pay-btn').forEach(function (b) { b.classList.remove('selected'); });
       btn.classList.add('selected');
-      var qr = document.getElementById('ckQr');
-      var line = document.getElementById('ckOrderLine');
       var go = document.getElementById('ckGo');
-      if (ckPay === 'alipay') {
-        qr.hidden = false; line.hidden = true;
-        go.textContent = t('placeOrder');
-      } else if (ckPay === 'wechat') {
-        qr.hidden = false; line.hidden = true;
-        go.textContent = t('placeOrder');
-      } else if (ckPay === 'xianyu') {
-        qr.hidden = true; line.hidden = true;
+      if (ckPay === 'xianyu') {
         go.textContent = t('payXianyu') + ' →';
       } else {
-        qr.hidden = true; line.hidden = true;
         go.textContent = t('placeOrder');
       }
     }
@@ -1697,16 +1680,6 @@
       if (ckPay === 'paypal') {
         saveOrder('paypal');
         openPayModal();
-        return;
-      }
-      if (ckPay === 'alipay' || ckPay === 'wechat') {
-        saveOrder(ckPay);
-        // 收款码图由站长维护：ckQrImg.src 替换为真实二维码地址
-        document.getElementById('ckQrImg').src = (ckPay === 'alipay')
-          ? (window._QR_ALIPAY || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
-          : (window._QR_WECHAT || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
-        document.getElementById('ckOrderNo').textContent = ckOrderNo;
-        document.getElementById('ckGo').textContent = t('copied') + ' · ' + t('orderNo') + ' ' + ckOrderNo;
         return;
       }
       if (ckPay === 'xianyu') {
