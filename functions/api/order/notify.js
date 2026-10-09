@@ -42,7 +42,7 @@ export async function onRequestPost({ request, env }) {
   const total = String(body.total || '').slice(0, 30);
   const email = pickEmail(body, note);
   const t = beijing();
-  const payLabel = { alipay: '支付宝', xianyu: '闲鱼', paypal: 'PayPal' }[pay] || pay;
+  const payLabel = { alipay: '支付宝', wechat: '微信', xianyu: '闲鱼', paypal: 'PayPal' }[pay] || pay;
 
   const results = [];
   try {
