@@ -664,13 +664,41 @@
     .variant-card:hover { transform: translateY(-2px); }
     .feature-item { transition: transform .25s ease, box-shadow .25s ease; }
     .highlight-title { letter-spacing: -.005em; }
+  
+    /* 商品详情弹窗 */
+    .sd-overlay { position:fixed; inset:0; z-index:90; background:rgba(15,23,42,.66); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .22s ease; }
+    .sd-overlay.show { opacity:1; pointer-events:auto; }
+    .sd-modal { width:min(560px,100%); max-height:88vh; overflow-y:auto; background:#fff; border-radius:18px; padding:26px 26px 22px; position:relative; box-shadow:0 24px 70px rgba(0,0,0,.28); transform:translateY(14px) scale(.98); transition:transform .22s ease; }
+    .sd-overlay.show .sd-modal { transform:none; }
+    .sd-close { position:absolute; right:14px; top:12px; width:34px; height:34px; border-radius:50%; border:none; background:#f3f4f6; color:#374151; font-size:1.2rem; line-height:1; cursor:pointer; }
+    .sd-close:hover { background:#e5e7eb; }
+    .sd-body h3 { margin:0 0 4px; font-size:1.5rem; font-weight:800; letter-spacing:-.02em; }
+    .sd-price { font-size:1.25rem; font-weight:800; color:#c2543c; margin-bottom:10px; }
+    .sd-fit { font-size:.95rem; color:#4b5563; line-height:1.65; margin-bottom:14px; }
+    .sd-feat { padding:10px 0; border-bottom:1px solid #f0f0f0; }
+    .sd-feat:last-of-type { border-bottom:none; }
+    .sd-feat b { display:block; font-size:.95rem; margin-bottom:2px; }
+    .sd-feat span { font-size:.9rem; color:#6b7280; line-height:1.6; }
+    .sd-note { margin-top:10px; padding:10px 12px; border-radius:10px; background:#f5f3ff; color:#6b21a8; font-size:.88rem; line-height:1.6; }
+    .sd-voice { margin-top:10px; }
+    .sd-voice a { color:#c2543c; font-weight:600; font-size:.92rem; text-decoration:none; border-bottom:1px dashed currentColor; }
+    .sd-specs { margin-top:12px; border:1px solid #eee; border-radius:12px; overflow:hidden; }
+    .sd-spec { display:flex; justify-content:space-between; gap:12px; padding:9px 12px; font-size:.88rem; }
+    .sd-spec span:first-child { color:#6b7280; }
+    .sd-spec + .sd-spec { border-top:1px solid #f3f4f6; }
+    .sd-foot { margin-top:16px; display:flex; align-items:center; gap:12px; }
+    .sd-stepper { display:inline-flex; align-items:center; gap:6px; border:1px solid #e5e7eb; border-radius:999px; padding:4px 6px; }
+    .sd-stepper button { width:30px; height:30px; border-radius:50%; border:none; background:#f3f4f6; color:#111; font-size:1rem; cursor:pointer; }
+    .sd-qty { min-width:28px; text-align:center; font-weight:700; }
+    .sd-cart { flex:1; border:none; border-radius:999px; padding:12px 18px; font-size:.95rem; font-weight:700; color:#fff; background:linear-gradient(135deg,#c2543c,#a63d2a); cursor:pointer; }
+    .sd-cart:hover { opacity:.94; }
+
   </style>
 </head>
 <body>
   <div class="top-nav">
     <div class="brand"><span>RCJ</span> <span data-i18n="brandSuffix">定制服务</span></div>
     <div style="display:flex;align-items:center;gap:12px">
-      <a href="https://rcj-stack-9xe.pages.dev/" target="_blank" rel="noopener" data-i18n="liveDemo" style="font-weight:600;color:var(--primary);border:1px solid var(--primary);border-radius:999px;padding:4px 12px;font-size:.85rem;text-decoration:none">Live Demo</a>
       <div class="lang-switch" id="langSwitch">
         <button type="button" id="langTrigger" class="lang-trigger" aria-haspopup="true" aria-expanded="false">
           <span id="langTriggerLabel">EN</span><span class="lang-caret">▾</span>
@@ -693,76 +721,11 @@
         <div class="product-details">
           <h1 class="product-title reveal" data-i18n="heroTitle">Question Banks &middot; Websites &middot; Custom Voice</h1>
 
-          <!-- 信任数据栏 -->
-          <div class="stats-bar reveal">
-            <div class="stat-item">
-              <div class="stat-icon">🏆</div>
-              <div class="stat-num" data-i18n="statsSold">20+ Copies Sold</div>
-              <div class="stat-label">★★★★★</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-icon">☁️</div>
-              <div class="stat-num" data-i18n="statsHosting">Free Hosting</div>
-              <div class="stat-label">Global Fast Access &amp; Protection</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-icon">💬</div>
-              <div class="stat-num" data-i18n="statsSupport">30-Day Support</div>
-              <div class="stat-label">Free Revisions</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-icon">🎓</div>
-              <div class="stat-num" data-i18n="statsStudents">2 Student Sites Live</div>
-              <div class="stat-label" data-i18n="statsStudentsLabel">Zero to Live</div>
-            </div>
-          </div>
 
           
-                    <!-- 商品区：分类筛选 + 电商卡片网格（淘宝/希音式） -->
-          <div class="sku-cats reveal" id="skuCats">
-            <button class="on" data-cat="all" onclick="setSkuCat('all')"><span data-i18n="catAll">All</span><em>6</em></button>
-            <button data-cat="dom" onclick="setSkuCat('dom')"><span data-i18n="catDom">Question Bank &amp; Web</span><em>3</em></button>
-            <button data-cat="voice" onclick="setSkuCat('voice')"><span data-i18n="catVoice">VOICE</span><em>3</em></button>
-          </div>
+                    <!-- 商品区：电商卡片网格（淘宝/希音式） -->
           <div class="sku-grid reveal" id="skuGrid"></div>
 
-          <div class="detail-section reveal">
-            <h2 class="highlight-title" data-i18n="bankTitle">Question Bank</h2>
-            <div class="feature-grid">
-              <div class="feature-item" style="--accent:#059669;--icon-bg:#d1fae5;">
-                <h4 data-i18n="feat1Title">Online Practice Site</h4>
-                <p data-i18n="feat1Desc">Practice right in your browser — no install needed, progress saved locally.</p>
-              </div>
-              <div class="feature-item" style="--accent:#2563eb;--icon-bg:#dbeafe;">
-                <h4 data-i18n="feat2Title">Offline HTML</h4>
-                <p data-i18n="feat2Desc">Downloadable practice page — open it offline, no internet required.</p>
-              </div>
-              <div class="feature-item" style="--accent:#7c3aed;--icon-bg:#ede9fe;">
-                <h4 data-i18n="feat3Title">Smart Memory Cards (Forgetting-Curve Review)</h4>
-                <p data-i18n="feat3Desc">Import into popular flashcard apps. Auto reminds you to review based on the Ebbinghaus forgetting curve — study smarter, not harder.</p>
-              </div>
-            </div>
-          </div>
-
-            <!-- 声音定制 · 试听站入口 -->
-            <div class="detail-section reveal">
-              <h2 class="highlight-title" data-i18n="voiceTitle">Custom Voice &amp; Singing</h2>
-              <div class="feature-grid">
-                <div class="feature-item" style="--accent:#e89a5b;--icon-bg:#fdeee0;">
-                  <h4 data-i18n="voiceFeat1Title">Live Preview Station</h4>
-                  <p data-i18n="voiceFeat1Desc">Browse a cappella covers with scrolling lyrics — hear before you buy.</p>
-                </div>
-                <div class="feature-item" style="--accent:#db2777;--icon-bg:#fce7f3;">
-                  <h4 data-i18n="voiceFeat2Title">Custom Recording</h4>
-                  <p data-i18n="voiceFeat2Desc">Tell me the song &amp; your idea — I sing it raw, delivered by email.</p>
-                </div>
-                <div class="feature-item" style="--accent:#eab308;--icon-bg:#fef9c3;">
-                  <h4 data-i18n="voiceFeat3Title">From $19.9</h4>
-                  <p data-i18n="voiceFeat3Desc">Clear pricing via PayPal deposit + balance. Note: song / email / custom request.</p>
-                </div>
-              </div>
-              <p class="class-entry" style="margin-top:.9rem"><a href="https://voice.955827.xyz/" target="_blank" rel="noopener" data-i18n="voiceVisit">Visit the preview station &rarr;</a></p>
-            </div>
 
             <!-- 作品展示：以学员作品为主，自己的作品弱化为文末一行 -->
             <div class="detail-section reveal" id="showcase">
@@ -809,7 +772,6 @@
               </div>
               <p class="showcase-sub" style="opacity:.6;font-size:.85rem;margin-top:.8rem;">
                 <span data-i18n="myWorkNote">Also built by me:</span>
-                <a href="https://dinner.955827.xyz/?k=ddn9g42t5a" target="_blank" rel="noopener">Dinner for You</a> ·
                 <a href="https://facetalk.955827.xyz/" target="_blank" rel="noopener">FaceTalk</a>
               </p>
             </div>
@@ -866,31 +828,6 @@
       <h3 data-i18n="ctaTitle">Ready to start?</h3>
       <a class="cta-btn" href="#buySection" data-i18n="ctaBtn">Get Started</a>
     </div>
-  <!-- Sing to Me · 录音棚弹窗 -->
-  <div class="sing-overlay" id="singOverlay">
-    <div class="sing-booth">
-      <button class="sing-booth-close" id="singClose" aria-label="关闭">✕</button>
-      <div class="sing-booth-head">
-        <h2>Sing to Me · <span data-i18n="singFree">Free</span></h2>
-        <p data-i18n="singHead">Sing me a song — get the material free</p>
-        <p class="sing-dur-hint" data-i18n="singDurHint">30–180s of any song — no pitch perfection needed</p>
-      </div>
-      <div class="sing-stage">
-        <div class="sing-mic-wrap" id="singMicWrap">
-          <div class="sing-mic-ring"></div>
-          <div class="sing-mic-ring inner"></div>
-          <div class="sing-rec-badge"><span class="dot"></span>REC</div>
-          <button class="sing-mic-btn" id="singMicBtn" data-i18n-title="singMicTitle" title="Start recording">🎤</button>
-        </div>
-        <canvas class="sing-wave" id="singWave"></canvas>
-        <div class="sing-mic-status" id="singRecStatus" data-i18n="singReady">Tap the mic when you're ready</div>
-      </div>
-      <div id="singAudioWrap"></div>
-      <input class="sing-email" id="singEmail" type="email" data-i18n-ph="singEmailPh" placeholder="Your email (materials will be sent here)" />
-      <div class="sing-msg" id="singMsg"></div>
-      <button class="sing-submit" id="singSubmit" data-i18n="singSubmit">Done — Submit</button>
-    </div>
-  </div>
   </main>
 
 
@@ -1027,7 +964,7 @@
         singBadge: 'Free', singCta: 'Start (free)', singNote: 'No purchase needed · just sing', paidDivider: 'Paid options',
         buyNow: 'Buy Now',
         grpDomestic: 'Domestic Services (¥)', grpVoice: 'Voice (USD $)',
-        checkoutTitle: 'Checkout', orderSummary: 'Order Summary',
+        checkoutTitle: 'Checkout', addToCart: 'Add to Cart', orderSummary: 'Order Summary',
         qtyLabel: 'Qty', skuSelected: 'Selected', totalLabel: 'Total',
         payMethod: 'Payment method',
         payPaypal: 'PayPal (overseas)', payAlipay: 'Alipay QR (overseas Chinese)', payWechat: 'WeChat QR (overseas Chinese)', payXianyu: 'Xianyu (domestic)',
@@ -1139,7 +1076,7 @@
         singBadge: '無料', singCta: '無料で始める', singNote: '購入不要・歌うだけ', paidDivider: '有料オプション',
         buyNow: '今すぐ購入',
         grpDomestic: '国内サービス（¥）', grpVoice: 'ボイス（USD $）',
-        checkoutTitle: 'チェックアウト', orderSummary: '注文内容',
+        checkoutTitle: 'チェックアウト', addToCart: 'カートに入れる', orderSummary: '注文内容',
         qtyLabel: '数量', skuSelected: '選択済み', totalLabel: '合計',
         payMethod: '支払い方法',
         payPaypal: 'PayPal（海外）', payAlipay: 'Alipay QR（海外華人）', payWechat: 'WeChat QR（海外華人）', payXianyu: 'Xianyu（国内）',
@@ -1251,7 +1188,7 @@
         singBadge: '免费', singCta: '开始（免费）', singNote: '无需下单 · 唱就送', paidDivider: '付费选项',
         buyNow: '立即购买',
         grpDomestic: '国内服务（人民币）', grpVoice: 'Voice（美元）',
-        checkoutTitle: '结算下单', orderSummary: '订单明细',
+        checkoutTitle: '结算下单', addToCart: '加入购物车', orderSummary: '订单明细',
         qtyLabel: '数量', skuSelected: '已选', totalLabel: '合计',
         payMethod: '付款方式',
         payPaypal: 'PayPal（海外）', payAlipay: '支付宝收款码（海外华人）', payWechat: '微信收款码（海外华人）', payXianyu: '闲鱼（国内）',
@@ -1421,10 +1358,9 @@
     var SKUS = {
       'question-bank': { nameKey: 'nameBank', cny: 99, grp: 'dom' },
       'build':         { nameKey: 'nameBuild', cny: 299, grp: 'dom' },
-      'hosting':       { nameKey: 'nameHost', cny: 49, grp: 'dom' },
       'voice-greet':   { nameKey: 'skuGreet', usd: 6, grp: 'voice' },
       'voice-song':    { nameKey: 'skuSong', usd: 9.9, grp: 'voice' },
-      'voice-premium': { nameKey: 'skuPremium', usd: 25, grp: 'voice' }
+      'voice-song':    { nameKey: 'skuSong', usd: 9.9, grp: 'voice' }
     };
     // voice.955827.xyz 歌曲清单（与 voice 站 products.json 一致）；用于结算面板歌名下拉
     var SONGS = ['分身情人','白色巨塔 (Jupiter)','起风了','红豆','红豆（二）','人间','我只在乎你','像我这样的人','有何不可','至少还有你','分身情人（二）','情非得已','年轮','关键词','女孩','暖暖','相见恨晚','命运','星空下的梦想','如果可以','红豆（三）','玻璃','公主殿下','就让这大雨全部落下','俩三句','情歌','若把你','身骑白马','我想大声告诉你','雨蝶'];
@@ -1432,13 +1368,63 @@
 
     // ── 电商式商品网格（分类筛选 + 卡片，淘宝/希音式）──
     var SKU_CATS = {
-      all: ['question-bank', 'build', 'hosting', 'voice-greet', 'voice-song', 'voice-premium'],
-      dom: ['question-bank', 'build', 'hosting'],
-      voice: ['voice-greet', 'voice-song', 'voice-premium']
+      all: ['question-bank', 'build', 'voice-greet', 'voice-song'],
+      dom: ['question-bank', 'build'],
+      voice: ['voice-greet', 'voice-song']
     };
     var SKU_CAT = 'all';
-    var SKU_FIT_KEY = { 'question-bank': 'bankFit', 'build': 'buildFit', 'hosting': 'priceNote', 'voice-greet': 'skuGreetFit', 'voice-song': 'skuSongFit', 'voice-premium': 'skuPremiumFit' };
-    var SKU_NOTE_KEY = { 'question-bank': 'priceNote', 'build': 'priceNote', 'hosting': 'priceNote', 'voice-song': 'voiceNote' };
+    var SKU_FIT_KEY = { 'question-bank': 'bankFit', 'build': 'buildFit', 'voice-greet': 'skuGreetFit', 'voice-song': 'skuSongFit' };
+    var SKU_NOTE_KEY = { 'question-bank': 'priceNote', 'build': 'priceNote', 'voice-song': 'voiceNote' };
+    var SKU_DETAIL = {
+      'question-bank': { feats: [['feat1Title','feat1Desc'],['feat2Title','feat2Desc'],['feat3Title','feat3Desc']] },
+      'build': { feats: [] },
+      'voice-greet': { feats: [['voiceFeat1Title','voiceFeat1Desc'],['voiceFeat2Title','voiceFeat2Desc'],['voiceFeat3Title','voiceFeat3Desc']] },
+      'voice-song': { feats: [['voiceFeat1Title','voiceFeat1Desc'],['voiceFeat2Title','voiceFeat2Desc'],['voiceFeat3Title','voiceFeat3Desc']] }
+    };
+    function showSkuDetail(key) {
+      var sk = SKUS[key]; if (!sk) return;
+      var ov = document.getElementById('sdOverlay');
+      if (!ov) {
+        ov = document.createElement('div'); ov.id = 'sdOverlay'; ov.className = 'sd-overlay';
+        ov.innerHTML = '<div class="sd-modal">' +
+          '<button class="sd-close" aria-label="close">\u00d7</button>' +
+          '<div class="sd-body"></div>' +
+          '<div class="sd-foot">' +
+            '<div class="sd-stepper"></div>' +
+            '<button class="sd-cart">' + t('addToCart') + '</button>' +
+          '</div></div>';
+        ov.addEventListener('click', function (e) { if (e.target === ov) ov.classList.remove('show'); });
+        ov.querySelector('.sd-close').addEventListener('click', function () { ov.classList.remove('show'); });
+        document.body.appendChild(ov);
+      }
+      var d = SKU_DETAIL[key] || { feats: [] };
+      var pr = sk.usd ? '$' + sk.usd : priceLabel(sk.cny);
+      var feats = (d.feats || []).map(function (p) {
+        return '<div class="sd-feat"><b>' + t(p[0]) + '</b><span>' + t(p[1]) + '</span></div>';
+      }).join('');
+      var specs = [['specDelivery','specDeliveryV'],['specPayment','specPaymentV'],['specHosting',''],['specSupport','specSupportV']].map(function (p) {
+        return '<div class="sd-spec"><span>' + t(p[0]) + '</span><span>' + (p[1] ? t(p[1]) : 'Free &amp; Included') + '</span></div>';
+      }).join('');
+      var voiceLink = (sk.grp === 'voice') ? '<div class="sd-voice"><a href="https://voice.955827.xyz/" target="_blank" rel="noopener">' + t('voiceVisit') + '</a></div>' : '';
+      ov.querySelector('.sd-body').innerHTML =
+        '<h3>' + t(sk.nameKey) + '</h3>' +
+        '<div class="sd-price">' + pr + '</div>' +
+        '<div class="sd-fit">' + t(SKU_FIT_KEY[key]) + '</div>' +
+        feats +
+        (SKU_NOTE_KEY[key] ? '<div class="sd-note">' + t(SKU_NOTE_KEY[key]) + '</div>' : '') +
+        voiceLink +
+        '<div class="sd-specs">' + specs + '</div>';
+      ov.querySelector('.sd-stepper').innerHTML =
+        '<button type="button" onclick="stepQty(\'' + key + '\',-1)" aria-label="minus">\u2212</button>' +
+        '<span class="sd-qty" id="sdQty">' + (cart[key] || 0) + '</span>' +
+        '<button type="button" onclick="stepQty(\'' + key + '\',1)" aria-label="plus">+</button>';
+      window._sdKey = key;
+      ov.querySelector('.sd-cart').onclick = function () {
+        if (window._sdKey) stepQty(window._sdKey, 1);
+        ov.classList.remove('show');
+      };
+      ov.classList.add('show');
+    }
     function renderSkuGrid() {
       var grid = document.getElementById('skuGrid');
       if (!grid) return;
@@ -1451,7 +1437,7 @@
         if (key === 'voice-song') tag = '<span class="sku-tag hot">' + t('skuPopular') + '</span>';
         if (key === 'voice-greet') tag = '<span class="sku-tag new">' + t('skuNew') + '</span>';
         html +=
-          '<div class="sku-card" data-sku="' + key + '">' +
+          '<div class="sku-card" data-sku="' + key + '" onclick="if(!event.target.closest(\'.sku-stepper\'))showSkuDetail(\'' + key + '\')">' +
             tag +
             '<div class="sku-card-name">' + t(sk.nameKey) + '</div>' +
             '<div class="sku-card-price">' + pr + '</div>' +
@@ -2259,7 +2245,6 @@
       { name: '客服', action: 'support' },
       { name: '课程', action: 'course' },
       { name: '邮箱', action: 'email' },
-      { name: 'Sing', action: 'sing' }
     ];
     var RADIUS = 118;
     var css = document.createElement('style');
@@ -2372,7 +2357,6 @@
       else if (act === 'faq') document.getElementById('faq').scrollIntoView({ behavior: 'smooth' });
       else if (act === 'course') location.href = 'course.html';
       else if (act === 'email') { var eb = document.getElementById('emailBtn'); if (eb) eb.click(); }
-      else if (act === 'sing') document.dispatchEvent(new CustomEvent('opensingbooth'));
       else if (act === 'support') {
         var hf = document.querySelector('.rcj-chat-fab');
         if (hf && typeof hf._togglePanel === 'function') hf._togglePanel();
@@ -2384,150 +2368,6 @@
   </script>
 
   <script>
-  // Sing to Me · 0元购 录音棚弹窗
-  (function(){
-    var tier='0'; var audioB64=null; var mediaRec=null; var chunks=[]; var analyser=null; var streamRef=null;
-    var recTick=null; var recStartAt=0;
-    var overlay=document.getElementById('singOverlay');
-    var micBtn=document.getElementById('singMicBtn');
-    var micWrap=document.getElementById('singMicWrap');
-    var recStatus=document.getElementById('singRecStatus');
-    var audioWrap=document.getElementById('singAudioWrap');
-    var emailEl=document.getElementById('singEmail');
-    var submitBtn=document.getElementById('singSubmit');
-    var msgEl=document.getElementById('singMsg');
-    var closeBtn=document.getElementById('singClose');
-    var waveCanvas=document.getElementById('singWave');
-    var wctx=waveCanvas?waveCanvas.getContext('2d'):null;
-    var waveRAF=null; var analyserData=null;
-    if(!overlay) return;
-
-    function openBooth(){ overlay.classList.add('show'); document.body.style.overflow='hidden'; startWaveLoop(null); }
-    function closeBooth(){ overlay.classList.remove('show'); document.body.style.overflow=''; if(mediaRec && mediaRec.state==='recording') stopRec(); stopWaveLoop(); }
-    document.addEventListener('opensingbooth', openBooth);
-    closeBtn.addEventListener('click', closeBooth);
-    overlay.addEventListener('click', function(e){ if(e.target===overlay) closeBooth(); });
-
-    // 声纹波动
-    function resizeWave(){
-      if(!waveCanvas) return;
-      var dpr=window.devicePixelRatio||1;
-      var w=waveCanvas.clientWidth||420;
-      waveCanvas.width=Math.round(w*dpr);
-      waveCanvas.height=Math.round(72*dpr);
-      wctx.setTransform(dpr,0,0,dpr,0,0);
-    }
-    function drawWave(){
-      if(!wctx) return;
-      var w=waveCanvas.clientWidth||420, h=72;
-      wctx.clearRect(0,0,w,h);
-      var grad=wctx.createLinearGradient(0,0,w,0);
-      grad.addColorStop(0,'#2dd4bf'); grad.addColorStop(1,'#a78bfa');
-      wctx.strokeStyle=grad; wctx.lineWidth=2.5; wctx.lineJoin='round'; wctx.lineCap='round';
-      wctx.beginPath();
-      var points=110, t=performance.now()/1000;
-      for(var i=0;i<=points;i++){
-        var x=i/points*w; var v;
-        if(analyser && analyserData){ var idx=Math.floor(i/points*analyserData.length); v=(analyserData[idx]/128-1); }
-        else { v=Math.sin(i*0.22 + t*2.2)*0.16*(0.5+0.5*Math.sin(t*1.1)); }
-        var y=h/2 + v*(h/2-8);
-        if(i===0) wctx.moveTo(x,y); else wctx.lineTo(x,y);
-      }
-      wctx.stroke();
-    }
-    function startWaveLoop(stream){
-      resizeWave();
-      if(stream){
-        try{
-          var AC=window.AudioContext||window.webkitAudioContext;
-          var ac=new AC(); var src=ac.createMediaStreamSource(stream);
-          analyser=ac.createAnalyser(); analyser.fftSize=2048; src.connect(analyser);
-          analyserData=new Uint8Array(analyser.fftSize);
-        }catch(e){ analyser=null; analyserData=null; }
-      } else { analyser=null; analyserData=null; }
-      if(waveRAF) cancelAnimationFrame(waveRAF);
-      (function loop(){
-        if(analyser && analyserData) analyser.getByteTimeDomainData(analyserData);
-        drawWave();
-        waveRAF=requestAnimationFrame(loop);
-      })();
-    }
-    function stopWaveLoop(){ if(waveRAF){ cancelAnimationFrame(waveRAF); waveRAF=null; } drawWave(); }
-
-    function stopRec(reason){
-      if(mediaRec && mediaRec.state==='recording') mediaRec.stop();
-      if(recTick){ clearInterval(recTick); recTick=null; }
-      if(reason) recStatus.textContent = reason;
-    }
-    micBtn.addEventListener('click', async function(){
-      if(mediaRec && mediaRec.state==='recording'){ stopRec(); return; }
-      try{
-        var stream=await navigator.mediaDevices.getUserMedia({audio:true});
-        streamRef=stream;
-        mediaRec=new MediaRecorder(stream); chunks=[];
-        mediaRec.ondataavailable=function(e){ if(e.data&&e.data.size) chunks.push(e.data); };
-        mediaRec.onstop=function(){
-          var blob=new Blob(chunks,{type:mediaRec.mimeType||'audio/webm'});
-          var reader=new FileReader();
-          reader.onload=function(){ audioB64=reader.result; window.__rcjHasAudio=true; audioWrap.innerHTML='<audio class="sing-audio" controls src="'+audioB64+'"></audio>'; recStatus.textContent=t('msgRecDone'); };
-          reader.readAsDataURL(blob);
-          if(streamRef){ streamRef.getTracks().forEach(function(t){t.stop();}); streamRef=null; }
-          micBtn.classList.remove('recording');
-          micWrap.classList.remove('recording');
-          recStatus.classList.remove('recording');
-          recStatus.classList.add('done');
-          analyser=null; analyserData=null;
-        };
-        mediaRec.start();
-        micBtn.classList.add('recording');
-        micWrap.classList.add('recording');
-        recStatus.classList.remove('done');
-        recStatus.classList.add('recording');
-        recStartAt=Date.now();
-        recStatus.textContent=t('msgRecPrefix')+' 0s/180s…';
-        if(recTick) clearInterval(recTick);
-        recTick=setInterval(function(){
-          var sec=Math.round((Date.now()-recStartAt)/1000);
-          if(sec>=180){ stopRec(t('msgRecStop')); }
-          else { recStatus.textContent=t('msgRecPrefix')+' '+sec+'s/180s…'; }
-        },1000);
-        startWaveLoop(stream);
-      }catch(e){ recStatus.textContent=t('msgNoMic')+e.message; }
-    });
-
-    submitBtn.addEventListener('click', async function(){
-      msgEl.className='sing-msg'; msgEl.textContent=t('msgSubmitting');
-      if(!audioB64){ msgEl.className='sing-msg err'; msgEl.textContent=t('msgNeedRecord'); return; }
-      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)){ msgEl.className='sing-msg err'; msgEl.textContent=t('msgEmailBad'); return; }
-      submitBtn.disabled=true;
-      try{
-        // 时长校验（服务端不强校验，前端先筛掉太短的）
-        var dur=0;
-        try{
-          var tmp=new Audio(audioB64);
-          dur=tmp.duration;
-          if(!isFinite(dur)||!dur) dur=0;
-        }catch(e){ dur=0; }
-        if(dur>0 && dur<30){ msgEl.className='sing-msg err'; msgEl.textContent=t('msgTooShort'); submitBtn.disabled=false; return; }
-        // 本地 24h 频控（同一浏览器一天限 2 次，防连刷）
-        var now=Date.now(), last=0;
-        try{ last=Number(localStorage.getItem('rcj_sing24')||0); }catch(e){}
-        if(now-last < 24*3600*1000){ msgEl.className='sing-msg err'; msgEl.textContent=t('msgRateLimit'); submitBtn.disabled=false; return; }
-        var r=await fetch('https://955827.xyz/api/sing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:emailEl.value,tier:tier,materials:[],audio:audioB64,audioType:'webm'})});
-        var d=await r.json();
-        if(d.ok){
-          msgEl.className='sing-msg ok'; msgEl.textContent=t('msgSingOk');
-          tier='0'; audioB64=null; window.__rcjHasAudio=false;
-          audioWrap.innerHTML=''; micBtn.classList.remove('recording'); micWrap.classList.remove('recording'); recStatus.classList.remove('recording','done'); recStatus.textContent=t('singReady'); emailEl.value='';
-          // 提交成功才写本地频控（失败/网络错误不写，允许重试）
-          try{ localStorage.setItem('rcj_sing24', String(Date.now())); }catch(e){}
-          setTimeout(closeBooth, 1600);
-        } else { msgEl.className='sing-msg err'; msgEl.textContent=d.error||t('submitFail'); }
-      }catch(e){ msgEl.className='sing-msg err'; msgEl.textContent=t('netErr')+e.message; }
-      submitBtn.disabled=false;
-    });
-  })();
-
   // 页面加载完成 → 拉汇率 + 应用当前语言（默认 EN，或 localStorage 记住的语言）
   fetch('/api/paypal/config').then(function(r){ return r.json(); }).then(function(cfg){ if (cfg.rate) RCJ_RATE = cfg.rate; if (typeof cfg.cnyEnabled === 'boolean') RCJ_CNY_ENABLED = cfg.cnyEnabled; }).catch(function(){}).finally(function(){ applyLang(LANG); });
 
