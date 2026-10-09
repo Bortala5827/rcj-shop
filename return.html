@@ -27,9 +27,11 @@
       var q = new URLSearchParams(location.search);
       var token = q.get('token');
       var item = q.get('item') || '';
+      var items = q.get('items') || '';   // 多商品：JSON [{key,qty}]
       var email = q.get('email') || '';
       var phone = q.get('phone') || '';
       var cur = q.get('cur') || 'CNY';
+      var note = q.get('note') || '';
       var cancel = q.get('cancel');
       var icon = document.getElementById('icon');
       var title = document.getElementById('title');
@@ -52,7 +54,7 @@
       fetch('/api/paypal/capture', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId: token, item: item, email: email, phone: phone, currency: cur })
+        body: JSON.stringify({ orderId: token, item: item, items: items, email: email, phone: phone, currency: cur, note: note })
       }).then(function (r) { return r.json(); }).then(function (d) {
         if (d.ok) {
           icon.textContent = '✅';

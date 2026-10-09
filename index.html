@@ -220,6 +220,68 @@
 
     .payment-notice { background: #fefce8; border: 1px solid #fef08a; color: #854d0e; padding: 0.75rem 1rem; border-radius: var(--radius); font-size: 0.82rem; margin-top: 1rem; text-align: center; }
 
+    .sku-grp-head { font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #64748b; margin: 1.4rem 0 .6rem; }
+    .sku-stepper { display: inline-flex; align-items: center; gap: .65rem; margin-top: .6rem; border: 1px solid #e2e8f0; border-radius: 999px; padding: 3px 6px; background: #fff; }
+    .sku-stepper button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #e2e8f0; background: #f8fafc; color: #0f172a; font-size: 1rem; font-weight: 800; cursor: pointer; line-height: 1; transition: all .15s; }
+    .sku-stepper button:hover { background: #0d9488; color: #fff; border-color: #0d9488; }
+    .sku-qty { min-width: 26px; text-align: center; font-weight: 800; font-size: .95rem; }
+    .sku-summary { margin: .9rem 0 .5rem; font-size: .88rem; color: #334155; }
+    .sku-summary b { color: #0d9488; }
+    /* 结算面板 */
+    .ck-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.55); backdrop-filter: blur(4px); z-index: 9980; display: none; align-items: center; justify-content: center; padding: 16px; }
+    .ck-overlay.show { display: flex; }
+    .ck-modal { width: min(560px, 100%); max-height: 92vh; overflow-y: auto; background: #fff; border-radius: 20px; box-shadow: 0 24px 70px rgba(0,0,0,.3); padding: 24px; position: relative; animation: ckIn .25s cubic-bezier(.34,1.3,.5,1) both; }
+    @keyframes ckIn { from { opacity: 0; transform: translateY(14px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .ck-close { position: absolute; top: 14px; right: 16px; border: none; background: none; font-size: 20px; color: #94a3b8; cursor: pointer; line-height: 1; }
+    .ck-title { font-size: 1.15rem; font-weight: 800; margin: 0 0 4px; }
+    .ck-sub { font-size: .8rem; color: #64748b; margin: 0 0 16px; }
+    .ck-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed #e5e7eb; font-size: .92rem; }
+    .ck-item .nm { font-weight: 700; }
+    .ck-item .pr { color: #334155; white-space: nowrap; }
+    .ck-total { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 6px; font-weight: 800; font-size: 1.02rem; }
+    .ck-note { width: 100%; box-sizing: border-box; margin: 8px 0 4px; padding: 11px 14px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: .9rem; font-family: inherit; outline: none; resize: vertical; min-height: 64px; }
+    .ck-note:focus { border-color: #0d9488; }
+    .ck-note-hint { font-size: .74rem; color: #b45309; margin: 0 0 10px; line-height: 1.5; }
+    .ck-pay { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0 14px; }
+    .ck-pay-btn { border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 11px 10px; background: #fff; cursor: pointer; text-align: left; font-size: .84rem; font-weight: 700; font-family: inherit; transition: all .15s; line-height: 1.4; }
+    .ck-pay-btn small { display: block; font-weight: 400; color: #64748b; font-size: .72rem; margin-top: 2px; }
+    .ck-pay-btn.selected { border-color: #0d9488; background: #f0fdfa; box-shadow: 0 0 0 3px rgba(13,148,136,.12); }
+    .ck-qr { text-align: center; margin: 10px 0; }
+    .ck-qr img { width: 200px; height: 200px; border: 1px solid #e2e8f0; border-radius: 14px; object-fit: contain; background: #fff; }
+    .ck-qr .ord { font-size: .86rem; font-weight: 800; color: #0d9488; margin: 10px 0 4px; }
+    .ck-qr .tip { font-size: .76rem; color: #b45309; line-height: 1.6; }
+    .ck-go { width: 100%; padding: .95rem; background: #0d9488; color: #fff; border: 1px solid #000; border-radius: 12px; font-weight: 800; font-size: 1.02rem; cursor: pointer; font-family: inherit; transition: all .15s; }
+    .ck-go:hover { background: #0f766e; transform: translate(-2px,-2px); box-shadow: 4px 4px 0 #000; }
+    .ck-go:active { transform: none; box-shadow: none; }
+    .ck-order-line { display: flex; align-items: center; gap: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 12px; margin: 10px 0; font-size: .86rem; }
+    .ck-order-line b { color: #0d9488; }
+    .ck-order-line button { margin-left: auto; border: 1px solid #e2e8f0; background: #fff; border-radius: 8px; padding: 6px 12px; font-size: .78rem; font-weight: 700; cursor: pointer; font-family: inherit; }
+    @media (max-width: 560px) { .ck-pay { grid-template-columns: 1fr; } }
+    /* ── 电商化：金刚区 / 价格标签 / 底部 Tab / 购物车角标 ── */
+    .sku-nav { display: flex; gap: 10px; overflow-x: auto; padding: 2px 2px 10px; margin: 4px 0 10px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .sku-nav::-webkit-scrollbar { display: none; }
+    .sku-nav button { flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; width: 74px; padding: 12px 6px 10px; border: 1px solid #e8eaee; border-radius: 16px; background: #fff; cursor: pointer; font-family: inherit; transition: all .18s; }
+    .sku-nav button:hover { border-color: #0d9488; box-shadow: 0 6px 18px rgba(13,148,136,.12); transform: translateY(-2px); }
+    .sku-nav button svg { width: 30px; height: 30px; }
+    .sku-nav button span { font-size: .74rem; font-weight: 700; color: #334155; white-space: nowrap; }
+    .sku-nav button .nav-price { font-size: .66rem; color: #ef4444; font-weight: 800; }
+    .sku-nav button.hl { border-color: #0d9488; background: #f0fdfa; box-shadow: 0 0 0 3px rgba(13,148,136,.15); }
+    .variant-card .v-tag { position: absolute; top: -9px; right: 12px; background: linear-gradient(135deg,#ef4444,#f97316); color: #fff; font-size: .66rem; font-weight: 800; padding: 3px 9px; border-radius: 999px; box-shadow: 0 3px 10px rgba(239,68,68,.35); letter-spacing: .04em; }
+    .variant-card { position: relative; }
+    .variant-price del { color: #94a3b8; font-size: .72rem; font-weight: 600; margin-right: 6px; }
+    .variant-price .hot { display: inline-block; background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; font-size: .64rem; font-weight: 800; border-radius: 999px; padding: 1px 7px; margin-left: 6px; vertical-align: middle; }
+    /* 移动端底部 Tab */
+    .m-tab { position: fixed; left: 0; right: 0; bottom: 0; z-index: 9970; display: none; grid-template-columns: repeat(4, 1fr); background: rgba(255,255,255,.97); backdrop-filter: blur(14px); border-top: 1px solid #e5e7eb; padding-bottom: env(safe-area-inset-bottom); }
+    .m-tab button { border: none; background: none; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 9px 0 7px; cursor: pointer; font-family: inherit; color: #64748b; position: relative; }
+    .m-tab button svg { width: 22px; height: 22px; }
+    .m-tab button span { font-size: .64rem; font-weight: 700; }
+    .m-tab button.active { color: #0d9488; }
+    .m-badge { position: absolute; top: 4px; left: calc(50% + 8px); min-width: 16px; height: 16px; border-radius: 999px; background: #ef4444; color: #fff; font-size: .6rem; font-weight: 800; display: flex; align-items: center; justify-content: center; padding: 0 4px; box-shadow: 0 2px 6px rgba(239,68,68,.4); }
+    body { padding-bottom: 0; }
+    @media (max-width: 860px) {
+      .m-tab { display: grid; }
+      body { padding-bottom: 58px; }
+    }
     footer { text-align: center; padding: 2rem 1rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem; }
     footer a { margin: 0 0.5rem; color: var(--muted); }
 
@@ -624,6 +686,34 @@
           </div>
 
           
+          <!-- 金刚区：6 个 SKU 分类入口 -->
+          <div class="sku-nav reveal" id="skuNav">
+            <button onclick="goSku('question-bank')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.8"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg>
+              <span data-i18n="nameBank">Question Bank</span><span class="nav-price">¥99</span>
+            </button>
+            <button onclick="goSku('build')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8"><path d="M3 21h18M5 21V8l7-4 7 4v13"/><path d="M9 21v-6h6v6"/></svg>
+              <span data-i18n="nameBuild">Website</span><span class="nav-price">¥299</span>
+            </button>
+            <button onclick="goSku('hosting')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg>
+              <span data-i18n="nameHost">Admin</span><span class="nav-price">¥49</span>
+            </button>
+            <button onclick="goSku('voice-greet')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="1.8"><path d="M12 3a5 5 0 0 0-5 5v4a5 5 0 0 0 10 0V8a5 5 0 0 0-5-5z"/><path d="M5 12a7 7 0 0 0 14 0M12 19v3"/></svg>
+              <span data-i18n="skuGreet">Voice</span><span class="nav-price">$6</span>
+            </button>
+            <button onclick="goSku('voice-song')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+              <span data-i18n="skuSong">Cover</span><span class="nav-price">$9.9</span>
+            </button>
+            <button onclick="goSku('voice-premium')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.8"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.9l1-5.8L3.5 9.9l5.9-.9z"/></svg>
+              <span data-i18n="skuPremium">Premium</span><span class="nav-price">$25</span>
+            </button>
+          </div>
+
           <p class="class-entry reveal"><a href="/course.html" data-i18n="classEntry">Free live classes — learn first, decide later →</a></p>
 
           <div class="detail-section reveal">
@@ -726,58 +816,106 @@
             <button class="sing-feature-cta" onclick="(function(){var e=document.createEvent('Event');e.initEvent('opensingbooth',true,true);document.dispatchEvent(e);})()" data-i18n="singCta">Start (free)</button>
           </div>
 
-          <div class="paid-divider" data-i18n="paidDivider">Paid options</div>
+          <div class="sku-grp-head" data-i18n="grpDomestic">Domestic Services (¥)</div>
 
           <div class="plan-group">
-            <div class="variant-card muted selected" onclick="selectVariant(this, '题库定制')">
+            <div class="variant-card muted" data-sku="question-bank">
               <div class="variant-price" data-cny="99">from ¥99</div>
               <div class="variant-body">
                 <div class="variant-details" data-i18n="nameBank">Question Bank</div>
                 <div class="variant-fit" data-i18n="bankFit">Best for those who already have content — I just import your questions</div>
                 <div class="variant-price-note" data-i18n="priceNote">No hidden fees · Includes basic setup teaching</div>
+                <div class="sku-stepper">
+                  <button type="button" onclick="stepQty('question-bank',-1)" aria-label="minus">−</button>
+                  <span class="sku-qty" id="qty-question-bank">0</span>
+                  <button type="button" onclick="stepQty('question-bank',1)" aria-label="plus">+</button>
+                </div>
               </div>
             </div>
           </div>
 
           <div class="plan-group">
-            <div class="variant-card muted" onclick="selectVariant(this, '声音定制')" id="voiceCard">
-              <div class="variant-price" data-i18n="priceVoice">from $19.9</div>
-              <div class="variant-body">
-                <div class="variant-details" data-i18n="nameVoice">Custom Voice &amp; Singing</div>
-                <div class="variant-fit" data-i18n="voiceFit">A cappella covers or custom voice — tell us the song &amp; your idea, we arrange a creator to record it</div>
-                <div class="variant-price-note" data-i18n="voiceNote">Order note: song title / your email / custom request · every order shares revenue with its creator</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="plan-group">
-            <div class="variant-card muted" onclick="selectVariant(this, '纯建站')">
+            <div class="variant-card muted" data-sku="build">
               <div class="variant-price" data-cny="299">from ¥299</div>
               <div class="variant-body">
                 <div class="variant-details" data-i18n="nameBuild">Website Building</div>
                 <div class="variant-fit" data-i18n="buildFit">For complete beginners — site + hosting + video tutorials + 1-on-1 voice Q&amp;A</div>
                 <div class="variant-price-note" data-i18n="priceNote">No hidden fees · Includes basic setup teaching</div>
+                <div class="sku-stepper">
+                  <button type="button" onclick="stepQty('build',-1)" aria-label="minus">−</button>
+                  <span class="sku-qty" id="qty-build">0</span>
+                  <button type="button" onclick="stepQty('build',1)" aria-label="plus">+</button>
+                </div>
               </div>
             </div>
           </div>
 
-
-
           <div class="plan-group">
-            <div class="variant-card muted" onclick="selectVariant(this, '代托管')">
+            <div class="variant-card muted" data-sku="hosting">
               <div class="variant-price" data-cny="49">from ¥49</div>
               <div class="variant-body">
                 <div class="variant-details" data-i18n="nameHost">Admin Backend, Ready to Use</div>
                 <div class="variant-price-note" data-i18n="priceNote">No hidden fees · Includes basic setup teaching</div>
+                <div class="sku-stepper">
+                  <button type="button" onclick="stepQty('hosting',-1)" aria-label="minus">−</button>
+                  <span class="sku-qty" id="qty-hosting">0</span>
+                  <button type="button" onclick="stepQty('hosting',1)" aria-label="plus">+</button>
+                </div>
               </div>
             </div>
           </div>
 
-          <a class="xianyu-link" href="https://m.tb.cn/h.8mRAttW?tk=BiBPTfBOjhk" target="_blank" rel="noopener">
-            <span data-i18n="xianyuLabel">Buy on Xianyu</span>
-          </a>
-          <a class="feishu-link" href="https://www.feishu.cn/invitation/page/add_contact/?token=3a3id6d8-7a66-4fad-b2dc-24b739fe9f5b&amp;unique_id=MVpmBBw1nfekdNIQPcDc_g==" target="_blank" rel="noopener" data-i18n="feishuContact">加飞书 · 约教学会议</a>
-          <button class="buy-btn buy-btn-secondary" onclick="handlePurchase()" data-i18n="buyNow">Buy Now</button>
+          <div class="sku-grp-head" data-i18n="grpVoice">Voice (USD $)</div>
+
+          <div class="plan-group">
+            <div class="variant-card muted" data-sku="voice-greet" id="voiceGreetCard">
+              <div class="variant-price" data-usd="6">$6</div>
+              <div class="variant-body">
+                <div class="variant-details" data-i18n="skuGreet">Blessing Voice</div>
+                <div class="variant-fit" data-i18n="skuGreetFit">30s blessing / greeting / goodnight audio — 48h delivery</div>
+                <div class="sku-stepper">
+                  <button type="button" onclick="stepQty('voice-greet',-1)" aria-label="minus">−</button>
+                  <span class="sku-qty" id="qty-voice-greet">0</span>
+                  <button type="button" onclick="stepQty('voice-greet',1)" aria-label="plus">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="plan-group">
+            <div class="variant-card muted" data-sku="voice-song" id="voiceCard">
+              <span class="v-tag" data-i18n="skuPopular">Popular</span>
+              <div class="variant-price" data-usd="9.9"><del>$19.9</del>$9.9<span class="hot" data-i18n="skuNew">New price</span></div>
+              <div class="variant-body">
+                <div class="variant-details" data-i18n="skuSong">Custom Cover</div>
+                <div class="variant-fit" data-i18n="skuSongFit">One custom a cappella cover with lyrics — 3 days delivery</div>
+                <div class="variant-price-note" data-i18n="voiceNote">Order note: song title / your email / custom request · every order shares revenue with its creator</div>
+                <div class="sku-stepper">
+                  <button type="button" onclick="stepQty('voice-song',-1)" aria-label="minus">−</button>
+                  <span class="sku-qty" id="qty-voice-song">0</span>
+                  <button type="button" onclick="stepQty('voice-song',1)" aria-label="plus">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="plan-group">
+            <div class="variant-card muted" data-sku="voice-premium">
+              <div class="variant-price" data-usd="25">$25</div>
+              <div class="variant-body">
+                <div class="variant-details" data-i18n="skuPremium">Premium / Rush</div>
+                <div class="variant-fit" data-i18n="skuPremiumFit">Full song / 24h rush / commercial license / dedicated</div>
+                <div class="sku-stepper">
+                  <button type="button" onclick="stepQty('voice-premium',-1)" aria-label="minus">−</button>
+                  <span class="sku-qty" id="qty-voice-premium">0</span>
+                  <button type="button" onclick="stepQty('voice-premium',1)" aria-label="plus">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sku-summary" id="skuSummary"><span data-i18n="skuSelected">Selected</span>: <b id="skuSummaryText">0</b></div>
+          <button class="buy-btn buy-btn-secondary" onclick="openCheckout()" data-i18n="checkoutTitle">Checkout</button>
           <div class="pay-note" data-i18n="payOverseas">Overseas? Pay with PayPal</div>
 
           <div class="detail-list">
@@ -900,6 +1038,27 @@
     </div>
   </div>
 
+  <!-- 移动端底部 Tab（SHEIN/Temu 式） -->
+  <nav class="m-tab" id="mTab">
+    <button onclick="window.scrollTo({top:0,behavior:'smooth'});setTab(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5L12 3l9 7.5V21h-6v-6h-6v6H3z"/></svg>
+      <span data-i18n="tabHome">Home</span>
+    </button>
+    <button onclick="goSection('buySection');setTab(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M9 5v14"/></svg>
+      <span data-i18n="tabShop">Shop</span>
+    </button>
+    <button onclick="openCheckout()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="20" r="1.6"/><circle cx="17" cy="20" r="1.6"/><path d="M3 4h2l2.6 11h10.8L21 8H6"/></svg>
+      <span data-i18n="tabCart">Cart</span>
+      <span class="m-badge" id="mCartBadge" hidden>0</span>
+    </button>
+    <button onclick="openChatTab();setTab(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>
+      <span data-i18n="tabChat">Support</span>
+    </button>
+  </nav>
+
   <footer>
     <div class="cf-strip"><span data-i18n="cfStrip">Cloudflare 专属建站　·　免备案　·　全球加速　·　即开即用</span></div>
     <p>© RCJ9527</p>
@@ -962,6 +1121,22 @@
         descFree: 'Sing a song, get the material free',
         singBadge: 'Free', singCta: 'Start (free)', singNote: 'No purchase needed · just sing', paidDivider: 'Paid options',
         buyNow: 'Buy Now',
+        grpDomestic: 'Domestic Services (¥)', grpVoice: 'Voice (USD $)',
+        checkoutTitle: 'Checkout', orderSummary: 'Order Summary',
+        qtyLabel: 'Qty', skuSelected: 'Selected', totalLabel: 'Total',
+        payMethod: 'Payment method',
+        payPaypal: 'PayPal (overseas)', payAlipay: 'Alipay QR (overseas Chinese)', payWechat: 'WeChat QR (overseas Chinese)', payXianyu: 'Xianyu (domestic)',
+        noteLabel: 'Order note: song / email / request',
+        orderNo: 'Order No.', placeOrder: 'Place Order',
+        copyOrder: 'Copy order info', copied: 'Copied!',
+        qrHint: 'Scan the QR to pay · note must include Order No. + your email',
+        voiceNoteReq: 'Voice order: fill in song title & email — audio is delivered to that email',
+        skuGreet: 'Blessing Voice', skuSong: 'Custom Cover', skuPremium: 'Premium / Rush',
+        skuGreetFit: '30s blessing / greeting / goodnight audio — 48h delivery',
+        skuSongFit: 'One custom a cappella cover with lyrics — 3 days delivery',
+        skuPremiumFit: 'Full song / 24h rush / commercial license / dedicated',
+        skuPopular: 'Popular', skuNew: 'New price',
+        tabHome: 'Home', tabShop: 'Shop', tabCart: 'Cart', tabChat: 'Support',
         specDetails: 'Details', specDelivery: 'Delivery', specDeliveryV: 'Cloud drive / Email',
         specPayment: 'Payment', specPaymentV: 'Deposit + Balance',
         specHosting: 'Hosting', specSupport: 'Support', specSupportV: '30 days',
@@ -1051,6 +1226,22 @@
         descFree: '歌を一曲いただくと資料を無料プレゼント',
         singBadge: '無料', singCta: '無料で始める', singNote: '購入不要・歌うだけ', paidDivider: '有料オプション',
         buyNow: '今すぐ購入',
+        grpDomestic: '国内サービス（¥）', grpVoice: 'ボイス（USD $）',
+        checkoutTitle: 'チェックアウト', orderSummary: '注文内容',
+        qtyLabel: '数量', skuSelected: '選択済み', totalLabel: '合計',
+        payMethod: '支払い方法',
+        payPaypal: 'PayPal（海外）', payAlipay: 'Alipay QR（海外華人）', payWechat: 'WeChat QR（海外華人）', payXianyu: 'Xianyu（国内）',
+        noteLabel: '注文メモ：曲名 / メール / 要望',
+        orderNo: '注文番号', placeOrder: '注文する',
+        copyOrder: '注文情報をコピー', copied: 'コピー済み',
+        qrHint: 'QRをスキャンして支払い · メモに注文番号＋メールを必ず記入',
+        voiceNoteReq: 'ボイス注文：曲名とメールを記入 — 音声はそのメールに送信',
+        skuGreet: '祝福ボイス', skuSong: 'カスタムカバー', skuPremium: 'プレミアム/特急',
+        skuGreetFit: '30秒の祝福/挨拶/おやすみ音声 — 48時間で納品',
+        skuSongFit: 'カスタムアカペラ1曲（60-90秒）歌詞付き — 3日で納品',
+        skuPremiumFit: 'フル曲 / 24時間特急 / 商用ライセンス / 専属制作',
+        skuPopular: '人気', skuNew: '新価格',
+        tabHome: 'ホーム', tabShop: 'ショップ', tabCart: 'カート', tabChat: 'サポート',
         specDetails: '詳細', specDelivery: '納品方法', specDeliveryV: 'クラウド / メール',
         specPayment: 'お支払い', specPaymentV: '内金 + 残金',
         specHosting: 'ホスティング', specSupport: 'サポート', specSupportV: '30日間',
@@ -1140,6 +1331,22 @@
         descFree: '唱一首歌，资料免费送',
         singBadge: '免费', singCta: '开始（免费）', singNote: '无需下单 · 唱就送', paidDivider: '付费选项',
         buyNow: '立即购买',
+        grpDomestic: '国内服务（人民币）', grpVoice: 'Voice（美元）',
+        checkoutTitle: '结算下单', orderSummary: '订单明细',
+        qtyLabel: '数量', skuSelected: '已选', totalLabel: '合计',
+        payMethod: '付款方式',
+        payPaypal: 'PayPal（海外）', payAlipay: '支付宝收款码（海外华人）', payWechat: '微信收款码（海外华人）', payXianyu: '闲鱼（国内）',
+        noteLabel: '订单备注：歌名 / 邮箱 / 需求',
+        orderNo: '订单号', placeOrder: '提交下单',
+        copyOrder: '复制订单信息', copied: '已复制',
+        qrHint: '扫码付款 · 备注务必填：订单号 + 你的邮箱',
+        voiceNoteReq: '声音订单：请填歌名与邮箱 — 音频将发送到该邮箱',
+        skuGreet: '祝福语音', skuSong: '定制清唱', skuPremium: '高定加急',
+        skuGreetFit: '30 秒祝福 / 问候 / 晚安音频 — 48 小时交付',
+        skuSongFit: '一首定制清唱（60-90 秒）附歌词 — 3 天交付',
+        skuPremiumFit: '完整歌曲 / 24 小时加急 / 商用授权 / 专属创作',
+        skuPopular: '人气款', skuNew: '新品尝鲜价',
+        tabHome: '首页', tabShop: '商品', tabCart: '购物车', tabChat: '客服',
         specDetails: '交付详情', specDelivery: '交付方式', specDeliveryV: '网盘/邮箱',
         specPayment: '付款方式', specPaymentV: '定金 + 余款',
         specHosting: '建站托管', specSupport: '售后支持', specSupportV: '30天',
@@ -1198,6 +1405,10 @@
     function updatePrices() {
       document.querySelectorAll('.variant-price[data-cny]').forEach(function (el) {
         el.textContent = priceLabel(parseFloat(el.getAttribute('data-cny')));
+      });
+      document.querySelectorAll('.variant-price[data-usd]').forEach(function (el) {
+        var v = parseFloat(el.getAttribute('data-usd'));
+        el.textContent = (LANG === 'zh' ? '$' + v : '$' + v);
       });
     }
     function applyLang(lang) {
@@ -1280,42 +1491,235 @@
       });
     })();
 
-    var selectedType = '题库定制';
+    // ══════════ SKU 购物车（淘宝式：多选 × 数量）══════════
+    var SKUS = {
+      'question-bank': { nameKey: 'nameBank', cny: 99, grp: 'dom' },
+      'build':         { nameKey: 'nameBuild', cny: 299, grp: 'dom' },
+      'hosting':       { nameKey: 'nameHost', cny: 49, grp: 'dom' },
+      'voice-greet':   { nameKey: 'skuGreet', usd: 6, grp: 'voice' },
+      'voice-song':    { nameKey: 'skuSong', usd: 9.9, grp: 'voice' },
+      'voice-premium': { nameKey: 'skuPremium', usd: 25, grp: 'voice' }
+    };
+    var cart = {}; // key -> qty
 
-    // ── voice.955827.xyz 跳转承接：?voice=<歌名> → 自动选中声音定制 + 备注横幅 ──
+    function stepQty(key, d) {
+      var v = (cart[key] || 0) + d;
+      if (v < 0) v = 0;
+      if (v > 20) v = 20;
+      cart[key] = v;
+      var el = document.getElementById('qty-' + key);
+      if (el) el.textContent = v;
+      renderSummary();
+    }
+    function cartList() {
+      var out = [];
+      for (var k in cart) if (cart[k] > 0) out.push({ key: k, qty: cart[k] });
+      return out;
+    }
+    function cartTotalDom() {
+      return cartList().reduce(function (s, x) { return s + (SKUS[x.key].cny || 0) * x.qty; }, 0);
+    }
+    function cartTotalUsd() {
+      return cartList().reduce(function (s, x) { return s + (SKUS[x.key].usd || 0) * x.qty; }, 0);
+    }
+    function renderSummary() {
+      var list = cartList();
+      var n = list.reduce(function (s, x) { return s + x.qty; }, 0);
+      var dm = cartTotalDom(), um = cartTotalUsd();
+      var txt = [];
+      if (dm) txt.push('¥' + dm);
+      if (um) txt.push('$' + (Math.round(um * 100) / 100));
+      var el = document.getElementById('skuSummaryText');
+      if (el) el.textContent = n + (txt.length ? ' · ' + txt.join(' + ') : '');
+      var badge = document.getElementById('mCartBadge');
+      if (badge) { badge.hidden = (n === 0); badge.textContent = n; }
+    }
+    function goSku(key) {
+      var card = document.querySelector('.variant-card[data-sku="' + key + '"]');
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.add('hl');
+      setTimeout(function () { card.classList.remove('hl'); }, 1600);
+      setTab(null);
+    }
+    function goSection(id) {
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function setTab(btn) {
+      document.querySelectorAll('#mTab button').forEach(function (b) { b.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+    }
+    function openChatTab() {
+      var p = document.querySelector('.rcj-chat-panel');
+      if (p) { p.classList.add('show'); return; }
+      goSection('buySection');
+    }
+
+    // ── voice.955827.xyz 跳转承接：?voice=<歌名> → 选中定制清唱 + 备注横幅 ──
     (function () {
       var m = (location.search || '').match(/[?&]voice=([^&]*)/);
       if (!m || !m[1]) return;
       var song = decodeURIComponent(m[1].replace(/\+/g, ' '));
-      var card = document.getElementById('voiceCard');
-      if (card) selectVariant(card, '声音定制');
+      stepQty('voice-song', 1);
       window._voiceNote = '歌名: ' + song + ' / 邮箱 / 定制需求';
       var banner = document.createElement('div');
       banner.id = 'voiceNoteBanner';
       banner.style.cssText = 'margin:12px 0;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,#f5f3ff,#fdf2f8);border:1px solid #e9d5ff;color:#6b21a8;font-size:.85rem;line-height:1.6;';
-      banner.innerHTML = '<b>正在为《' + song + '》下单</b><br>请备注：歌曲名 / 邮箱 / 定制需求，完成后按歌名交付音频。';
+      banner.innerHTML = '<b>' + (window._voiceNote) + '</b><br>' + t('voiceNoteReq');
       var sidebar = document.getElementById('buySection');
-      var insert = document.querySelector('.paid-divider');
-      if (sidebar && insert) sidebar.insertBefore(banner, insert);
+      if (sidebar) sidebar.insertBefore(banner, sidebar.firstChild);
     })();
-    function selectVariant(el, type) {
-      document.querySelectorAll('.variant-card').forEach(function(c) { c.classList.remove('selected'); });
-      el.classList.add('selected');
-      selectedType = type;
+
+    // ── 结算面板 ──
+    var ckPay = 'paypal';
+    var ckOrderNo = '';
+    function ensureCheckoutModal() {
+      if (document.getElementById('ckOverlay')) return;
+      var div = document.createElement('div');
+      div.id = 'ckOverlay';
+      div.className = 'ck-overlay';
+      div.innerHTML =
+        '<div class="ck-modal">' +
+          '<button class="ck-close" onclick="closeCheckout()" aria-label="close">×</button>' +
+          '<h3 class="ck-title" data-i18n="checkoutTitle">Checkout</h3>' +
+          '<p class="ck-sub" data-i18n="orderSummary">Order Summary</p>' +
+          '<div id="ckItems"></div>' +
+          '<div class="ck-total"><span data-i18n="totalLabel">Total</span><span id="ckTotal"></span></div>' +
+          '<textarea class="ck-note" id="ckNote" placeholder="' + t('noteLabel') + '" rows="2"></textarea>' +
+          '<p class="ck-note-hint">' + t('voiceNoteReq') + '</p>' +
+          '<div class="ck-pay" id="ckPay">' +
+            '<button class="ck-pay-btn selected" data-pay="paypal" onclick="pickPay(this)">' + t('payPaypal') + '<small>PayPal</small></button>' +
+            '<button class="ck-pay-btn" data-pay="alipay" onclick="pickPay(this)">' + t('payAlipay') + '<small>QR</small></button>' +
+            '<button class="ck-pay-btn" data-pay="wechat" onclick="pickPay(this)">' + t('payWechat') + '<small>QR</small></button>' +
+            '<button class="ck-pay-btn" data-pay="xianyu" onclick="pickPay(this)">' + t('payXianyu') + '<small>Xianyu</small></button>' +
+          '</div>' +
+          '<div class="ck-qr" id="ckQr" hidden>' +
+            '<img id="ckQrImg" alt="QR" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">' +
+            '<div class="ord">' + t('orderNo') + ': <b id="ckOrderNo"></b></div>' +
+            '<div class="tip">' + t('qrHint') + '</div>' +
+          '</div>' +
+          '<div class="ck-order-line" id="ckOrderLine" hidden>' +
+            '<span>' + t('orderNo') + ': <b id="ckOrderNo2"></b></span>' +
+            '<button onclick="copyOrderNote()">' + t('copyOrder') + '</button>' +
+          '</div>' +
+          '<button class="ck-go" id="ckGo" onclick="submitOrder()">' + t('placeOrder') + '</button>' +
+        '</div>';
+      document.body.appendChild(div);
+      div.addEventListener('click', function (e) { if (e.target === div) closeCheckout(); });
+      if (window.applyLang) applyLang(LANG);
+    }
+    function openCheckout() {
+      ensureCheckoutModal();
+      var list = cartList();
+      if (!list.length) { alert(t('alertNotAvail')); return; }
+      var itemsEl = document.getElementById('ckItems');
+      var html = '';
+      list.forEach(function (x) {
+        var sk = SKUS[x.key];
+        var pr = sk.usd ? '$' + sk.usd : priceLabel(sk.cny);
+        var sub = sk.usd ? '$' + (Math.round(sk.usd * x.qty * 100) / 100) : '¥' + sk.cny * x.qty;
+        html += '<div class="ck-item"><span class="nm">' + t(sk.nameKey) + ' × ' + x.qty + '</span><span class="pr">' + sub + '</span></div>';
+      });
+      itemsEl.innerHTML = html;
+      var dm = cartTotalDom(), um = cartTotalUsd();
+      var tt = [];
+      if (dm) tt.push('¥' + dm);
+      if (um) tt.push('$' + (Math.round(um * 100) / 100));
+      document.getElementById('ckTotal').textContent = tt.join(' + ');
+      document.getElementById('ckNote').value = window._voiceNote || '';
+      ckOrderNo = makeOrderNo();
+      document.getElementById('ckOrderNo').textContent = ckOrderNo;
+      document.getElementById('ckOrderNo2').textContent = ckOrderNo;
+      pickPay(document.querySelector('#ckPay .ck-pay-btn[data-pay="paypal"]'));
+      document.getElementById('ckOverlay').classList.add('show');
+    }
+    function closeCheckout() { document.getElementById('ckOverlay').classList.remove('show'); }
+
+    function pickPay(btn) {
+      if (!btn) return;
+      ckPay = btn.getAttribute('data-pay');
+      document.querySelectorAll('#ckPay .ck-pay-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      var qr = document.getElementById('ckQr');
+      var line = document.getElementById('ckOrderLine');
+      var go = document.getElementById('ckGo');
+      if (ckPay === 'alipay') {
+        qr.hidden = false; line.hidden = true;
+        go.textContent = t('placeOrder');
+      } else if (ckPay === 'wechat') {
+        qr.hidden = false; line.hidden = true;
+        go.textContent = t('placeOrder');
+      } else if (ckPay === 'xianyu') {
+        qr.hidden = true; line.hidden = true;
+        go.textContent = t('payXianyu') + ' →';
+      } else {
+        qr.hidden = true; line.hidden = true;
+        go.textContent = t('placeOrder');
+      }
     }
 
-    function handlePurchase() {
-      if (selectedType === 'Sing to Me') {
-        var ev = document.createEvent('Event');
-        ev.initEvent('opensingbooth', true, true);
-        document.dispatchEvent(ev);
+    function makeOrderNo() {
+      var d = new Date();
+      var p = function (n) { return String(n).padStart(2, '0'); };
+      var day = '' + d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate());
+      var seq = 1;
+      try {
+        var arr = JSON.parse(localStorage.getItem('rcj_orders') || '[]');
+        seq = arr.filter(function (o) { return o.id.indexOf('RCJ-' + day) === 0; }).length + 1;
+      } catch (e) {}
+      return 'RCJ-' + day + '-' + p(seq);
+    }
+    function saveOrder(pay) {
+      try {
+        var arr = JSON.parse(localStorage.getItem('rcj_orders') || '[]');
+        arr.push({ id: ckOrderNo, time: Date.now(), items: cartList(), note: document.getElementById('ckNote').value, pay: pay, status: 'pending' });
+        localStorage.setItem('rcj_orders', JSON.stringify(arr));
+      } catch (e) {}
+    }
+    function copyOrderNote() {
+      var list = cartList();
+      var txt = '订单号 ' + ckOrderNo + '\n' + list.map(function (x) { return t(SKUS[x.key].nameKey) + '×' + x.qty; }).join('、') + '\n合计 ' + document.getElementById('ckTotal').textContent + '\n备注 ' + document.getElementById('ckNote').value;
+      var done = function () { var b = document.querySelector('.ck-order-line button'); if (b) { var o = b.textContent; b.textContent = t('copied'); setTimeout(function () { b.textContent = o; }, 1500); } };
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(txt).then(done).catch(function () { fallbackCopy(txt, done); }); } else { fallbackCopy(txt, done); }
+    }
+    function fallbackCopy(txt, done) {
+      var ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    function submitOrder() {
+      var list = cartList();
+      if (!list.length) return;
+      if (ckPay === 'paypal') {
+        saveOrder('paypal');
+        openPayModal();
         return;
       }
-      if (PP_ITEM_MAP[selectedType]) { openPayModal(selectedType); return; }
-      alert(t('alertNotAvail'));
-      var emailBtn = document.querySelector('.email-btn');
-      if (emailBtn) { emailBtn.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      if (ckPay === 'alipay' || ckPay === 'wechat') {
+        saveOrder(ckPay);
+        // 收款码图由站长维护：ckQrImg.src 替换为真实二维码地址
+        document.getElementById('ckQrImg').src = (ckPay === 'alipay')
+          ? (window._QR_ALIPAY || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
+          : (window._QR_WECHAT || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+        document.getElementById('ckOrderNo').textContent = ckOrderNo;
+        document.getElementById('ckGo').textContent = t('copied') + ' · ' + t('orderNo') + ' ' + ckOrderNo;
+        return;
+      }
+      if (ckPay === 'xianyu') {
+        saveOrder('xianyu');
+        var link = document.querySelector('.xianyu-link');
+        var url = link ? link.href : 'https://m.tb.cn/h.8mRAttW?tk=BiBPTfBOjhk';
+        alert(t('orderNo') + ': ' + ckOrderNo + '\n' + t('qrHint'));
+        window.open(url, '_blank');
+        closeCheckout();
+        return;
+      }
     }
+
 
     // 商品名多语言（弹窗标题用）
     var TYPE_NAME = {
@@ -1327,23 +1731,30 @@
     function typeName(type) { return (TYPE_NAME[type] && TYPE_NAME[type][LANG]) || type; }
 
     // ── PayPal 支付（跳转式：不依赖前端 JS SDK，规避国内 paypal.com / paypalobjects.com 被墙）──
-    var PP_ITEM_MAP = { '题库定制': 'question-bank', '纯建站': 'build', '代托管': 'hosting', '声音定制': 'voice' };
-    var ppCurrentKey = null;
+    var ppCurrentItems = []; // [{key,qty}]
+    var ppCurrentNote = '';
+    var ppCurrentOrder = '';
 
-    function openPayModal(type) {
-      ppCurrentKey = PP_ITEM_MAP[type];
-      if (!ppCurrentKey) return;
-      document.getElementById('ppTitle').textContent = t('ppTitlePrefix') + ' · ' + typeName(type);
+    function openPayModal() {
+      ppCurrentItems = cartList();
+      if (!ppCurrentItems.length) return;
+      ppCurrentNote = (document.getElementById('ckNote') ? document.getElementById('ckNote').value : '') || window._voiceNote || '';
+      ppCurrentOrder = ckOrderNo || makeOrderNo();
+      document.getElementById('ppTitle').textContent = t('ppTitlePrefix') + ' · ' + ppCurrentItems.map(function (x) { return t(SKUS[x.key].nameKey) + '×' + x.qty; }).join('、');
       // 定金金额：从 /api/paypal/config 取（DEPOSIT_RATE 在服务端统一控制）
       fetch('/api/paypal/config').then(function(r){ return r.json(); }).then(function(cfg){
         if (cfg.rate) RCJ_RATE = cfg.rate;
         if (typeof cfg.cnyEnabled === 'boolean') RCJ_CNY_ENABLED = cfg.cnyEnabled;
-        var it = (cfg.items||[]).find(function(x){ return x.key === ppCurrentKey; });
-        var d = it && it.deposit ? it.deposit : '';
-        var b = it && it.balance ? it.balance : '';
+        var depSum = 0, fullSum = 0;
+        ppCurrentItems.forEach(function (x) {
+          var it = (cfg.items || []).find(function (i2) { return i2.key === x.key; });
+          var d = it && it.deposit ? it.deposit : 0;
+          var b = it && it.balance ? it.balance : 0;
+          depSum += d * x.qty; fullSum += (d + b) * x.qty;
+        });
         var c = cur(); var sym = (c === 'CNY') ? '¥' : '$';
-        var dep = (c === 'CNY') ? d : (d / RCJ_RATE).toFixed(2);
-        var full = (c === 'CNY') ? (Number(d) + Number(b)).toFixed(2) : ((Number(d) + Number(b)) / RCJ_RATE).toFixed(2);
+        var dep = (c === 'CNY') ? depSum.toFixed(2) : (depSum / RCJ_RATE).toFixed(2);
+        var full = (c === 'CNY') ? fullSum.toFixed(2) : (fullSum / RCJ_RATE).toFixed(2);
         document.getElementById('ppAmount').textContent = sym + dep + ' (' + t('fullLabel') + ' ' + sym + full + ')';
         updatePrices();
       }).catch(function(){});
@@ -1373,7 +1784,7 @@
       }
       fetch('/api/paypal/create-order', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item: ppCurrentKey, email: email, phone: phone, currency: cur(), note: window._voiceNote || '' })
+        body: JSON.stringify({ items: ppCurrentItems, email: email, phone: phone, currency: cur(), note: ppCurrentNote, orderId: ppCurrentOrder })
       }).then(function (r) { return r.json(); }).then(function (d) {
         if (!d.ok || !d.approveUrl) {
           showPPMsg(d.error || t('createFail'), true);
