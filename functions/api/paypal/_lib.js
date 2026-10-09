@@ -12,7 +12,7 @@ export const ITEMS = {
   'hosting':       { name: '管理后台', price: 49, sku: 'hosting', deposit: 49 },
   'question-bank': { name: '题库定制', price: 99,  sku: 'question-bank' },
   'build':         { name: '纯建站',   price: 299, sku: 'build' },
-  'voice':         { name: '声音定制', price: 66,  sku: 'voice' },  // 试听站 voice.955827.xyz 跳转下单；定金 10%，余款交付时收
+  'voice':         { name: '声音定制', price: 143.28,  sku: 'voice' },  // 试听站 voice.955827.xyz 跳转下单；统一美元 $19.9（=143.28/7.2）；定金 10%，余款交付时收
 };
 // 未显式指定 deposit 的，按 DEPOSIT_RATE 计算定金；并算出余款
 for (const k in ITEMS) {
