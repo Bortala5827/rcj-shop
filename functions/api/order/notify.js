@@ -24,7 +24,10 @@ export async function onRequestPost({ request, env }) {
   const orderNo = String(body.orderNo || '').trim().slice(0, 40);
   const note = String(body.note || '').slice(0, 200);
   const pay = String(body.pay || 'alipay').slice(0, 20);
-  if (!orderNo || !/^RCJ-\d{8}-\d+$/.test(orderNo)) return json({ ok: false, error: '订单号格式错误' }, 400);
+  // 订单号：兼容历史 RCJ-YYYYMMDD-NN 与新随机查询码 RCJ-XXXX-XXXX
+  if (!orderNo || !/^RCJ-[A-Z0-9-]{4,20}$/.test(orderNo)) return json({ ok: false, error: '订单号格式错误' }, 400);
+  // 闲鱼路径：闲鱼店铺自身可见订单，不触发 D1/飞书/TG/邮件，避免重复通知
+  if (pay === 'xianyu') return json({ ok: true, skipped: true, reason: '闲鱼店铺可见，不重复通知' });
 
   // 商品清单
   let list = [];

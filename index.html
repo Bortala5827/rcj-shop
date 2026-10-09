@@ -242,6 +242,20 @@
     .ck-note { width: 100%; box-sizing: border-box; margin: 8px 0 4px; padding: 11px 14px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: .9rem; font-family: inherit; outline: none; resize: vertical; min-height: 64px; }
     .ck-note:focus { border-color: #0d9488; }
     .ck-note-hint { font-size: .74rem; color: #b45309; margin: 0 0 10px; line-height: 1.5; }
+    .ck-field { margin: 10px 0 6px; }
+    .ck-label { display: block; font-size: .78rem; font-weight: 700; color: #334155; margin-bottom: 4px; }
+    .ck-input, .ck-select { width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: .9rem; font-family: inherit; outline: none; background: #fff; }
+    .ck-input:focus, .ck-select:focus { border-color: #0d9488; }
+    .ck-song-row { display: flex; gap: 8px; }
+    .ck-song-row .ck-select { flex: 1; min-width: 0; }
+    .ck-song-row .ck-input { flex: 1; min-width: 0; }
+    .ck-qry-link { display: inline-block; margin: 6px 0 0; font-size: .78rem; color: #0d9488; cursor: pointer; text-decoration: underline; }
+    .ck-qry { border: 1px dashed #cbd5e1; border-radius: 12px; padding: 12px 14px; margin-top: 8px; background: #f8fafc; display: none; }
+    .ck-qry.show { display: block; }
+    .ck-qry-row { display: flex; gap: 8px; }
+    .ck-qry-row .ck-input { flex: 1; min-width: 0; }
+    .ck-qry-btn { padding: 10px 16px; border: 1px solid #0d9488; background: #fff; color: #0d9488; border-radius: 10px; font-weight: 700; cursor: pointer; font-family: inherit; font-size: .82rem; white-space: nowrap; }
+    .ck-qry-res { font-size: .8rem; margin-top: 8px; color: #334155; line-height: 1.6; }
     .ck-pay { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0 14px; }
     .ck-pay-btn { border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 11px 10px; background: #fff; cursor: pointer; text-align: left; font-size: .84rem; font-weight: 700; font-family: inherit; transition: all .15s; line-height: 1.4; }
     .ck-pay-btn small { display: block; font-weight: 400; color: #64748b; font-size: .72rem; margin-top: 2px; }
@@ -1131,6 +1145,12 @@
         copyOrder: 'Copy order info', copied: 'Copied!',
         qrHint: 'Scan the QR to pay · note must include Order No. + your email',
         voiceNoteReq: 'Voice order: fill in song title & email — audio is delivered to that email',
+        emailLabel: 'Email', emailPh: 'you@example.com',
+        songLabel: 'Song (voice orders)', songSelect: 'Select a song…', songOther: 'Other (custom)', songCustomPh: 'Type the song / message',
+        qryLink: 'Track order →', qryPh: 'Enter order no.', qryBtn: 'Query',
+        qryHint: 'Keep this order number — check progress with it here after ordering.',
+        qryFound: 'Order found: ', qryNotFound: 'No local record yet. After payment, delivery progress is confirmed by email.', qryEmpty: 'Enter your order number first.',
+        emailReq: 'Email is required for delivery.', songReq: 'Please pick a song or type one.',
         skuGreet: 'Blessing Voice', skuSong: 'Custom Cover', skuPremium: 'Premium / Rush',
         skuGreetFit: '30s blessing / greeting / goodnight audio — 48h delivery',
         skuSongFit: 'One custom a cappella cover with lyrics — 3 days delivery',
@@ -1236,6 +1256,12 @@
         copyOrder: '注文情報をコピー', copied: 'コピー済み',
         qrHint: 'QRをスキャンして支払い · メモに注文番号＋メールを必ず記入',
         voiceNoteReq: 'ボイス注文：曲名とメールを記入 — 音声はそのメールに送信',
+        emailLabel: 'メール', emailPh: 'you@example.com',
+        songLabel: '曲名（ボイス注文）', songSelect: '曲を選択…', songOther: 'その他（カスタム）', songCustomPh: '曲名・メッセージを入力',
+        qryLink: '注文を照会 →', qryPh: '注文番号を入力', qryBtn: '照会',
+        qryHint: '注文番号を保存してください — 注文後にこのページで進捗を確認できます。',
+        qryFound: '注文が見つかりました：', qryNotFound: 'ローカル記録なし。支払い後、納品状況はメールで確認されます。', qryEmpty: '注文番号を入力してください。',
+        emailReq: 'メールは必須です（納品用）。', songReq: '曲を選択するか入力してください。',
         skuGreet: '祝福ボイス', skuSong: 'カスタムカバー', skuPremium: 'プレミアム/特急',
         skuGreetFit: '30秒の祝福/挨拶/おやすみ音声 — 48時間で納品',
         skuSongFit: 'カスタムアカペラ1曲（60-90秒）歌詞付き — 3日で納品',
@@ -1341,6 +1367,12 @@
         copyOrder: '复制订单信息', copied: '已复制',
         qrHint: '扫码付款 · 备注务必填：订单号 + 你的邮箱',
         voiceNoteReq: '声音订单：请填歌名与邮箱 — 音频将发送到该邮箱',
+        emailLabel: '邮箱', emailPh: 'you@example.com',
+        songLabel: '歌曲（声音订单）', songSelect: '选择歌曲…', songOther: '其他（自定义）', songCustomPh: '填写歌名 / 祝福语等',
+        qryLink: '查订单 →', qryPh: '输入订单号', qryBtn: '查询',
+        qryHint: '请保存订单号 —— 下单后可用它在页面查询进度。',
+        qryFound: '找到订单：', qryNotFound: '本地暂无记录。付款后交付进度以邮件确认为准。', qryEmpty: '请先输入订单号。',
+        emailReq: '请填写邮箱（用于交付）。', songReq: '请选择歌曲或填写歌名。',
         skuGreet: '祝福语音', skuSong: '定制清唱', skuPremium: '高定加急',
         skuGreetFit: '30 秒祝福 / 问候 / 晚安音频 — 48 小时交付',
         skuSongFit: '一首定制清唱（60-90 秒）附歌词 — 3 天交付',
@@ -1500,6 +1532,8 @@
       'voice-song':    { nameKey: 'skuSong', usd: 9.9, grp: 'voice' },
       'voice-premium': { nameKey: 'skuPremium', usd: 25, grp: 'voice' }
     };
+    // voice.955827.xyz 歌曲清单（与 voice 站 products.json 一致）；用于结算面板歌名下拉
+    var SONGS = ['分身情人','白色巨塔 (Jupiter)','起风了','红豆','红豆（二）','人间','我只在乎你','像我这样的人','有何不可','至少还有你','分身情人（二）','情非得已','年轮','关键词','女孩','暖暖','相见恨晚','命运','星空下的梦想','如果可以','红豆（三）','玻璃','公主殿下','就让这大雨全部落下','俩三句','情歌','若把你','身骑白马','我想大声告诉你','雨蝶'];
     var cart = {}; // key -> qty
 
     function stepQty(key, d) {
@@ -1586,8 +1620,19 @@
           '<p class="ck-sub" data-i18n="orderSummary">Order Summary</p>' +
           '<div id="ckItems"></div>' +
           '<div class="ck-total"><span data-i18n="totalLabel">Total</span><span id="ckTotal"></span></div>' +
+          '<div class="ck-field"><label class="ck-label" data-i18n="emailLabel">Email</label><input class="ck-input" id="ckEmail" type="email" inputmode="email" data-i18n-ph="emailPh" placeholder="you@example.com"></div>' +
+          '<div class="ck-field" id="ckSongWrap" hidden><label class="ck-label" data-i18n="songLabel">Song</label>' +
+            '<div class="ck-song-row">' +
+              '<select class="ck-select" id="ckSong"><option value="">' + t('songSelect') + '</option>' + SONGS.map(function (s) { return '<option value="' + s + '">' + s + '</option>'; }).join('') + '<option value="__other__">' + t('songOther') + '</option></select>' +
+              '<input class="ck-input" id="ckSongCustom" data-i18n-ph="songCustomPh" placeholder="…" hidden>' +
+            '</div></div>' +
           '<textarea class="ck-note" id="ckNote" placeholder="' + t('noteLabel') + '" rows="2"></textarea>' +
           '<p class="ck-note-hint">' + t('voiceNoteReq') + '</p>' +
+          '<a class="ck-qry-link" id="ckQryLink" onclick="toggleQry()">' + t('qryLink') + '</a>' +
+          '<div class="ck-qry" id="ckQry">' +
+            '<div class="ck-qry-row"><input class="ck-input" id="ckQryNo" data-i18n-ph="qryPh" placeholder="RCJ-XXXX-XXXX"><button class="ck-qry-btn" onclick="doQry()">' + t('qryBtn') + '</button></div>' +
+            '<div class="ck-qry-res" id="ckQryRes"></div>' +
+          '</div>' +
           '<div class="ck-pay" id="ckPay">' +
             '<button class="ck-pay-btn selected" data-pay="paypal" onclick="pickPay(this)">' + t('payPaypal') + '<small>PayPal</small></button>' +
             '<button class="ck-pay-btn" data-pay="alipay" onclick="pickPay(this)">' + t('payAlipay') + '<small>QR</small></button>' +
@@ -1605,6 +1650,11 @@
           '<button class="ck-go" id="ckGo" onclick="submitOrder()">' + t('placeOrder') + '</button>' +
         '</div>';
       document.body.appendChild(div);
+      var songSel = document.getElementById('ckSong');
+      if (songSel) songSel.addEventListener('change', function () {
+        var c = document.getElementById('ckSongCustom');
+        if (c) c.hidden = (songSel.value !== '__other__');
+      });
       div.addEventListener('click', function (e) { if (e.target === div) closeCheckout(); });
       if (window.applyLang) applyLang(LANG);
     }
@@ -1627,6 +1677,17 @@
       if (um) tt.push('$' + (Math.round(um * 100) / 100));
       document.getElementById('ckTotal').textContent = tt.join(' + ');
       document.getElementById('ckNote').value = window._voiceNote || '';
+      var emailEl = document.getElementById('ckEmail');
+      if (emailEl) emailEl.value = window._voiceEmail || '';
+      var hasVoice = list.some(function (x) { return SKUS[x.key].grp === 'voice'; });
+      var songWrap = document.getElementById('ckSongWrap');
+      if (songWrap) songWrap.hidden = !hasVoice;
+      var songEl = document.getElementById('ckSong');
+      if (songEl) songEl.value = '';
+      var songCustom = document.getElementById('ckSongCustom');
+      if (songCustom) { songCustom.hidden = true; songCustom.value = ''; }
+      var qry = document.getElementById('ckQry');
+      if (qry) qry.classList.remove('show');
       ckOrderNo = makeOrderNo();
       document.getElementById('ckOrderNo').textContent = ckOrderNo;
       document.getElementById('ckOrderNo2').textContent = ckOrderNo;
@@ -1656,15 +1717,10 @@
     }
 
     function makeOrderNo() {
-      var d = new Date();
-      var p = function (n) { return String(n).padStart(2, '0'); };
-      var day = '' + d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate());
-      var seq = 1;
-      try {
-        var arr = JSON.parse(localStorage.getItem('rcj_orders') || '[]');
-        seq = arr.filter(function (o) { return o.id.indexOf('RCJ-' + day) === 0; }).length + 1;
-      } catch (e) {}
-      return 'RCJ-' + day + '-' + p(seq);
+      // 随机查询码（不可枚举）：RCJ-XXXX-XXXX，去易混淆字符 I/O/0/1
+      var chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+      var seg = function (n) { var r = ''; for (var i = 0; i < n; i++) r += chars[Math.floor(Math.random() * chars.length)]; return r; };
+      return 'RCJ-' + seg(4) + '-' + seg(4);
     }
     function saveOrder(pay) {
       try {
@@ -1678,11 +1734,31 @@
       try {
         var total = document.getElementById('ckTotal') ? document.getElementById('ckTotal').textContent : '';
         var note = document.getElementById('ckNote') ? document.getElementById('ckNote').value : '';
+        var email = document.getElementById('ckEmail') ? document.getElementById('ckEmail').value.trim() : '';
         fetch('/api/order/notify', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ orderNo: ckOrderNo, items: cartList(), total: total, currency: cur(), note: note, pay: pay })
+          body: JSON.stringify({ orderNo: ckOrderNo, items: cartList(), total: total, currency: cur(), note: window._ckFullNote || note, pay: pay, email: email })
         }).catch(function () {});
       } catch (e) {}
+    }
+    function toggleQry() {
+      var q = document.getElementById('ckQry');
+      if (q) q.classList.toggle('show');
+    }
+    function doQry() {
+      var input = document.getElementById('ckQryNo');
+      var res = document.getElementById('ckQryRes');
+      if (!input || !res) return;
+      var no = input.value.trim().toUpperCase();
+      if (!no) { res.textContent = t('qryEmpty'); return; }
+      var arr = [];
+      try { arr = JSON.parse(localStorage.getItem('rcj_orders') || '[]'); } catch (e) {}
+      var hit = arr.filter(function (o) { return String(o.id).toUpperCase() === no; });
+      if (!hit.length) { res.textContent = t('qryNotFound'); return; }
+      var o = hit[0];
+      var items = (o.items || []).map(function (x) { return t(SKUS[x.key].nameKey) + '×' + x.qty; }).join('、');
+      var when = new Date(o.time).toLocaleString();
+      res.textContent = t('qryFound') + o.id + ' — ' + items + ' · ' + when + ' · ' + (o.pay || '');
     }
     function copyOrderNote() {
       var list = cartList();
@@ -1701,6 +1777,30 @@
     function submitOrder() {
       var list = cartList();
       if (!list.length) return;
+      // 邮箱必填（交付用）
+      var emailEl = document.getElementById('ckEmail');
+      var email = emailEl ? emailEl.value.trim() : '';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert(t('emailReq'));
+        if (emailEl) emailEl.focus();
+        return;
+      }
+      // 声音订单：歌名必选（下拉或自定义）
+      var song = '';
+      var songWrap = document.getElementById('ckSongWrap');
+      if (songWrap && !songWrap.hidden) {
+        var songEl = document.getElementById('ckSong');
+        var custom = document.getElementById('ckSongCustom');
+        if (songEl && songEl.value === '__other__') song = (custom && custom.value.trim()) || '';
+        else song = songEl ? songEl.value : '';
+        if (!song) { alert(t('songReq')); if (songEl) songEl.focus(); return; }
+      }
+      var note = document.getElementById('ckNote') ? document.getElementById('ckNote').value : '';
+      var fullNote = [];
+      if (song) fullNote.push('歌名: ' + song);
+      fullNote.push('邮箱: ' + email);
+      if (note) fullNote.push(note);
+      window._ckFullNote = fullNote.join(' / ');
       if (ckPay === 'paypal') {
         saveOrder('paypal');
         openPayModal();
@@ -1716,7 +1816,7 @@
       }
       if (ckPay === 'xianyu') {
         saveOrder('xianyu');
-        fireNotify('xianyu');
+        // 闲鱼店铺自身可见订单，不触发系统通知（D1/飞书/TG/邮件），避免重复
         var link = document.querySelector('.xianyu-link');
         var url = link ? link.href : 'https://m.tb.cn/h.8mRAttW?tk=BiBPTfBOjhk';
         alert(t('orderNo') + ': ' + ckOrderNo + '\n' + t('qrHint'));
@@ -1744,7 +1844,7 @@
     function openPayModal() {
       ppCurrentItems = cartList();
       if (!ppCurrentItems.length) return;
-      ppCurrentNote = (document.getElementById('ckNote') ? document.getElementById('ckNote').value : '') || window._voiceNote || '';
+      ppCurrentNote = window._ckFullNote || (document.getElementById('ckNote') ? document.getElementById('ckNote').value : '') || window._voiceNote || '';
       ppCurrentOrder = ckOrderNo || makeOrderNo();
       document.getElementById('ppTitle').textContent = t('ppTitlePrefix') + ' · ' + ppCurrentItems.map(function (x) { return t(SKUS[x.key].nameKey) + '×' + x.qty; }).join('、');
       // 定金金额：从 /api/paypal/config 取（DEPOSIT_RATE 在服务端统一控制）
