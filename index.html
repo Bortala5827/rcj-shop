@@ -272,6 +272,24 @@
     .ck-order-line button { margin-left: auto; border: 1px solid #e2e8f0; background: #fff; border-radius: 8px; padding: 6px 12px; font-size: .78rem; font-weight: 700; cursor: pointer; font-family: inherit; }
     @media (max-width: 560px) { .ck-pay { grid-template-columns: 1fr; } }
     /* ── 电商化：金刚区 / 价格标签 / 底部 Tab / 购物车角标 ── */
+    .sku-cats { display: flex; gap: 8px; margin: 6px 0 14px; flex-wrap: wrap; }
+    .sku-cats button { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border: 1px solid #e5e7eb; border-radius: 999px; background: #fff; color: #475569; font-size: .82rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all .18s; }
+    .sku-cats button em { font-style: normal; font-size: .68rem; color: #94a3b8; font-weight: 800; background: #f1f5f9; border-radius: 999px; padding: 1px 6px; }
+    .sku-cats button.on { background: #0d9488; border-color: #0d9488; color: #fff; box-shadow: 0 4px 12px rgba(13,148,136,.25); }
+    .sku-cats button.on em { background: rgba(255,255,255,.22); color: #fff; }
+    .sku-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin-bottom: 18px; }
+    .sku-card { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 16px 16px 14px; border: 1px solid #e8eaee; border-radius: 16px; background: #fff; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+    .sku-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(15,23,42,.08); border-color: #0d9488; }
+    .sku-card-name { font-size: 1rem; font-weight: 800; color: #0f172a; line-height: 1.35; }
+    .sku-card-price { font-size: 1.25rem; font-weight: 900; color: #ef4444; letter-spacing: -.01em; }
+    .sku-card-fit { font-size: .82rem; color: #64748b; line-height: 1.55; flex: 1; }
+    .sku-card-note { font-size: .74rem; color: #94a3b8; line-height: 1.5; }
+    .sku-card-foot { display: flex; justify-content: flex-end; }
+    .sku-card .sku-stepper { margin-top: 0; }
+    .sku-card .sku-tag { position: absolute; top: -9px; right: 12px; font-size: .64rem; font-weight: 800; padding: 3px 9px; border-radius: 999px; color: #fff; letter-spacing: .04em; }
+    .sku-card .sku-tag.hot { background: linear-gradient(135deg,#ef4444,#f97316); box-shadow: 0 3px 10px rgba(239,68,68,.35); }
+    .sku-card .sku-tag.new { background: linear-gradient(135deg,#0d9488,#0ea5e9); box-shadow: 0 3px 10px rgba(13,148,136,.3); }
+    .sku-card.hl { border-color: #0d9488; background: #f0fdfa; box-shadow: 0 0 0 3px rgba(13,148,136,.15); }
     .sku-nav { display: flex; gap: 10px; overflow-x: auto; padding: 2px 2px 10px; margin: 4px 0 10px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
     .sku-nav::-webkit-scrollbar { display: none; }
     .sku-nav button { flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; width: 74px; padding: 12px 6px 10px; border: 1px solid #e8eaee; border-radius: 16px; background: #fff; cursor: pointer; font-family: inherit; transition: all .18s; }
@@ -700,35 +718,13 @@
           </div>
 
           
-          <!-- 金刚区：6 个 SKU 分类入口 -->
-          <div class="sku-nav reveal" id="skuNav">
-            <button onclick="goSku('question-bank')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.8"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg>
-              <span data-i18n="nameBank">Question Bank</span><span class="nav-price">¥99</span>
-            </button>
-            <button onclick="goSku('build')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8"><path d="M3 21h18M5 21V8l7-4 7 4v13"/><path d="M9 21v-6h6v6"/></svg>
-              <span data-i18n="nameBuild">Website</span><span class="nav-price">¥299</span>
-            </button>
-            <button onclick="goSku('hosting')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg>
-              <span data-i18n="nameHost">Admin</span><span class="nav-price">¥49</span>
-            </button>
-            <button onclick="goSku('voice-greet')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="1.8"><path d="M12 3a5 5 0 0 0-5 5v4a5 5 0 0 0 10 0V8a5 5 0 0 0-5-5z"/><path d="M5 12a7 7 0 0 0 14 0M12 19v3"/></svg>
-              <span data-i18n="skuGreet">Voice</span><span class="nav-price">$6</span>
-            </button>
-            <button onclick="goSku('voice-song')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-              <span data-i18n="skuSong">Cover</span><span class="nav-price">$9.9</span>
-            </button>
-            <button onclick="goSku('voice-premium')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.8"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.9l1-5.8L3.5 9.9l5.9-.9z"/></svg>
-              <span data-i18n="skuPremium">Premium</span><span class="nav-price">$25</span>
-            </button>
+                    <!-- 商品区：分类筛选 + 电商卡片网格（淘宝/希音式） -->
+          <div class="sku-cats reveal" id="skuCats">
+            <button class="on" data-cat="all" onclick="setSkuCat('all')"><span data-i18n="catAll">All</span><em>6</em></button>
+            <button data-cat="dom" onclick="setSkuCat('dom')"><span data-i18n="catDom">Question Bank &amp; Web</span><em>3</em></button>
+            <button data-cat="voice" onclick="setSkuCat('voice')"><span data-i18n="catVoice">VOICE</span><em>3</em></button>
           </div>
-
-          <p class="class-entry reveal"><a href="/course.html" data-i18n="classEntry">Free live classes — learn first, decide later →</a></p>
+          <div class="sku-grid reveal" id="skuGrid"></div>
 
           <div class="detail-section reveal">
             <h2 class="highlight-title" data-i18n="bankTitle">Question Bank</h2>
@@ -822,111 +818,6 @@
 
         <!-- 右侧购买栏 -->
         <div class="sidebar" id="buySection">
-          <!-- Sing to Me · 重点 -->
-          <div class="sing-feature">
-            <span class="sf-badge" data-i18n="singBadge">Free</span>
-            <h3>Sing to Me</h3>
-            <p data-i18n="descFree">Sing a song — get the material free</p>
-            <button class="sing-feature-cta" onclick="(function(){var e=document.createEvent('Event');e.initEvent('opensingbooth',true,true);document.dispatchEvent(e);})()" data-i18n="singCta">Start (free)</button>
-          </div>
-
-          <div class="sku-grp-head" data-i18n="grpDomestic">Domestic Services (¥)</div>
-
-          <div class="plan-group">
-            <div class="variant-card muted" data-sku="question-bank">
-              <div class="variant-price" data-cny="99">from ¥99</div>
-              <div class="variant-body">
-                <div class="variant-details" data-i18n="nameBank">Question Bank</div>
-                <div class="variant-fit" data-i18n="bankFit">Best for those who already have content — I just import your questions</div>
-                <div class="variant-price-note" data-i18n="priceNote">No hidden fees · Includes basic setup teaching</div>
-                <div class="sku-stepper">
-                  <button type="button" onclick="stepQty('question-bank',-1)" aria-label="minus">−</button>
-                  <span class="sku-qty" id="qty-question-bank">0</span>
-                  <button type="button" onclick="stepQty('question-bank',1)" aria-label="plus">+</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="plan-group">
-            <div class="variant-card muted" data-sku="build">
-              <div class="variant-price" data-cny="299">from ¥299</div>
-              <div class="variant-body">
-                <div class="variant-details" data-i18n="nameBuild">Website Building</div>
-                <div class="variant-fit" data-i18n="buildFit">For complete beginners — site + hosting + video tutorials + 1-on-1 voice Q&amp;A</div>
-                <div class="variant-price-note" data-i18n="priceNote">No hidden fees · Includes basic setup teaching</div>
-                <div class="sku-stepper">
-                  <button type="button" onclick="stepQty('build',-1)" aria-label="minus">−</button>
-                  <span class="sku-qty" id="qty-build">0</span>
-                  <button type="button" onclick="stepQty('build',1)" aria-label="plus">+</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="plan-group">
-            <div class="variant-card muted" data-sku="hosting">
-              <div class="variant-price" data-cny="49">from ¥49</div>
-              <div class="variant-body">
-                <div class="variant-details" data-i18n="nameHost">Admin Backend, Ready to Use</div>
-                <div class="variant-price-note" data-i18n="priceNote">No hidden fees · Includes basic setup teaching</div>
-                <div class="sku-stepper">
-                  <button type="button" onclick="stepQty('hosting',-1)" aria-label="minus">−</button>
-                  <span class="sku-qty" id="qty-hosting">0</span>
-                  <button type="button" onclick="stepQty('hosting',1)" aria-label="plus">+</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="sku-grp-head" data-i18n="grpVoice">Voice (USD $)</div>
-
-          <div class="plan-group">
-            <div class="variant-card muted" data-sku="voice-greet" id="voiceGreetCard">
-              <div class="variant-price" data-usd="6">$6</div>
-              <div class="variant-body">
-                <div class="variant-details" data-i18n="skuGreet">Blessing Voice</div>
-                <div class="variant-fit" data-i18n="skuGreetFit">30s blessing / greeting / goodnight audio — 48h delivery</div>
-                <div class="sku-stepper">
-                  <button type="button" onclick="stepQty('voice-greet',-1)" aria-label="minus">−</button>
-                  <span class="sku-qty" id="qty-voice-greet">0</span>
-                  <button type="button" onclick="stepQty('voice-greet',1)" aria-label="plus">+</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="plan-group">
-            <div class="variant-card muted" data-sku="voice-song" id="voiceCard">
-              <span class="v-tag" data-i18n="skuPopular">Popular</span>
-              <div class="variant-price" data-usd="9.9"><del>$19.9</del>$9.9<span class="hot" data-i18n="skuNew">New price</span></div>
-              <div class="variant-body">
-                <div class="variant-details" data-i18n="skuSong">Custom Cover</div>
-                <div class="variant-fit" data-i18n="skuSongFit">One custom a cappella cover with lyrics — 3 days delivery</div>
-                <div class="variant-price-note" data-i18n="voiceNote">Order note: song title / your email / custom request · every order shares revenue with its creator</div>
-                <div class="sku-stepper">
-                  <button type="button" onclick="stepQty('voice-song',-1)" aria-label="minus">−</button>
-                  <span class="sku-qty" id="qty-voice-song">0</span>
-                  <button type="button" onclick="stepQty('voice-song',1)" aria-label="plus">+</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="plan-group">
-            <div class="variant-card muted" data-sku="voice-premium">
-              <div class="variant-price" data-usd="25">$25</div>
-              <div class="variant-body">
-                <div class="variant-details" data-i18n="skuPremium">Premium / Rush</div>
-                <div class="variant-fit" data-i18n="skuPremiumFit">Full song / 24h rush / commercial license / dedicated</div>
-                <div class="sku-stepper">
-                  <button type="button" onclick="stepQty('voice-premium',-1)" aria-label="minus">−</button>
-                  <span class="sku-qty" id="qty-voice-premium">0</span>
-                  <button type="button" onclick="stepQty('voice-premium',1)" aria-label="plus">+</button>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div class="sku-summary" id="skuSummary"><span data-i18n="skuSelected">Selected</span>: <b id="skuSummaryText">0</b></div>
           <button class="buy-btn buy-btn-secondary" onclick="openCheckout()" data-i18n="checkoutTitle">Checkout</button>
@@ -1191,6 +1082,7 @@
         bankFit: 'Best for those who already have content — I just import your questions',
         buildFit: 'For complete beginners — site + hosting + video tutorials + 1-on-1 voice Q&A',
         classEntry: 'Free live classes — learn first, decide later →',
+        catAll: 'All', catDom: 'Question Bank & Web', catVoice: 'VOICE',
       },
       ja: {
         brandSuffix: 'カスタムサービス', backHome: 'ホーム', liveDemo: 'デモを見る', cfStrip: '届出不要 · グローバル高速アクセス · 即時公開 · 無料ホスティング',
@@ -1302,6 +1194,7 @@
         bankFit: '問題はすでに持っている——インポートだけしてもらう',
         buildFit: '初心者向け——サイト＋ホスティング＋動画帶教＋1対1音声答疑',
         classEntry: '無料オンライン講座 — 受講してから決める →',
+        catAll: 'すべて', catDom: '問題集 & サイト制作', catVoice: 'VOICE',
       },
       zh: {
         brandSuffix: '定制服务', backHome: '返回首页', liveDemo: '查看演示', cfStrip: '免备案　·　全球高速访问　·　即开即用　·　免费托管',
@@ -1413,6 +1306,7 @@
         bankFit: '适合已有内容的客户——只需帮你导入题目',
         buildFit: '零基础专属——网站+托管+全套视频带教+1对1语音答疑',
         classEntry: '免费公开课 · 先听课，再决定 →',
+        catAll: '全部', catDom: '题库 & 建站', catVoice: 'VOICE 声音定制',
       }
     };
     // 优先英文：首屏固定 EN（本地历史偏好只用于"用户已手动切过"的情景，默认仍是 EN）
@@ -1536,6 +1430,52 @@
     var SONGS = ['分身情人','白色巨塔 (Jupiter)','起风了','红豆','红豆（二）','人间','我只在乎你','像我这样的人','有何不可','至少还有你','分身情人（二）','情非得已','年轮','关键词','女孩','暖暖','相见恨晚','命运','星空下的梦想','如果可以','红豆（三）','玻璃','公主殿下','就让这大雨全部落下','俩三句','情歌','若把你','身骑白马','我想大声告诉你','雨蝶'];
     var cart = {}; // key -> qty
 
+    // ── 电商式商品网格（分类筛选 + 卡片，淘宝/希音式）──
+    var SKU_CATS = {
+      all: ['question-bank', 'build', 'hosting', 'voice-greet', 'voice-song', 'voice-premium'],
+      dom: ['question-bank', 'build', 'hosting'],
+      voice: ['voice-greet', 'voice-song', 'voice-premium']
+    };
+    var SKU_CAT = 'all';
+    var SKU_FIT_KEY = { 'question-bank': 'bankFit', 'build': 'buildFit', 'hosting': 'priceNote', 'voice-greet': 'skuGreetFit', 'voice-song': 'skuSongFit', 'voice-premium': 'skuPremiumFit' };
+    var SKU_NOTE_KEY = { 'question-bank': 'priceNote', 'build': 'priceNote', 'hosting': 'priceNote', 'voice-song': 'voiceNote' };
+    function renderSkuGrid() {
+      var grid = document.getElementById('skuGrid');
+      if (!grid) return;
+      var keys = SKU_CATS[SKU_CAT] || SKU_CATS.all;
+      var html = '';
+      keys.forEach(function (key) {
+        var sk = SKUS[key];
+        var pr = sk.usd ? '$' + sk.usd : priceLabel(sk.cny);
+        var tag = '';
+        if (key === 'voice-song') tag = '<span class="sku-tag hot">' + t('skuPopular') + '</span>';
+        if (key === 'voice-greet') tag = '<span class="sku-tag new">' + t('skuNew') + '</span>';
+        html +=
+          '<div class="sku-card" data-sku="' + key + '">' +
+            tag +
+            '<div class="sku-card-name">' + t(sk.nameKey) + '</div>' +
+            '<div class="sku-card-price">' + pr + '</div>' +
+            '<div class="sku-card-fit">' + t(SKU_FIT_KEY[key]) + '</div>' +
+            (SKU_NOTE_KEY[key] ? '<div class="sku-card-note">' + t(SKU_NOTE_KEY[key]) + '</div>' : '') +
+            '<div class="sku-card-foot"><div class="sku-stepper">' +
+              '<button type="button" onclick="stepQty(\'' + key + '\',-1)" aria-label="minus">−</button>' +
+              '<span class="sku-qty" id="qty-' + key + '">0</span>' +
+              '<button type="button" onclick="stepQty(\'' + key + '\',1)" aria-label="plus">+</button>' +
+            '</div></div>' +
+          '</div>';
+      });
+      grid.innerHTML = html;
+      if (window.applyLang) applyLang(LANG);
+    }
+    function setSkuCat(cat) {
+      SKU_CAT = cat;
+      document.querySelectorAll('#skuCats button').forEach(function (b) {
+        b.classList.toggle('on', b.getAttribute('data-cat') === cat);
+      });
+      renderSkuGrid();
+    }
+    renderSkuGrid(); // 首屏初始化
+
     function stepQty(key, d) {
       var v = (cart[key] || 0) + d;
       if (v < 0) v = 0;
@@ -1569,7 +1509,7 @@
       if (badge) { badge.hidden = (n === 0); badge.textContent = n; }
     }
     function goSku(key) {
-      var card = document.querySelector('.variant-card[data-sku="' + key + '"]');
+      var card = document.querySelector('.sku-card[data-sku="' + key + '"]');
       if (!card) return;
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
       card.classList.add('hl');
@@ -1636,10 +1576,11 @@
           '<div class="ck-pay" id="ckPay">' +
             '<button class="ck-pay-btn selected" data-pay="paypal" onclick="pickPay(this)">' + t('payPaypal') + '<small>PayPal</small></button>' +
             '<button class="ck-pay-btn" data-pay="alipay" onclick="pickPay(this)">' + t('payAlipay') + '<small>QR</small></button>' +
+            '<button class="ck-pay-btn" data-pay="wechat" onclick="pickPay(this)">' + t('payWechat') + '<small>QR</small></button>' +
             '<button class="ck-pay-btn" data-pay="xianyu" onclick="pickPay(this)">' + t('payXianyu') + '<small>Xianyu</small></button>' +
           '</div>' +
           '<div class="ck-qr" id="ckQr" hidden>' +
-            '<img id="ckQrImg" alt="Alipay QR" src="/qr/alipay.jpg">' +
+            '<img id="ckQrImg" alt="Alipay QR" src="/qr/alipay-qr.jpg">' +
             '<div class="ord">' + t('orderNo') + ': <b id="ckOrderNo"></b></div>' +
             '<div class="tip">' + t('qrHint') + '</div>' +
           '</div>' +
@@ -1706,6 +1647,11 @@
       var go = document.getElementById('ckGo');
       if (ckPay === 'alipay') {
         qr.hidden = false; line.hidden = true;
+        document.getElementById('ckQrImg').src = '/qr/alipay-qr.jpg';
+        go.textContent = t('placeOrder');
+      } else if (ckPay === 'wechat') {
+        qr.hidden = false; line.hidden = true;
+        document.getElementById('ckQrImg').src = '/qr/wechat-qr.png';
         go.textContent = t('placeOrder');
       } else if (ckPay === 'xianyu') {
         qr.hidden = true; line.hidden = true;
