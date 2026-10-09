@@ -1673,6 +1673,17 @@
         localStorage.setItem('rcj_orders', JSON.stringify(arr));
       } catch (e) {}
     }
+    // 站外支付（支付宝 / 闲鱼）下单后，同步订单到后端：D1 存档 + 飞书/TG/邮件通知卖家 + 买家确认邮件
+    function fireNotify(pay) {
+      try {
+        var total = document.getElementById('ckTotal') ? document.getElementById('ckTotal').textContent : '';
+        var note = document.getElementById('ckNote') ? document.getElementById('ckNote').value : '';
+        fetch('/api/order/notify', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderNo: ckOrderNo, items: cartList(), total: total, currency: cur(), note: note, pay: pay })
+        }).catch(function () {});
+      } catch (e) {}
+    }
     function copyOrderNote() {
       var list = cartList();
       var txt = '订单号 ' + ckOrderNo + '\n' + list.map(function (x) { return t(SKUS[x.key].nameKey) + '×' + x.qty; }).join('、') + '\n合计 ' + document.getElementById('ckTotal').textContent + '\n备注 ' + document.getElementById('ckNote').value;
@@ -1697,6 +1708,7 @@
       }
       if (ckPay === 'alipay') {
         saveOrder('alipay');
+        fireNotify('alipay');
         document.getElementById('ckQrImg').src = '/qr/alipay.jpg';
         document.getElementById('ckOrderNo').textContent = ckOrderNo;
         document.getElementById('ckGo').textContent = t('copied') + ' · ' + t('orderNo') + ' ' + ckOrderNo;
@@ -1704,6 +1716,7 @@
       }
       if (ckPay === 'xianyu') {
         saveOrder('xianyu');
+        fireNotify('xianyu');
         var link = document.querySelector('.xianyu-link');
         var url = link ? link.href : 'https://m.tb.cn/h.8mRAttW?tk=BiBPTfBOjhk';
         alert(t('orderNo') + ': ' + ckOrderNo + '\n' + t('qrHint'));

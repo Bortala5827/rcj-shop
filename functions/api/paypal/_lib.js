@@ -156,6 +156,23 @@ export async function notifyOwner(env, subject, html) {
   } catch (e) { console.error('[notify] Resend 邮件异常', e); return { error: e.message }; }
 }
 
+// 发给任意收件人（买家确认邮件等）；to 为单个邮箱
+export async function notifyBuyer(env, to, subject, html) {
+  if (!env.RESEND_API_KEY) { console.warn('[notify] RESEND_API_KEY 未配置，跳过买家邮件'); return { skipped: true }; }
+  const addr = String(to || '').trim().slice(0, 120);
+  if (!addr) return { skipped: true, detail: '无收件人' };
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + env.RESEND_API_KEY, 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({ from: EMAIL_FROM, to: [addr], subject, html, replyTo: '1430115702@qq.com' }),
+    });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) { console.error('[notify] Resend 买家邮件发送失败', r.status, d); return { error: d.message || ('HTTP ' + r.status) }; }
+    return { ok: true, id: d.id };
+  } catch (e) { console.error('[notify] Resend 买家邮件异常', e); return { error: e.message }; }
+}
+
 export async function notifyTelegram(env, text) {
   const token = env.TG_BOT_TOKEN, chat = env.TG_CHAT_ID;
   if (!token || !chat) { console.warn('[notify] TG_BOT_TOKEN/TG_CHAT_ID 未配置，跳过 Telegram'); return { skipped: true }; }
