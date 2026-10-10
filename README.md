@@ -2,9 +2,20 @@
 
 RCJ Lab storefront — **shop.955827.xyz**
 
-A Cloudflare Pages single-page storefront selling custom question banks
-(Anki decks + offline HTML practice pages) and done-for-you websites for
-civil-service and job-interview candidates. Multilingual (EN / 中文 / 日本語).
+A Cloudflare Pages single-page storefront selling **four products**: custom
+question banks (Anki decks + offline HTML practice pages), done-for-you
+websites, blessing voice messages, and custom acapella songs — for
+civil-service and job-interview candidates and overseas Chinese-language users.
+Multilingual (EN / 中文 / 日本語).
+
+## Core mechanics (核心原理)
+
+- **展示与结算同页**：左侧商品（4 张卡片，点击出详情/介绍，类淘宝详情），右侧订单结算；可选商品 × 数量（参照淘宝/希音订单模式：邮箱 + 商品 + 备注歌名/定制文件）。
+- **下单即多渠道提醒**：提交后同时推 **飞书 + 邮件 + Telegram**，你无需轮询；订单号本地留档供核对到账时间。
+- **收款码优先，PayPal live 兜底**：支付宝 / 微信收款码（已裁切核心二维码）人工核对到账；PayPal live 走 `return.html` 回调页（USD/CNY 自动换算）。
+- **声音定制 = 平台撮合，非本人演唱**：voice 站负责试听导流，shop 承接"祝福语音 / 定制清唱"下单；每成交一单对应分成给创作者——页面上明确"平台撮合"定位，不误导买家。
+- **学员作品 = 说服力**：展示 2 个真实学员站（题库定制&建站系列）与 1 个我的作品（facetalk），证明"从零到上线"能力，不堆销量数字。
+- **数据零成本**：D1 只存订单 / 线索 / 匿名统计；静态单页 + Pages Functions，无服务器。
 
 ## Live site
 
@@ -14,24 +25,27 @@ civil-service and job-interview candidates. Multilingual (EN / 中文 / 日本�
 
 ## What it does
 
-- **Custom question banks** — practice in-browser (progress saved locally, no
-  install) and downloadable offline HTML pages.
-- **Anki memory decks** (.apkg) with spaced repetition.
-- **Done-for-you websites** — built on Cloudflare Pages, student-built end to end.
-- **Sing to Me 🎤** — a free featured action: sing a song, get the material free.
-  Opens an in-page recording booth (mic + waveform, ≤60s). Independent of the
-  rcj-stack "sing to me" system.
+- **题库定制 ¥99** — custom question banks: practice in-browser (progress saved
+  locally, no install) + downloadable offline HTML pages / Anki decks (.apkg).
+- **纯建站 ¥299** — done-for-you websites on Cloudflare Pages, student-built
+  end to end (see Student Work showcase below).
+- **祝福语音 $6** — blessing / greeting voice message, delivered as an audio
+  attachment by email (voice.955827.xyz funnel).
+- **定制清唱 $9.9** — custom acapella song, ordered with song name + email +
+  custom file note; creator revenue-share model, platform matches buyers with
+  creators (not the owner singing).
 - **Student Work showcase** — collapsible cards showing real student projects
-  (domain → Cloudflare → AI tools & APIs).
+  (domain → Cloudflare → AI tools & APIs), under 题库定制&建站 series.
 
 ## Payment
 
-- **Primary: Xianyu (闲鱼)** — manual checkout.
-- **Secondary: PayPal (live mode)** — USD/CNY resolved automatically on the
+- **Alipay / WeChat pay code** — primary; QR codes cropped to the core square,
+  owner cross-checks arrival time against the order number.
+- **PayPal (live mode)** — secondary; USD/CNY resolved automatically on the
   backend; the payment-result page is `return.html` (transaction return page,
   not indexed).
-- Buyer receipts are **not** sent via Resend (low-volume private notifications
-  like the dinner system are the exception that uses Resend).
+- **Order alerts** — every submission pushes to **Feishu + email + Telegram**
+  (low-volume private notifications like dinner use Resend).
 
 ## Tech stack
 
@@ -99,12 +113,6 @@ node shot-dinner.cjs
 
 Uses the local Chrome channel via Playwright, navigates to
 `https://dinner.955827.xyz/`, and writes `assets/showcase-dinner.jpg`.
-
-### Sing to Me
-
-The recording booth is fully inline in `index.html` (`.sing-feature`,
-`.sing-overlay`, `.sing-booth`, `.sing-stage`). No separate service — it is
-deliberately independent of the rcj-stack "sing to me" implementation.
 
 ## Notes
 
