@@ -93,21 +93,22 @@ ${note ? '<tr><td style="padding:4px 0;color:#6b7280;">备注</td><td>' + note +
     if (mailRes && mailRes.error) console.error('[capture] 邮件通知失败', mailRes.error);
     if (mailRes && mailRes.skipped) console.warn('[capture] 邮件未发送（未配置）');
 
-    // 4.5) 买家确认邮件（PayPal 路径补上双向水单：识别到联系邮箱才发）
+    // 4.5) 买家确认邮件 = 支付收据（识别到联系邮箱才发）：含订单号 / PayPal 单号 / 非税务发票声明
     if (email) {
+      const receiptRows = [['订单号 Order', id], ['商品 Item', names], ['本次付款 Paid', curSym + paidAmt + '（' + currency + '）'], ['待收余款 Balance', curSym + toCurrency(balSum, currency) + ' 待交付时收'], ['付款邮箱 Payer', payerEmail || '(未知)'], ['PayPal 单号 Ref', orderId]];
       const buyerHtml = `<div style="margin:0;padding:24px 12px;background:#f6f1ea;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;">
 <div style="max-width:520px;margin:0 auto;background:#ffffff;border:1px solid #e7dfd5;border-radius:14px;overflow:hidden;">
 <div style="padding:22px 24px 16px;border-bottom:1px solid #f0e9e0;">
-<div style="font-size:19px;font-weight:600;color:#23201c;">订单已收到 · Order received</div>
+<div style="font-size:19px;font-weight:600;color:#23201c;">支付收据 · Payment Receipt</div>
 <div style="margin-top:6px;font-size:13px;color:#8a8078;">${t}</div></div>
 <div style="padding:8px 24px 4px;">
-${[['商品', names], ['定金', curSym + paidAmt + '（' + currency + '）'], ['余款', curSym + toCurrency(balSum, currency) + ' 待交付时收']].filter(p => p[1]).map(p => `<div style="display:block;padding:9px 0;border-bottom:1px solid #f6f1ea;"><span style="display:inline-block;min-width:78px;font-size:12px;color:#9a9088;">${p[0]}</span><span style="font-size:14px;color:#23201c;">${p[1]}</span></div>`).join('')}
+${receiptRows.map(p => `<div style="display:block;padding:9px 0;border-bottom:1px solid #f6f1ea;"><span style="display:inline-block;min-width:110px;font-size:12px;color:#9a9088;">${p[0]}</span><span style="font-size:14px;color:#23201c;">${p[1]}</span></div>`).join('')}
 </div>
 <div style="padding:20px 24px 24px;"><a href="https://shop.955827.xyz/" style="display:inline-block;padding:12px 22px;background:#c2543c;color:#ffffff;text-decoration:none;border-radius:9px;font-size:14px;font-weight:600;">返回商城</a></div>
 <div style="padding:0 24px 22px;font-size:13px;color:#6f675e;line-height:1.7;">我们已收到你的订单（PayPal 定金支付成功），定制音频将在 24 小时内发送到你填写的邮箱${note ? '。备注已记录：' + note : ''}。如需修改或加急，回复本邮件即可。</div>
-<div style="padding:14px 24px;background:#fbf7f2;border-top:1px solid #f0e9e0;font-size:11px;color:#a89e94;">RCJ Lab · shop.955827.xyz · 每笔订单创作者都会获得对应分成</div>
+<div style="padding:14px 24px;background:#fbf7f2;border-top:1px solid #f0e9e0;font-size:11px;color:#a89e94;line-height:1.7;">RCJ Lab · shop.955827.xyz · 每笔订单创作者都会获得对应分成<br>本邮件为支付凭证（收据），非税务发票 · This is a payment receipt, not a tax invoice.</div>
 </div></div>`;
-      const bm = await notifyBuyer(env, email, '【RCJ】订单已收到 · ' + (body.rcjOrderNo || id), buyerHtml);
+      const bm = await notifyBuyer(env, email, '【RCJ 支付收据】' + (body.rcjOrderNo || id), buyerHtml);
       if (bm && bm.error) console.error('[capture] 买家邮件发送失败', bm.error);
       if (bm && bm.skipped) console.warn('[capture] 买家邮件未发送（未配置/无收件人）');
     }

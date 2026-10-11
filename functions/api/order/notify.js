@@ -94,7 +94,7 @@ ${[['订单号', orderNo], ['商品', names], ['金额', total], ['支付方式'
 </div>
 <div style="padding:20px 24px 24px;"><a href="https://shop.955827.xyz/" style="display:inline-block;padding:12px 22px;background:#c2543c;color:#ffffff;text-decoration:none;border-radius:9px;font-size:14px;font-weight:600;">返回商城</a></div>
 <div style="padding:0 24px 22px;font-size:13px;color:#6f675e;line-height:1.7;">我们已收到你的订单，定制音频将在 24 小时内发送到你填写的邮箱${note ? '。备注已记录：' + note : ''}。如需修改或加急，回复本邮件即可。</div>
-<div style="padding:14px 24px;background:#fbf7f2;border-top:1px solid #f0e9e0;font-size:11px;color:#a89e94;">RCJ Lab · shop.955827.xyz · 每笔订单创作者都会获得对应分成</div>
+<div style="padding:14px 24px;background:#fbf7f2;border-top:1px solid #f0e9e0;font-size:11px;color:#a89e94;line-height:1.7;">RCJ Lab · shop.955827.xyz · 每笔订单创作者都会获得对应分成<br>付款确认后，本邮件可作为你的支付凭证（收据），非税务发票 · This is an order confirmation, not a tax invoice.</div>
 </div></div>`;
     const bm = await notifyBuyer(env, email, '【RCJ】订单已收到 · ' + orderNo, buyerHtml);
     if (bm && bm.error) results.push('buyer:' + bm.error); else results.push(bm && bm.skipped ? 'buyer:skip' : 'buyer:ok');
