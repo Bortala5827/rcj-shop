@@ -781,6 +781,14 @@
         <!-- 右侧购买栏 -->
         <div class="sidebar" id="buySection">
 
+          <!-- Sing to Me · 重点 -->
+          <div class="sing-feature">
+            <span class="sf-badge" data-i18n="singBadge">Free</span>
+            <h3>Sing to Me</h3>
+            <p data-i18n="descFree">Sing a song — get the material free</p>
+            <button class="sing-feature-cta" onclick="(function(){var e=document.createEvent('Event');e.initEvent('opensingbooth',true,true);document.dispatchEvent(e);})()" data-i18n="singCta">Start (free)</button>
+          </div>
+
           <div class="sku-summary" id="skuSummary"><span data-i18n="skuSelected">Selected</span>: <b id="skuSummaryText">0</b></div>
           <button class="buy-btn buy-btn-secondary" onclick="openCheckout()" data-i18n="checkoutTitle">Checkout</button>
           <div class="pay-note" data-i18n="payOverseas">Overseas? Pay with PayPal</div>
@@ -827,6 +835,32 @@
     <div class="cta-bar reveal">
       <h3 data-i18n="ctaTitle">Ready to start?</h3>
       <a class="cta-btn" href="#buySection" data-i18n="ctaBtn">Get Started</a>
+    </div>
+
+    <!-- Sing to Me · 录音棚弹窗 -->
+    <div class="sing-overlay" id="singOverlay">
+      <div class="sing-booth">
+        <button class="sing-booth-close" id="singClose" aria-label="关闭">✕</button>
+        <div class="sing-booth-head">
+          <h2>Sing to Me · <span data-i18n="singFree">Free</span></h2>
+          <p data-i18n="singHead">Sing me a song — get the material free</p>
+          <p class="sing-dur-hint" data-i18n="singDurHint">30–180s of any song — no pitch perfection needed</p>
+        </div>
+        <div class="sing-stage">
+          <div class="sing-mic-wrap" id="singMicWrap">
+            <div class="sing-mic-ring"></div>
+            <div class="sing-mic-ring inner"></div>
+            <div class="sing-rec-badge"><span class="dot"></span>REC</div>
+            <button class="sing-mic-btn" id="singMicBtn" data-i18n-title="singMicTitle" title="Start recording">🎤</button>
+          </div>
+          <canvas class="sing-wave" id="singWave"></canvas>
+          <div class="sing-mic-status" id="singRecStatus" data-i18n="singReady">Tap the mic when you're ready</div>
+        </div>
+        <div id="singAudioWrap"></div>
+        <input class="sing-email" id="singEmail" type="email" data-i18n-ph="singEmailPh" placeholder="Your email (materials will be sent here)" />
+        <div class="sing-msg" id="singMsg"></div>
+        <button class="sing-submit" id="singSubmit" data-i18n="singSubmit">Done — Submit</button>
+      </div>
     </div>
   </main>
 
@@ -2241,6 +2275,7 @@
       { name: '顶部', action: 'top' },
       { name: '案例', action: 'showcase' },
       { name: '服务', action: 'buy' },
+      { name: 'Sing', action: 'sing' },
       { name: '问答', action: 'faq' },
       { name: '客服', action: 'support' },
       { name: '课程', action: 'course' },
@@ -2354,6 +2389,7 @@
       if (act === 'top') window.scrollTo({ top: 0, behavior: 'smooth' });
       else if (act === 'showcase') document.getElementById('showcase').scrollIntoView({ behavior: 'smooth' });
       else if (act === 'buy') document.getElementById('buySection').scrollIntoView({ behavior: 'smooth' });
+      else if (act === 'sing') { var se = document.createEvent('Event'); se.initEvent('opensingbooth', true, true); document.dispatchEvent(se); }
       else if (act === 'faq') document.getElementById('faq').scrollIntoView({ behavior: 'smooth' });
       else if (act === 'course') location.href = 'course.html';
       else if (act === 'email') { var eb = document.getElementById('emailBtn'); if (eb) eb.click(); }
@@ -2368,6 +2404,158 @@
   </script>
 
   <script>
+  // Sing to Me · 0元购 录音棚弹窗（最低 30 秒可提交，最长 180 秒自动停止）
+  (function(){
+    var MIN_SEC = 30, MAX_SEC = 180;
+    var tier='0'; var audioB64=null; var mediaRec=null; var chunks=[]; var analyser=null; var streamRef=null;
+    var recTick=null; var recStartAt=0; var lastSec=0; var autoStopped=false;
+    var overlay=document.getElementById('singOverlay');
+    var micBtn=document.getElementById('singMicBtn');
+    var micWrap=document.getElementById('singMicWrap');
+    var recStatus=document.getElementById('singRecStatus');
+    var audioWrap=document.getElementById('singAudioWrap');
+    var emailEl=document.getElementById('singEmail');
+    var submitBtn=document.getElementById('singSubmit');
+    var msgEl=document.getElementById('singMsg');
+    var closeBtn=document.getElementById('singClose');
+    var waveCanvas=document.getElementById('singWave');
+    var wctx=waveCanvas?waveCanvas.getContext('2d'):null;
+    var waveRAF=null; var analyserData=null;
+    if(!overlay) return;
+
+    function openBooth(){ overlay.classList.add('show'); document.body.style.overflow='hidden'; startWaveLoop(null); }
+    function closeBooth(){ overlay.classList.remove('show'); document.body.style.overflow=''; if(mediaRec && mediaRec.state==='recording') stopRec(); stopWaveLoop(); }
+    document.addEventListener('opensingbooth', openBooth);
+    closeBtn.addEventListener('click', closeBooth);
+    overlay.addEventListener('click', function(e){ if(e.target===overlay) closeBooth(); });
+
+    // 声纹波动
+    function resizeWave(){
+      if(!waveCanvas) return;
+      var dpr=window.devicePixelRatio||1;
+      var w=waveCanvas.clientWidth||420;
+      waveCanvas.width=Math.round(w*dpr);
+      waveCanvas.height=Math.round(72*dpr);
+      wctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    function drawWave(){
+      if(!wctx) return;
+      var w=waveCanvas.clientWidth||420, h=72;
+      wctx.clearRect(0,0,w,h);
+      var grad=wctx.createLinearGradient(0,0,w,0);
+      grad.addColorStop(0,'#2dd4bf'); grad.addColorStop(1,'#a78bfa');
+      wctx.strokeStyle=grad; wctx.lineWidth=2.5; wctx.lineJoin='round'; wctx.lineCap='round';
+      wctx.beginPath();
+      var points=110, t=performance.now()/1000;
+      for(var i=0;i<=points;i++){
+        var x=i/points*w; var v;
+        if(analyser && analyserData){ var idx=Math.floor(i/points*analyserData.length); v=(analyserData[idx]/128-1); }
+        else { v=Math.sin(i*0.22 + t*2.2)*0.16*(0.5+0.5*Math.sin(t*1.1)); }
+        var y=h/2 + v*(h/2-8);
+        if(i===0) wctx.moveTo(x,y); else wctx.lineTo(x,y);
+      }
+      wctx.stroke();
+    }
+    function startWaveLoop(stream){
+      resizeWave();
+      if(stream){
+        try{
+          var AC=window.AudioContext||window.webkitAudioContext;
+          var ac=new AC(); var src=ac.createMediaStreamSource(stream);
+          analyser=ac.createAnalyser(); analyser.fftSize=2048; src.connect(analyser);
+          analyserData=new Uint8Array(analyser.fftSize);
+        }catch(e){ analyser=null; analyserData=null; }
+      } else { analyser=null; analyserData=null; }
+      if(waveRAF) cancelAnimationFrame(waveRAF);
+      (function loop(){
+        if(analyser && analyserData) analyser.getByteTimeDomainData(analyserData);
+        drawWave();
+        waveRAF=requestAnimationFrame(loop);
+      })();
+    }
+    function stopWaveLoop(){ if(waveRAF){ cancelAnimationFrame(waveRAF); waveRAF=null; } drawWave(); }
+
+    function stopRec(reason){
+      if(mediaRec && mediaRec.state==='recording') mediaRec.stop();
+      if(recTick){ clearInterval(recTick); recTick=null; }
+      if(reason) recStatus.textContent = reason;
+    }
+    micBtn.addEventListener('click', async function(){
+      if(mediaRec && mediaRec.state==='recording'){ autoStopped=false; stopRec(); return; }
+      try{
+        var stream=await navigator.mediaDevices.getUserMedia({audio:true});
+        streamRef=stream;
+        mediaRec=new MediaRecorder(stream); chunks=[]; autoStopped=false;
+        mediaRec.ondataavailable=function(e){ if(e.data&&e.data.size) chunks.push(e.data); };
+        mediaRec.onstop=function(){
+          var blob=new Blob(chunks,{type:mediaRec.mimeType||'audio/webm'});
+          var reader=new FileReader();
+          reader.onload=function(){ audioB64=reader.result; window.__rcjHasAudio=true; audioWrap.innerHTML='<audio class="sing-audio" controls src="'+audioB64+'"></audio>'; };
+          reader.readAsDataURL(blob);
+          if(streamRef){ streamRef.getTracks().forEach(function(tr){tr.stop();}); streamRef=null; }
+          micBtn.classList.remove('recording');
+          micWrap.classList.remove('recording');
+          recStatus.classList.remove('recording');
+          recStatus.classList.add('done');
+          analyser=null; analyserData=null;
+          // 状态判定：180s 上限自动停 / 不足 30 秒提示重唱 / 正常完成
+          if(autoStopped){ recStatus.textContent=t('msgRecStop'); }
+          else if(lastSec<MIN_SEC){ recStatus.textContent=t('msgTooShort'); }
+          else { recStatus.textContent=t('msgRecDone'); }
+        };
+        mediaRec.start();
+        micBtn.classList.add('recording');
+        micWrap.classList.add('recording');
+        recStatus.classList.remove('done');
+        recStatus.classList.add('recording');
+        recStartAt=Date.now(); lastSec=0;
+        recStatus.textContent=t('msgRecPrefix')+' 0s/'+MAX_SEC+'s…';
+        if(recTick) clearInterval(recTick);
+        recTick=setInterval(function(){
+          var sec=Math.round((Date.now()-recStartAt)/1000);
+          lastSec=sec;
+          if(sec>=MAX_SEC){ autoStopped=true; stopRec(t('msgRecStop')); }
+          else { recStatus.textContent=t('msgRecPrefix')+' '+sec+'s/'+MAX_SEC+'s…'; }
+        },1000);
+        startWaveLoop(stream);
+      }catch(e){ recStatus.textContent=t('msgNoMic')+e.message; }
+    });
+
+    submitBtn.addEventListener('click', async function(){
+      msgEl.className='sing-msg'; msgEl.textContent=t('msgSubmitting');
+      if(!audioB64){ msgEl.className='sing-msg err'; msgEl.textContent=t('msgNeedRecord'); return; }
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)){ msgEl.className='sing-msg err'; msgEl.textContent=t('msgEmailBad'); return; }
+      submitBtn.disabled=true;
+      try{
+        // 时长校验：优先用录音计时（webm 的 Audio.duration 常为 Infinity 不可靠），低于 30 秒不收
+        var dur=lastSec;
+        if(!dur){
+          try{
+            var tmp=new Audio(audioB64);
+            dur=tmp.duration;
+            if(!isFinite(dur)||!dur) dur=0;
+          }catch(e){ dur=0; }
+        }
+        if(dur>0 && dur<MIN_SEC){ msgEl.className='sing-msg err'; msgEl.textContent=t('msgTooShort'); submitBtn.disabled=false; return; }
+        // 本地 24h 频控（同一浏览器一天限 2 次，防连刷）
+        var now=Date.now(), last=0;
+        try{ last=Number(localStorage.getItem('rcj_sing24')||0); }catch(e){}
+        if(now-last < 24*3600*1000){ msgEl.className='sing-msg err'; msgEl.textContent=t('msgRateLimit'); submitBtn.disabled=false; return; }
+        var r=await fetch('https://955827.xyz/api/sing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:emailEl.value,tier:tier,materials:[],audio:audioB64,audioType:'webm'})});
+        var d=await r.json();
+        if(d.ok){
+          msgEl.className='sing-msg ok'; msgEl.textContent=t('msgSingOk');
+          tier='0'; audioB64=null; window.__rcjHasAudio=false;
+          audioWrap.innerHTML=''; micBtn.classList.remove('recording'); micWrap.classList.remove('recording'); recStatus.classList.remove('recording','done'); recStatus.textContent=t('singReady'); emailEl.value='';
+          // 提交成功才写本地频控（失败/网络错误不写，允许重试）
+          try{ localStorage.setItem('rcj_sing24', String(Date.now())); }catch(e){}
+          setTimeout(closeBooth, 1600);
+        } else { msgEl.className='sing-msg err'; msgEl.textContent=d.error||t('submitFail'); }
+      }catch(e){ msgEl.className='sing-msg err'; msgEl.textContent=t('netErr')+e.message; }
+      submitBtn.disabled=false;
+    });
+  })();
+
   // 页面加载完成 → 拉汇率 + 应用当前语言（默认 EN，或 localStorage 记住的语言）
   fetch('/api/paypal/config').then(function(r){ return r.json(); }).then(function(cfg){ if (cfg.rate) RCJ_RATE = cfg.rate; if (typeof cfg.cnyEnabled === 'boolean') RCJ_CNY_ENABLED = cfg.cnyEnabled; }).catch(function(){}).finally(function(){ applyLang(LANG); });
 
