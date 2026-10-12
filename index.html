@@ -1280,9 +1280,9 @@
         catAll: '全部', catDom: '题库 & 建站', catVoice: 'VOICE 声音定制',
       }
     };
-    // 优先英文：首屏固定 EN（本地历史偏好只用于"用户已手动切过"的情景，默认仍是 EN）
+    // 优先英文：每次打开固定 EN（面向海外默认；手动切换仅当前会话生效，刷新回到英文）
     var LANG = 'en';
-    try { var savedLang = localStorage.getItem('rcj_lang'); if (savedLang && I18N[savedLang] && savedLang !== 'en') LANG = savedLang; } catch (e) {}
+    try { var savedLang = localStorage.getItem('rcj_lang'); /* 默认英文优先：忽略历史语言偏好 */ } catch (e) {}
     function t(key) { return (I18N[LANG] && I18N[LANG][key]) || (I18N.en[key]) || key; }
 
     // ── 货币跟随语言：中文→人民币(¥)，英文/日文→美元($) ──
