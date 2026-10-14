@@ -7,8 +7,9 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <!-- 2026-10-14：course 页统一用 /course（Cloudflare Pages 会把 course.html 308 跳到这里），避免 sitemap 收录到重定向 URL -->
   <url>
-    <loc>https://shop.955827.xyz/course.html</loc>
+    <loc>https://shop.955827.xyz/course</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
