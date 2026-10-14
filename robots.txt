@@ -20,4 +20,12 @@ Disallow: /
 User-agent: CloudflareBrowserRenderingCrawler
 Disallow: /
 
+# OpenAI 搜索爬虫：显式放行（ChatGPT 搜索收录依赖 OAI-SearchBot + 必应索引；
+# 注意与被封禁的 GPTBot（AI 模型训练）是不同爬虫，2026-10-14）
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
 Sitemap: https://shop.955827.xyz/sitemap.xml
