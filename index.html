@@ -667,12 +667,12 @@
         <!-- 右侧购买栏 -->
         <div class="sidebar" id="buySection">
 
-          <!-- Sing to Me · 重点 -->
+          <!-- Sing to Me · 重点（仅价值说明，行动统一收口底部 Free Demo） -->
           <div class="sing-feature">
             <span class="sf-badge" data-i18n="singBadge">Free</span>
             <h3>Sing to Me</h3>
             <p data-i18n="descFree">Sing a song — get the material free</p>
-            <button class="sing-feature-cta" onclick="(function(){var e=document.createEvent('Event');e.initEvent('opensingbooth',true,true);document.dispatchEvent(e);})()" data-i18n="singCta">Start (free)</button>
+            <p class="sf-note" data-i18n="singNote">30–180s · free master · 48h delivery</p>
           </div>
 
           <div class="sku-summary" id="skuSummary"><span data-i18n="skuSelected">Selected</span>: <b id="skuSummaryText">0</b></div>
@@ -2109,10 +2109,8 @@
       { name: '顶部', action: 'top' },
       { name: '案例', action: 'showcase' },
       { name: '服务', action: 'buy' },
-      { name: 'Sing', action: 'sing' },
       { name: '问答', action: 'faq' },
       { name: '客服', action: 'support' },
-      { name: '提问', action: 'ask' },
       { name: '课程', action: 'course' },
 
     ];
@@ -2224,10 +2222,8 @@
       if (act === 'top') window.scrollTo({ top: 0, behavior: 'smooth' });
       else if (act === 'showcase') document.getElementById('showcase').scrollIntoView({ behavior: 'smooth' });
       else if (act === 'buy') document.getElementById('buySection').scrollIntoView({ behavior: 'smooth' });
-      else if (act === 'sing') { var se = document.createEvent('Event'); se.initEvent('opensingbooth', true, true); document.dispatchEvent(se); }
       else if (act === 'faq') document.getElementById('faq').scrollIntoView({ behavior: 'smooth' });
       else if (act === 'course') location.href = 'course.html';
-      else if (act === 'ask' || act === 'support') { var hf = document.querySelector('.rcj-chat-fab'); if (hf && typeof hf._togglePanel === 'function') hf._togglePanel(); else if (hf) hf.click(); }
       else if (act === 'support') {
         var hf = document.querySelector('.rcj-chat-fab');
         if (hf && typeof hf._togglePanel === 'function') hf._togglePanel();
