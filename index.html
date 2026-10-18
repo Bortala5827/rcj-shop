@@ -99,7 +99,7 @@
     .fireflies { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
     .fireflies i { position: absolute; bottom: -12px; border-radius: 50%; background: radial-gradient(circle, rgba(255,238,196,.98) 0%, rgba(247,212,138,.5) 42%, rgba(247,212,138,0) 74%); opacity: 0; will-change: transform, opacity; animation: ffRise var(--t,11s) ease-in-out var(--d,0s) infinite; }
     @keyframes ffRise { 0% { transform: translate3d(0,0,0) scale(.7); opacity: 0; } 14% { opacity: var(--o,.8); } 55% { opacity: var(--o2,.4); } 100% { transform: translate3d(var(--dx,30px),-96vh,0) scale(1.15); opacity: 0; } }
-    body > .top-nav, body > main, body > footer, body > div:not(.fireflies):not(.pp-overlay):not(.m-tab) { position: relative; z-index: 1; }
+    body > .top-nav, body > main, body > footer { position: relative; z-index: 1; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
     a { color: var(--text); text-decoration: underline; }
