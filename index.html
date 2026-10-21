@@ -1422,6 +1422,14 @@
       if (sidebar) sidebar.insertBefore(banner, sidebar.firstChild);
     })();
 
+    // ── Sing to Me 录音棚入口：shop 内部子路径 /sing → 自动打开录音棚 ──
+    // （?voice= 承接是 voice 预览站跳转，预选 voice-song 商品，与录音棚是两条独立流程）
+    document.addEventListener('DOMContentLoaded', function () {
+      var p = location.pathname.replace(/\/+$/, '') || '/';
+      if (p !== '/sing') return;
+      setTimeout(function () { document.dispatchEvent(new Event('opensingbooth')); }, 120);
+    });
+
     // ── 结算面板 ──
     var ckPay = 'paypal';
     var ckOrderNo = '';

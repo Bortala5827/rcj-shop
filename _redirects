@@ -1,0 +1,3 @@
+# rcj-shop 路径重写（2026-10-21）：Sing to Me 内部子路径 → 首页（index.html 按 pathname 自动打开录音棚）
+/sing  /  200
+/sing/  /  200
