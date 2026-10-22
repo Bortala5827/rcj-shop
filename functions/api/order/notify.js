@@ -6,9 +6,24 @@
 //   ③ Resend 邮件水单给卖家
 //   ④ Resend 订单确认邮件给买家（邮箱从 body.email 或备注中识别）
 // 任一环节失败只记录日志，绝不阻断下单主流程。
-import { ITEMS, recordOrder, notifyTelegram, notifyOwner, notifyFeishu, notifyBuyer, beijing, json, corsOptions } from '../paypal/_lib.js';
+import { ITEMS, recordOrder, notifyTelegram, notifyOwner, notifyFeishu, notifyBuyer, beijing, json, corsOptions, clientIp, rateLimited } from '../paypal/_lib.js';
 
-export async function onRequestOptions() { return corsOptions(); }
+const TOKEN_TTL_MS = 10 * 60 * 1000;
+
+export async function onRequestOptions({ request }) { return corsOptions(request); }
+
+// 一次性令牌校验：存在 / 未用 / 未过期 / IP 一致，通过后立即作废（防重放）
+async function consumeToken(env, token, ip) {
+  if (!env.DB) return { ok: false, reason: 'no-db' };
+  const t = String(token || '').trim().slice(0, 64);
+  if (!/^[a-f0-9]{32}$/.test(t)) return { ok: false };
+  const row = await env.DB.prepare('SELECT ip, created, used FROM notify_tokens WHERE token=?').bind(t).first();
+  if (!row || row.used === 1) return { ok: false };
+  if (Date.now() - row.created > TOKEN_TTL_MS) return { ok: false, reason: 'expired' };
+  if (row.ip && row.ip !== ip) return { ok: false, reason: 'ip-mismatch' };
+  await env.DB.prepare('UPDATE notify_tokens SET used=1 WHERE token=?').bind(t).run();
+  return { ok: true };
+}
 
 function pickEmail(body, note) {
   const direct = String(body.email || '').trim().slice(0, 120);
@@ -19,23 +34,33 @@ function pickEmail(body, note) {
 
 export async function onRequestPost({ request, env }) {
   let body;
-  try { body = await request.json(); } catch { return json({ ok: false, error: 'JSON 格式错误' }, 400); }
+  try { body = await request.json(); } catch { return json({ ok: false, error: 'JSON 格式错误' }, 400, request); }
+
+  const ip = clientIp(request);
+  // per-IP 滑窗限流（10 分钟 15 次）
+  if (await rateLimited(env, 'order-notify', ip, 15, 10 * 60 * 1000)) {
+    return json({ ok: false, error: '请求过于频繁，请稍后再试' }, 429, request);
+  }
+  // 一次性下单令牌（/api/order/token 领取），校验通过即作废，防匿名刷通知/刷买家邮件
+  const tok = String(body.token || request.headers.get('x-notify-token') || '').trim();
+  const chk = await consumeToken(env, tok, ip);
+  if (!chk.ok) return json({ ok: false, error: '无效或已过期的下单凭证，请重新下单' }, 401, request);
 
   const orderNo = String(body.orderNo || '').trim().slice(0, 40);
   const note = String(body.note || '').slice(0, 200);
   const pay = String(body.pay || 'alipay').slice(0, 20);
   // 订单号：兼容历史 RCJ-YYYYMMDD-NN 与新随机查询码 RCJ-XXXX-XXXX
-  if (!orderNo || !/^RCJ-[A-Z0-9-]{4,20}$/.test(orderNo)) return json({ ok: false, error: '订单号格式错误' }, 400);
-  // 闲鱼路径：闲鱼店铺自身可见订单，不触发 D1/飞书/TG/邮件，避免重复通知
-  if (pay === 'xianyu') return json({ ok: true, skipped: true, reason: '闲鱼店铺可见，不重复通知' });
+  if (!orderNo || !/^RCJ-[A-Z0-9-]{4,20}$/.test(orderNo)) return json({ ok: false, error: '订单号格式错误' }, 400, request);
+  // 闲鱼路径：闲鱼店铺自身可见订单，不触发 D1/飞书/TG/邮件，避免重复通知（仍需有效令牌收口）
+  if (pay === 'xianyu') return json({ ok: true, skipped: true, reason: '闲鱼店铺可见，不重复通知' }, 200, request);
 
   // 商品清单
   let list = [];
   if (Array.isArray(body.items)) {
     list = body.items.map(x => ({ key: String(x.key || ''), qty: Math.max(1, Math.floor(Number(x.qty) || 1)) }));
   }
-  if (!list.length) return json({ ok: false, error: '商品为空' }, 400);
-  if (!list.every(x => ITEMS[x.key])) return json({ ok: false, error: '商品不匹配' }, 400);
+  if (!list.length) return json({ ok: false, error: '商品为空' }, 400, request);
+  if (!list.every(x => ITEMS[x.key])) return json({ ok: false, error: '商品不匹配' }, 400, request);
 
   const names = list.map(x => ITEMS[x.key].name + '×' + x.qty).join('、');
   const skus = list.map(x => x.key).join(',');
@@ -103,5 +128,5 @@ ${[['订单号', orderNo], ['商品', names], ['金额', total], ['支付方式'
   }
 
   console.log('[order/notify]', orderNo, results.join(' / '));
-  return json({ ok: true, orderNo, results });
+  return json({ ok: true, orderNo, results }, 200, request);
 }

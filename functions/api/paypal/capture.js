@@ -1,6 +1,6 @@
 import { ITEMS, pp, recordOrder, notifyTelegram, notifyOwner, notifyFeishu, notifyBuyer, beijing, resolveCurrency, toCurrency, CNY_PER_USD, json, corsOptions } from './_lib.js';
 
-export async function onRequestOptions() { return corsOptions(); }
+export async function onRequestOptions({ request }) { return corsOptions(request); }
 
 // POST /api/paypal/capture  { orderId, items?, item?, email?, currency?, note? }
 // 用户从 PayPal 回跳后，服务端二次确认金额并捕获，再写订单 + 通知（Telegram + 邮件）

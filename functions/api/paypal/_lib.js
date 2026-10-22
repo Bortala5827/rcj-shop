@@ -241,12 +241,40 @@ export function beijing() {
   return `${d.getUTCFullYear()}-${p(d.getUTCMonth() + 1)}-${p(d.getUTCDate())} ${p(d.getUTCHours())}:${p(d.getUTCMinutes())}`;
 }
 
-export function json(o, s = 200) {
-  return new Response(JSON.stringify(o), {
-    status: s,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'no-store' },
-  });
+// CORS 白名单：全仓 grep 确认无任何跨站 XHR 调用 shop API（其余站点仅 <a> 导航跳转），
+// 故只回显同源生产域；非白名单 Origin 一律不输出 ACAO，浏览器将拦截跨站读取。
+const CORS_ALLOWED = ['https://shop.955827.xyz'];
+export function corsOrigin(request) {
+  const origin = request && request.headers ? request.headers.get('origin') : '';
+  return origin && CORS_ALLOWED.includes(origin) ? origin : '';
 }
-export function corsOptions() {
-  return new Response(null, { status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' } });
+export function json(o, s = 200, request) {
+  const headers = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' };
+  const acao = corsOrigin(request);
+  if (acao) headers['Access-Control-Allow-Origin'] = acao;
+  return new Response(JSON.stringify(o), { status: s, headers });
+}
+export function corsOptions(request, methods = 'POST, OPTIONS') {
+  const headers = { 'Access-Control-Allow-Methods': methods, 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Max-Age': '86400' };
+  const acao = corsOrigin(request);
+  if (acao) headers['Access-Control-Allow-Origin'] = acao;
+  return new Response(null, { status: 204, headers });
+}
+// 取客户端真实 IP（Cloudflare 边缘注入）；缺失回落 unknown
+export function clientIp(request) {
+  return String((request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || 'unknown').split(',')[0].trim()).slice(0, 64);
+}
+// 轻量 D1 滑窗限流：bucket 区分端点；窗口内超过 limit 次拒绝。失败不阻断主流程（fail-open 计数仅用于门槛）。
+export async function rateLimited(env, bucket, ip, limit = 15, windowMs = 10 * 60 * 1000) {
+  try {
+    await d1(env, `CREATE TABLE IF NOT EXISTS rl_hits (bucket TEXT, ip TEXT, ts INTEGER)`);
+    const since = Date.now() - windowMs;
+    const rows = await d1(env, `SELECT COUNT(*) AS n FROM rl_hits WHERE bucket='${bucket.replace(/'/g, "''")}' AND ip='${ip.replace(/'/g, "''")}' AND ts>=${since}`);
+    const n = rows && Array.isArray(rows) ? (rows[0] && rows[0].n) || 0 : 0;
+    if (n >= limit) return true;
+    await d1(env, `INSERT INTO rl_hits (bucket, ip, ts) VALUES ('${bucket.replace(/'/g, "''")}','${ip.replace(/'/g, "''")}',${Date.now()})`);
+    // 顺手清理 1 小时前的旧记录
+    await d1(env, `DELETE FROM rl_hits WHERE ts < ${Date.now() - 3600 * 1000}`);
+    return false;
+  } catch (e) { console.warn('[rl]', bucket, e.message); return false; }
 }

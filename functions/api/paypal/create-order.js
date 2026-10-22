@@ -1,6 +1,6 @@
 import { ITEMS, pp, paypalCurrency, resolveCurrency, toCurrency, langCurrency, json, corsOptions } from './_lib.js';
 
-export async function onRequestOptions() { return corsOptions(); }
+export async function onRequestOptions({ request }) { return corsOptions(request); }
 
 // POST /api/paypal/create-order  { item|items, email, currency?, note?, orderId? }
 // 服务端创建 PayPal 订单，返回 approveUrl 供前端直接跳转 PayPal 托管收银台

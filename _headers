@@ -2,6 +2,11 @@
 # HTML 不缓存，确保发布即时生效
 /*
   Cache-Control: no-cache
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://955827.xyz; media-src 'self' blob:; connect-src 'self' https://955827.xyz https://support.955827.xyz; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://www.paypal.com
 
 # 静态资源（图片等）长缓存
 /assets/*
