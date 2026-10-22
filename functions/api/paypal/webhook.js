@@ -43,13 +43,19 @@ async function verifySignature(env, headers, rawBody, event) {
   return { ok: expected === sig, mode: 'hmac' };
 }
 
-async function seenEvent(env, eventId) {
+async function ensureEventTable(env) {
   await env.DB.prepare(`CREATE TABLE IF NOT EXISTS webhook_events (event_id TEXT PRIMARY KEY, type TEXT, ts INTEGER)`).run();
+}
+async function isSeen(env, eventId) {
+  if (!env.DB) return false;
   const row = await env.DB.prepare('SELECT event_id FROM webhook_events WHERE event_id=?').bind(eventId).first();
-  if (row) return true;
-  await env.DB.prepare('INSERT INTO webhook_events (event_id, type, ts) VALUES (?,?,?)')
-    .bind(eventId, 'webhook', Date.now()).run();
-  return false;
+  return !!row;
+}
+async function markSeen(env, eventId, type) {
+  if (!env.DB) return;
+  await ensureEventTable(env);
+  await env.DB.prepare('INSERT OR IGNORE INTO webhook_events (event_id, type, ts) VALUES (?,?,?)')
+    .bind(eventId, type || 'webhook', Date.now()).run();
 }
 
 export async function onRequestOptions({ request }) { return corsOptions(request, 'POST, OPTIONS'); }
@@ -68,8 +74,8 @@ export async function onRequestPost({ request, env }) {
   const v = await verifySignature(env, request.headers, raw, event);
   if (!v.ok) return json({ ok: false, error: '签名校验失败' }, 401);
 
-  // 幂等：同一 event_id 只处理一次
-  if (env.DB && await seenEvent(env, eventId)) {
+  // 幂等：同一 event_id 只处理一次；先查重，处理成功后才落已读（失败/500 允许 PayPal 重试重放）
+  if (await isSeen(env, eventId)) {
     return json({ ok: true, dedup: true, eventType }, 200);
   }
 
@@ -102,9 +108,11 @@ export async function onRequestPost({ request, env }) {
             await notifyTelegram(env, line);
             await notifyFeishu(env, line);
           }
+          await markSeen(env, eventId, eventType);
           return json({ ok: true, eventType, orderId, dedup: false }, 200);
         }
       }
+      await markSeen(env, eventId, eventType);
       return json({ ok: true, eventType, note: 'order not verified, skipped' }, 200);
     }
 
@@ -117,10 +125,12 @@ export async function onRequestPost({ request, env }) {
         await env.DB.prepare('INSERT OR IGNORE INTO authorized_pending (order_id, payer, amount, currency, ts, noted) VALUES (?,?,?,?,?,0)')
           .bind(orderId, (o.payer && o.payer.email_address) || '', o.purchase_units && o.purchase_units[0] && o.purchase_units[0].amount && o.purchase_units[0].amount.value || '', o.purchase_units && o.purchase_units[0] && o.purchase_units[0].amount && o.purchase_units[0].amount.currency_code || '', Date.now()).run();
       }
+      await markSeen(env, eventId, eventType);
       return json({ ok: true, eventType, orderId, note: 'approved-pending recorded for reconciliation' }, 200);
     }
 
     // 其它事件类型：确认接收即可（PayPal 要求 2xx，避免重复推送）
+    await markSeen(env, eventId, eventType);
     return json({ ok: true, eventType, note: 'ignored event type' }, 200);
   } catch (e) {
     console.error('[paypal/webhook]', e.message);
