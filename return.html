@@ -1,33 +1,97 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>支付结果 · RCJ Lab</title>
+  <title>Payment Result · RCJ Lab</title>
   <style>
     * { box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #ffffff; color: #171717; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-    .card { background: #fff; border: 1px solid rgba(23,23,23,.1); border-radius: 16px; padding: 36px 32px; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 10px 40px rgba(23,23,23,.12); }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f6f1ea; color: #171717; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 16px; }
+    .card { background: #fff; border: 1px solid rgba(23,23,23,.1); border-radius: 16px; padding: 36px 32px; text-align: center; max-width: 420px; width: 100%; box-shadow: 0 10px 40px rgba(23,23,23,.12); }
     .icon { font-size: 52px; margin-bottom: 12px; }
-    h1 { font-size: 1.3rem; margin: 0 0 10px; }
+    h1 { font-size: 1.25rem; margin: 0 0 10px; }
     p { color: #6b6b6b; font-size: .92rem; line-height: 1.6; margin: 0 0 22px; }
-    a.btn { display: inline-block; background: #f5b355; color: #13101a; text-decoration: none; padding: 12px 30px; border-radius: 10px; font-weight: 700; font-size: .95rem; }
-    a.btn:hover { background: #d9912f; color: #13101a; }
+    .btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    a.btn, button.btn { display: inline-block; background: #f5b355; color: #13101a; text-decoration: none; padding: 12px 26px; border-radius: 10px; font-weight: 700; font-size: .95rem; border: none; cursor: pointer; font-family: inherit; }
+    a.btn:hover, button.btn:hover { background: #d9912f; }
+    button.btn.ghost { background: #fff; color: #444; border: 1px solid #ddd; }
+    .lang-switch { position: absolute; top: 14px; right: 16px; display: flex; gap: 8px; font-size: .8rem; }
+    .lang-switch button { border: 1px solid #ddd; background: #fff; border-radius: 999px; padding: 4px 12px; cursor: pointer; font-family: inherit; color: #555; }
+    .lang-switch button.on { background: #13101a; color: #fff; border-color: #13101a; }
   </style>
 </head>
 <body>
+  <div class="lang-switch" id="langSwitch">
+    <button data-l="en">EN</button><button data-l="zh">中文</button><button data-l="ja">日本語</button>
+  </div>
   <div class="card">
     <div class="icon" id="icon">⏳</div>
-    <h1 id="title">正在确认支付…</h1>
-    <p id="desc">请稍候，我们正在与 PayPal 确认你的付款。</p>
-    <a class="btn" id="back" href="./" style="display:none">返回商店</a>
+    <h1 id="title">…</h1>
+    <p id="desc"></p>
+    <div class="btn-row">
+      <button class="btn ghost" id="retry" style="display:none"></button>
+      <a class="btn" id="back" href="./">…</a>
+    </div>
   </div>
   <script>
+    var I18N = {
+      en: {
+        pending: 'Confirming payment…',
+        pendingDesc: 'Please wait while we confirm your payment with PayPal.',
+        cancel: 'Payment cancelled',
+        cancelDesc: 'You did not complete the payment. The order was cancelled.',
+        missing: 'Missing order',
+        missingDesc: 'The link is incomplete. Please contact the shop owner.',
+        success: 'Payment successful!',
+        successDesc: 'We will contact you shortly to deliver 🎉',
+        fail: 'Payment confirmation failed',
+        neterr: 'Network error',
+        neterrDesc: 'Cannot reach the server. Please retry or contact the shop owner.',
+        back: 'Back to Shop',
+        retry: 'Retry',
+        failSuffix: ' — if you were charged, take a screenshot and contact the shop owner.'
+      },
+      zh: {
+        pending: '正在确认支付…',
+        pendingDesc: '请稍候，我们正在与 PayPal 确认你的付款。',
+        cancel: '已取消支付',
+        cancelDesc: '你没有完成付款，订单已取消。',
+        missing: '缺少订单参数',
+        missingDesc: '链接不完整，请联系站长。',
+        success: '支付成功！',
+        successDesc: '我会尽快联系你交付 🎉',
+        fail: '支付确认失败',
+        neterr: '网络错误',
+        neterrDesc: '无法连接服务器，请重试或联系站长。',
+        back: '返回商店',
+        retry: '重试',
+        failSuffix: '，如已被扣款请截图联系站长。'
+      },
+      ja: {
+        pending: '支払いを確認中…',
+        pendingDesc: 'PayPal での支払いを確認しています。少々お待ちください。',
+        cancel: '支払いをキャンセルしました',
+        cancelDesc: '支払いが完了していないため、注文はキャンセルされました。',
+        missing: '注文情報が不足しています',
+        missingDesc: 'リンクが不完全です。ショップ管理者にご連絡ください。',
+        success: '支払い完了！',
+        successDesc: 'まもなく納品のご連絡をします 🎉',
+        fail: '支払いの確認に失敗しました',
+        neterr: 'ネットワークエラー',
+        neterrDesc: 'サーバーに接続できません。再試行するか管理者にご連絡ください。',
+        back: 'ショップに戻る',
+        retry: '再試行',
+        failSuffix: ' — 引き落としがある場合は、スクリーンショットを添えて管理者にご連絡ください。'
+      }
+    };
     (function () {
       var q = new URLSearchParams(location.search);
+      var LANG = q.get('lang') || localStorage.getItem('rcj_lang') || (/^ja/i.test(navigator.language) ? 'ja' : /^zh/i.test(navigator.language) ? 'zh' : 'en');
+      if (!I18N[LANG]) LANG = 'en';
+      var T = I18N[LANG];
       var token = q.get('token');
       var item = q.get('item') || '';
-      var items = q.get('items') || '';   // 多商品：JSON [{key,qty}]
+      var items = q.get('items') || '';
       var email = q.get('email') || '';
       var phone = q.get('phone') || '';
       var cur = q.get('cur') || 'CNY';
@@ -37,39 +101,46 @@
       var title = document.getElementById('title');
       var desc = document.getElementById('desc');
       var back = document.getElementById('back');
-      back.style.display = 'inline-block';
+      var retryBtn = document.getElementById('retry');
 
-      if (cancel) {
-        icon.textContent = '✖️';
-        title.textContent = '已取消支付';
-        desc.textContent = '你没有完成付款，订单已取消。';
-        return;
+      function applyLang() {
+        document.documentElement.lang = LANG;
+        T = I18N[LANG];
+        back.textContent = T.back;
+        retryBtn.textContent = T.retry;
+        document.querySelectorAll('#langSwitch button').forEach(function (b) {
+          b.classList.toggle('on', b.dataset.l === LANG);
+        });
       }
-      if (!token) {
-        icon.textContent = '⚠️';
-        title.textContent = '缺少订单参数';
-        desc.textContent = '链接不完整，请联系站长。';
-        return;
-      }
-      fetch('/api/paypal/capture', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId: token, item: item, items: items, email: email, phone: phone, currency: cur, note: note })
-      }).then(function (r) { return r.json(); }).then(function (d) {
-        if (d.ok) {
-          icon.textContent = '✅';
-          title.textContent = '支付成功！';
-          desc.textContent = '我会尽快联系你交付 🎉';
-        } else {
-          icon.textContent = '⚠️';
-          title.textContent = '支付确认失败';
-          desc.textContent = (d.error || '未知错误') + '，如已被扣款请截图联系站长。';
-        }
-      }).catch(function (e) {
-        icon.textContent = '⚠️';
-        title.textContent = '网络错误';
-        desc.textContent = '无法连接服务器：' + e.message + '，请重试或联系站长。';
+      document.getElementById('langSwitch').addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        LANG = b.dataset.l; localStorage.setItem('rcj_lang', LANG); applyLang();
       });
+      applyLang();
+
+      function setState(ic, t, d, showRetry) {
+        icon.textContent = ic; title.textContent = t; desc.textContent = d;
+        retryBtn.style.display = showRetry ? 'inline-block' : 'none';
+      }
+
+      function capture() {
+        setState('⏳', T.pending, T.pendingDesc, false);
+        fetch('/api/paypal/capture', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId: token, item: item, items: items, email: email, phone: phone, currency: cur, note: note })
+        }).then(function (r) { return r.json(); }).then(function (d) {
+          if (d.ok) setState('✅', T.success, T.successDesc, false);
+          else setState('⚠️', T.fail, (d.error || '') + T.failSuffix, true);
+        }).catch(function (e) {
+          setState('⚠️', T.neterr, T.neterrDesc, true);
+        });
+      }
+      retryBtn.addEventListener('click', capture);
+
+      if (cancel) { setState('✖️', T.cancel, T.cancelDesc, false); return; }
+      if (!token) { setState('⚠️', T.missing, T.missingDesc, false); return; }
+      capture();
     })();
   </script>
   <!-- 统一浏览埋点（支付结果页，site=shop） -->
