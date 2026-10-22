@@ -1640,7 +1640,7 @@
       if (ckPay === 'alipay') {
         saveOrder('alipay');
         fireNotify('alipay');
-        document.getElementById('ckQrImg').src = '/qr/alipay.jpg';
+        document.getElementById('ckQrImg').src = '/qr/alipay-qr.jpg';
         document.getElementById('ckOrderNo').textContent = ckOrderNo;
         document.getElementById('ckGo').textContent = t('copied') + ' · ' + t('orderNo') + ' ' + ckOrderNo;
         return;
