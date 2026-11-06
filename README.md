@@ -2,87 +2,118 @@
 
 RCJ Lab storefront — **shop.955827.xyz**
 
-A Cloudflare Pages single-page storefront selling **four products**: custom
-question banks (Anki decks + offline HTML practice pages), done-for-you
+A Cloudflare Pages single-page storefront selling **four custom services**:
+custom question banks (Anki decks + offline HTML practice pages), done-for-you
 websites, blessing voice messages, and custom acapella songs — for
 civil-service and job-interview candidates and overseas Chinese-language users.
 Multilingual (EN / 中文 / 日本語).
 
 ## Core mechanics (核心原理)
 
-- **展示与结算同页**：左侧商品（4 张卡片，点击出详情/介绍，类淘宝详情），右侧订单结算；可选商品 × 数量（参照淘宝/希音订单模式：邮箱 + 商品 + 备注歌名/定制文件）。
-- **下单即多渠道提醒**：提交后同时推 **飞书 + 邮件 + Telegram**，你无需轮询；订单号本地留档供核对到账时间。
-- **收款码优先，PayPal live 兜底**：支付宝 / 微信收款码（已裁切核心二维码）人工核对到账；PayPal live 走 `return.html` 回调页（USD/CNY 自动换算）。
-- **声音定制 = 平台撮合，非本人演唱**：voice 站负责试听导流，shop 承接"祝福语音 / 定制清唱"下单；每成交一单对应分成给创作者——页面上明确"平台撮合"定位，不误导买家。
-- **学员作品 = 说服力**：展示 2 个真实学员站（题库定制&建站系列）与 1 个我的作品（facetalk），证明"从零到上线"能力，不堆销量数字。
+- **展示与结算同页**：商品网格（分类筛选 + 详情弹层，类淘宝/希音），右侧订单结算；可选商品 × 数量（邮箱 + 商品 + 备注歌名/定制文件）。
+- **定金模式**：自定义服务按 **10% 定金** 锁单（`functions/api/paypal/_lib.js` 的 `DEPOSIT_RATE`，可改 5% / 30%），余款交付时走微信 / 支付宝；小额商品（如管理后台）显式全款。
+- **下单即多渠道提醒**：提交后同时推 **飞书 + Resend 邮件 + Telegram**，无需轮询；订单号本地留档供核对到账时间。
+- **收款码优先，PayPal live 兜底**：支付宝 / 微信收款码（`qr/` 下已裁切核心二维码）人工核对到账；PayPal live 走 `return.html` 回调页（USD/CNY 自动换算）。
+- **声音定制 = 平台撮合，非本人演唱**：voice 站负责试听导流，shop 承接「祝福语音 / 定制清唱」下单；每成交一单对应分成给创作者——页面上明确「平台撮合」定位，不误导买家。
+- **学员作品 = 说服力**：展示真实学员站与作者作品，证明「从零到上线」能力，不堆销量数字。
 - **数据零成本**：D1 只存订单 / 线索 / 匿名统计；静态单页 + Pages Functions，无服务器。
 
 ## Live site
 
 - **https://shop.955827.xyz/** — main storefront
-- **https://dinner.955827.xyz/** — my own couple-order system (showcased on the page)
+- **https://dinner.955827.xyz/** — the couple-order system (showcased on the page)
 - **https://021100.xyz/** — a student's work (showcased on the page)
 
-## What it does
+## What it sells
 
-- **题库定制 ¥99** — custom question banks: practice in-browser (progress saved
-  locally, no install) + downloadable offline HTML pages / Anki decks (.apkg).
-- **纯建站 ¥299** — done-for-you websites on Cloudflare Pages, student-built
-  end to end (see Student Work showcase below).
-- **祝福语音 $6** — blessing / greeting voice message, delivered as an audio
-  attachment by email (voice.955827.xyz funnel).
-- **定制清唱 $9.9** — custom acapella song, ordered with song name + email +
-  custom file note; creator revenue-share model, platform matches buyers with
-  creators (not the owner singing).
+| SKU | Price | Delivery |
+| --- | --- | --- |
+| **题库定制** (`question-bank`) | ¥99 | In-browser practice (progress saved locally, no install) + downloadable offline HTML pages / Anki decks (`.apkg`) |
+| **纯建站** (`build`) | ¥299 | Done-for-you website on Cloudflare Pages, built with the student end to end; hosting + video tutorials + 1-on-1 voice Q&A |
+| **祝福语音** (`voice-greet`) | $6 | 30s blessing / greeting / goodnight audio, delivered by email within 48h (voice.955827.xyz funnel) |
+| **定制清唱** (`voice-song`) | $9.9 | One custom a cappella cover (60–90s) with lyrics, delivered within 3 days; creator revenue-share, platform matches buyers with creators |
+
+The backend (`functions/api/paypal/_lib.js` → `ITEMS`) also keeps legacy /
+add-on SKUs for historical links and admin use: `hosting`（管理后台代托管 ¥49）、
+`voice`（旧声音定制 $19.9）、`voice-premium`（高定加急 $25）. The visible
+storefront grid uses the four SKUs above.
+
 - **Student Work showcase** — collapsible cards showing real student projects
-  (domain → Cloudflare → AI tools & APIs), under 题库定制&建站 series.
+  (domain → Cloudflare → AI tools & APIs), under 题库定制 & 建站 series.
 
 ## Payment
 
-- **Alipay / WeChat pay code** — primary; QR codes cropped to the core square,
-  owner cross-checks arrival time against the order number.
-- **PayPal (live mode)** — secondary; USD/CNY resolved automatically on the
-  backend; the payment-result page is `return.html` (transaction return page,
-  not indexed).
-- **Order alerts** — every submission pushes to **Feishu + email + Telegram**
-  (low-volume private notifications like dinner use Resend).
+- **Alipay / WeChat pay code** — primary; QR codes in `qr/` cropped to the core
+  square, owner cross-checks arrival time against the order number.
+- **PayPal (live mode)** — secondary; USD/CNY resolved on the backend; the
+  payment-result page is `return.html` (transaction return page, not indexed).
+- **Order alerts** — every submission pushes to **Feishu + email (Resend) + Telegram**;
+  each channel is optional and skipped cleanly when its secret is absent.
 
 ## Tech stack
 
 - **Cloudflare Pages** — static hosting, zero build step
   (`pages_build_output_dir = "."` in `wrangler.toml`)
-- **Cloudflare D1** — shared database `rcj-analytics-d1`
-  (binding `DB`), holds orders / leads / analytics across the RCJ suite
+- **Cloudflare Pages Functions** — PayPal create/capture/webhook, order token/notify,
+  admin auth, PayPal config
+- **Cloudflare D1** — shared database `rcj-analytics-d1` (binding `DB`),
+  holds orders / leads / analytics across the RCJ suite
 - **Vanilla HTML/CSS/JS** — single `index.html`, inline i18n dictionary, no
   framework, no build
-- **GitHub Actions** — CI/CD via `cloudflare/wrangler-action`
+- **Resend** — transactional email (owner + buyer)
+- **rsvg / inline SVG + CSS** — visual styling, no JS framework
 
 ## Repository layout
 
 ```
 rcj-shop/
-├── .github/workflows/deploy.yml   # push main → auto-deploy to Cloudflare Pages
 ├── index.html                      # the entire storefront (single page)
+├── course.html                     # course / tutorial landing page
 ├── return.html                     # payment result / return page (zh-CN)
 ├── sitemap.xml                     # only the homepage is indexed
 ├── robots.txt                      # allow search engines, block AI-training crawlers
 ├── wrangler.toml                   # Pages + D1 binding config
-├── package.json                    # wrangler dev dependency only
-├── assets/                         # screenshots used in the showcase cards
+├── functions/api/
+│   ├── paypal/{config,create-order,capture,webhook,_lib}.js
+│   ├── order/{token,notify}.js
+│   └── admin/{_auth,notify-test}.js
+├── qr/                             # Alipay / WeChat payment QR codes
+│   ├── alipay-qr.jpg
+│   └── wechat-qr.png
+├── assets/                         # screenshots used in showcase cards
 │   ├── showcase-021100.jpg
 │   └── showcase-dinner.jpg         # regenerated by shot-dinner.cjs
 ├── shot-dinner.cjs                 # Playwright screenshot helper (local Chrome)
+├── package.json                    # wrangler dev dependency only
 └── .gitignore                      # excludes .wrangler/ and node_modules/
 ```
 
 ## Deployment
 
-Push to `main` triggers the workflow in `.github/workflows/deploy.yml`,
-which runs `wrangler pages deploy . --project-name=rcj-shop --branch=main`.
-No local wrangler token needed for CI — it uses `secrets.CF_API_TOKEN` and
-`secrets.CF_ACCOUNT_ID`.
+The repo has **no GitHub Actions workflow**. Deploy in either of two ways:
 
-> The repo is `private: true`. There is no public clone / contribution path.
+1. **Cloudflare Pages Git integration** — connect the repo, production branch `main`,
+   build command empty, output directory `.`; every push auto-deploys.
+2. **Manual / direct upload**:
+
+```bash
+npx wrangler pages deploy . --project-name=rcj-shop --branch=main
+```
+
+Bindings / secrets (Cloudflare Pages → Settings):
+
+| Name | Type | Purpose |
+| --- | --- | --- |
+| `DB` | D1 binding | `rcj-analytics-d1` — orders / leads / analytics |
+| `PAYPAL_CLIENT_ID` / `PAYPAL_CLIENT_SECRET` | Secret | PayPal app |
+| `PAYPAL_MODE` | Env var | `sandbox` or `live` |
+| `RESEND_API_KEY` / `NOTIFY_EMAIL` | Secret / env | Owner + buyer email |
+| `TG_BOT_TOKEN` / `TG_CHAT_ID` | Secret | Telegram alerts |
+| `FEISHU_WEBHOOK_URL` or `FEISHU_APP_ID` / `FEISHU_APP_SECRET` / `FEISHU_CHAT_ID` | Secret | Feishu alerts |
+| `ADMIN_PASS` | Secret | Admin endpoints |
+
+This repository is **public**; forks and issues are welcome, though the live
+deployment is maintained by the author.
 
 ## i18n
 
@@ -120,3 +151,4 @@ Uses the local Chrome channel via Playwright, navigates to
   it is a transaction return page, not a content page.
 - `robots.txt` allows search-engine indexing but disallows AI-training crawlers
   (GPTBot, ClaudeBot, CCBot, etc.), matching the policy across 955827.xyz.
+- `AGENTS.md` and `key.txt` are local working notes, not part of the storefront.
